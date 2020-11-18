@@ -1,0 +1,90 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+% How to write a paper:
+% https://mj.ucw.cz/papers/jakpsat.pdf
+% Jones 2016: https://www.microsoft.com/en-us/research/academic-program/write-great-research-paper/
+% AWR: https://jazyky.fel.cvut.cz/vyuka/RPP/BE9M04AKP/
+
+% PAAR paper: https://github.com/filipbartek/learning-precedences-from-elementary-symbol-features/releases/download/paar2020%2Fceur-2/Learning_Precedences_from_Simple_Symbol_Features.pdf
+
+% TODO: Compare to bag-of-words model.
+
+\input{preamble}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\input{abstract}
+\end{abstract}
+
+\section{Introduction}
+
+\input{introduction}
+
+\section{Preliminaries}
+% Terminology
+
+\section{Architecture}
+\label{sec:architecture}
+
+\subsection{Layers}
+
+\begin{enumerate}
+\item Problem -> symbol embeddings
+\item Symbol embedding -> symbol cost
+\item Symbol costs -> precedence cost
+\end{enumerate}
+
+\subsection{Cost models}
+
+%Let $\CostSym: \symbols \rightarrow \re$ be a differentiable symbol cost model.
+
+We define precedence cost:
+$$
+\CostPrec(\pi) =
+C \sum_{1 \leq i \leq n} \CostSym(\pi(i)) \cdot i =
+C \sum_{1 \leq i \leq n} \CostSym(s_i) \cdot \inv{\pi}(s_i)
+$$
+Precedence cost is minimized by $\pi$ that orders the symbols by their costs in non-decreasing order.
+
+Note that we can weight the symbols with an arbitrary non-decreasing function $f$ of symbol index:
+$$
+\CostPrec(\pi) =
+C \sum_{1 \leq i \leq n} \CostSym(\pi(i)) \cdot f(i) =
+C \sum_{1 \leq i \leq n} \CostSym(s_i) \cdot f(\inv{\pi}(s_i))
+$$
+
+We set $C = \frac{2}{n(n+1)}$ so that $\CostSym(s) = 1$ for all $s$ implies $\CostPrec(\pi) = 1$ for all $\pi$.
+
+We define precedence pair cost:
+$$
+\CostPrecPair(\pi_0, \pi_1) =
+\CostPrec(\pi_0) - \CostPrec(\pi_1) =
+C \sum_{1 \leq i \leq n} \CostSym(s_i) \cdot [\inv{\pi_0}(s_i) - \inv{\pi_1}(s_i)]
+$$
+Clearly $\CostPrecPair(\pi_0, \pi_1) < 0$ iff $\CostPrec(\pi_0) < \CostPrec(\pi_1)$.
+For a pair of precedences about which we know that $\pi_0$ is better than $\pi_1$,
+we want $\CostPrecPair(\pi_0, \pi_1) < 0$.
+
+We model the probability of misclassification of precedence pair $\pi_0, \pi_1$
+such that $\pi_0$ is better than $\pi_1$
+by the sigmoid of $\CostPrecPair(\pi_0, \pi_1)$:
+$$
+L(\pi_0, \pi_1) = \sigmoid(\CostPrecPair(\pi_0, \pi_1))
+$$
+
+\section{Evaluation}
+\label{sec:evaluation}
+
+\section{Related work}
+
+\section{Conclusion}
+
+\bibliography{main}
+
+\end{document}
