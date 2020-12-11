@@ -1,0 +1,37 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+% Academic Writing
+% https://jazyky.fel.cvut.cz/vyuka/RPP/BE9M04AKP/
+
+% How to export to DOCX: Export to PDF and then load the PDF in Word.
+
+\usepackage[disable]{todonotes}
+
+\input{preamble}
+
+\begin{document}
+
+\maketitle
+
+\section{Example body paragraph}
+
+Simplification ordering on terms
+influences the proof search in \vampire{} on two levels.
+First, the inferences on each clause are limited
+to the selected literals.
+In each clause,
+either a negative literal or all the maximal literals are selected.
+The maximality is evaluated
+according to the simplification ordering.
+% Note: The selection function Total does not use the simplification ordering.
+Second, simplification ordering orients some of the equalities
+to prevent superposition and equality factoring
+from inferring redundant complex conclusions.
+In each of these two roles,
+the simplification ordering may impact the direction and,
+in effect, the length of the proof search.
+
+\end{document}

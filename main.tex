@@ -14,6 +14,8 @@
 
 \input{preamble}
 
+\usepackage[pdf]{graphviz}
+
 \begin{document}
 
 \maketitle
@@ -29,11 +31,133 @@
 \section{Preliminaries}
 % Terminology
 
+\vampire{} \cite{10.1007/978-3-642-39799-8_1}
+is representative
+of the state-of-the-art \gls{fol} \gls{atp} design.
+\vampire{} was awarded the first place
+in the \gls{fol} category of \gls{casc} \cite{},
+an annual international competition of \glspl{atp},
+in eleven times in the years between 2010 and 2020 \cite{}.
+Moreover, 7 of 10 provers that have placed in the top 50 \% in 2020
+are saturation-based, refutation-based and resolution-based,
+similarly to \vampire{} \cite{}.
+
+%\vampire{} is a saturation-based prover.
+%Given a \gls{fol} problem,
+%\vampire{} converts the problem into \gls{cnf}.
+%and proceeds to saturate the set of clauses
+%by repeated application of inference rules.
+
+%\vampire{} searches for a proof by applying the rules
+%of the superposition inference system
+%\cite{10.1007/978-3-642-39799-8_1}.
+
+% AWR candidate
+Proof search in \vampire{} is crucially constrained
+by a simplification ordering on terms.
+Being refutation-based and saturation-based,
+\vampire{} searches for contradiction
+by iteratively inferring clauses provable from the input clauses.
+The inferences 
+
+explores the space of clauses provable
+from the input formulas
+by applying rules of superposition inference system.
+This process continues until a contradiction is inferred,
+the processed clauses set is saturated
+or the execution hits a resource limit.
+
+During proof search,
+\vampire{} explores the space of provable clauses
+by applying inference rules to clauses
+that have already been proven.
+
+% AWR candidate
+Simplification ordering on terms
+influences the proof search in \vampire{} on two levels.
+First, the inferences on each clause are limited
+to the selected literals.
+In each clause,
+either a negative literal or all the maximal literals are selected.
+The maximality is evaluated
+according to the simplification ordering.
+% Note: The selection function Total does not use the simplification ordering.
+Second, simplification ordering orients some of the equalities
+to prevent superposition and equality factoring
+from inferring redundant complex conclusions.
+In each of these two roles,
+the simplification ordering may impact the direction and,
+in effect, the length of the proof search.
+
+The inference system used in the state-of-the-art \gls{fol} \gls{atp} \vampire{}
+is parameterized by a simplification ordering on terms.
+\vampire{} uses superposition inference system \cite{}.
+
+The \gls{atp} \vampire{} uses superposition inference system.
+
+
+Vampire supports two simplification term ordering classes:
+\gls{lpo} and \gls{kbo}.
+
+The superposition inference system \cite{} used in Vampire is parameterized
+by symbol precedence.
+
+% Example: It seems that a classical example for KBO an orienting equations is group theory axioms.
+
+The choice of symbol precedence may affect the length of a proof search to a great extent.
+
+Given a \gls{fol} problem,
+determining a symbol precedence that leads to a fast proof search is a non-trivial task.
+
 \section{Architecture}
 \label{sec:architecture}
 
-\subsection{Layers}
+This section describes the architecture of a precedence recommender system.
+When presented with a \gls{fol} problem $P$ with symbols $\symbols$,
+the system predicts a symbol precedence $\pi$ on $\symbols$
+that is expected to lead to a successful proof search.
 
+\subsection{Prediction pipeline}
+
+\subsection{Training pipeline}
+
+\begin{figure}[ht]
+\caption{Architecture overview}
+\centering
+\digraph[scale=0.4]{precedencepairclassifierdetailed}{
+	graph [splines=ortho];
+	node [shape=renctangle, fontsize=20];
+	edge [fontsize=20];
+	fol [label="FOL problem", shape=oval];
+	pi0 [shape=oval, label=<&pi;<SUB>0</SUB>>];
+	pi1 [shape=oval, label=<&pi;<SUB>1</SUB>>];
+	invpi0 [label=<&pi;<SUB>0</SUB><SUP>-1</SUP>>];
+	invpi1 [label=<&pi;<SUB>1</SUB><SUP>-1</SUP>>];
+	cnf [label="Clause normal form (CNF)"];
+	symbolembeddings [label="Symbol embeddings"];
+	symbolcosts [label="Symbol costs"];
+	pi1pi0 [label="Inverse precedence difference"];
+	normalized [label="Normalized inverse precedence difference"];
+	paircost [label="Precedence pair cost"];
+	fol -> cnf [xlabel=" Vampire "];
+	cnf -> symbolembeddings [xlabel=< <B>Graph Convolution Network</B> >];
+	symbolembeddings -> symbolcosts [xlabel=< <B>Feed-forward neural network</B> >, style=bold];
+	symbolcosts -> paircost [style=bold];
+	paircost -> loss [xlabel=" Binary cross-entropy ", style=bold];
+	loss [label="Loss", shape=oval];
+	pi0 -> invpi0 [xlabel=" Invert "];
+	pi1 -> invpi1 [xlabel=" Invert "];
+	invpi0 -> pi1pi0;
+	invpi1 -> pi1pi0;
+	pi1pi0 -> normalized [xlabel=" Normalize "];
+	normalized -> paircost;
+	symbolprecedence [label="Symbol precedence", style=dashed];
+	symbolcosts -> symbolprecedence [xlabel=" Order symbols by their costs ", style=dashed];
+}
+\end{figure}
+
+\subsection{Layers}
+'
 \begin{enumerate}
 \item Problem -> symbol embeddings
 \item Symbol embedding -> symbol cost
@@ -50,7 +174,8 @@ $$
 C \sum_{1 \leq i \leq n} \CostSym(\pi(i)) \cdot i =
 C \sum_{1 \leq i \leq n} \CostSym(s_i) \cdot \inv{\pi}(s_i)
 $$
-Precedence cost is minimized by $\pi$ that orders the symbols by their costs in non-decreasing order.
+Precedence cost is minimized by $\pi$ that orders the symbols by their costs in non-increasing order
+($\forall (1 \leq i < j \leq n) . (\CostSym(\pi(i)) \geq \CostSym(\pi(j)))$).
 
 Note that we can weight the symbols with an arbitrary non-decreasing function $f$ of symbol index:
 $$
@@ -61,21 +186,29 @@ $$
 
 We set $C = \frac{2}{n(n+1)}$ so that $\CostSym(s) = 1$ for all $s$ implies $\CostPrec(\pi) = 1$ for all $\pi$.
 
-We define precedence pair cost:
+% Note that we use this orientation because the TensorFlow metric BinaryCrossentropy classifies 0 as negative and we use the value 0 for "failed to classify" logits.
+Given a pair of precedences $\pi_0, \pi_1$,
+we define the log-odds of the event "$\pi_0$ is better than $\pi_1$":
 $$
 \CostPrecPair(\pi_0, \pi_1) =
-\CostPrec(\pi_0) - \CostPrec(\pi_1) =
-C \sum_{1 \leq i \leq n} \CostSym(s_i) \cdot [\inv{\pi_0}(s_i) - \inv{\pi_1}(s_i)]
+\CostPrec(\pi_1) - \CostPrec(\pi_0) =
+C \sum_{1 \leq i \leq n} \CostSym(s_i) \cdot [\inv{\pi_1}(s_i) - \inv{\pi_0}(s_i)]
 $$
-Clearly $\CostPrecPair(\pi_0, \pi_1) < 0$ iff $\CostPrec(\pi_0) < \CostPrec(\pi_1)$.
+Clearly $\CostPrecPair(\pi_0, \pi_1) > 0$ iff $\CostPrec(\pi_0) < \CostPrec(\pi_1)$.
 For a pair of precedences about which we know that $\pi_0$ is better than $\pi_1$,
-we want $\CostPrecPair(\pi_0, \pi_1) < 0$.
+we want $\CostPrecPair(\pi_0, \pi_1) > 0$.
 
-We model the probability of misclassification of precedence pair $\pi_0, \pi_1$
-such that $\pi_0$ is better than $\pi_1$
-by the sigmoid of $\CostPrecPair(\pi_0, \pi_1)$:
+We model the probability of the event "$\pi_0$ is better than $\pi_1$"
+by the sigmoid of $\CostPrecPair(\pi_0, \pi_1)$:https://www.overleaf.com/project/5f75a50ba1a0930001ce1162
 $$
-L(\pi_0, \pi_1) = \sigmoid(\CostPrecPair(\pi_0, \pi_1))
+p(\pi_0, \pi_1) = \sigmoid(\CostPrecPair(\pi_0, \pi_1))
+$$
+
+We use the binary cross-entropy loss to train the model.
+Given a pair of precedences such that $\pi_0$ is better than $\pi_1$,
+the loss is as follows:
+$$
+Loss(\pi_0, \pi_1) = -\log(\sigmoid(\CostPrecPair(\pi_0, \pi_1)))
 $$
 
 \section{Evaluation}

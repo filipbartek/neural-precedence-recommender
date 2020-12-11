@@ -21,9 +21,11 @@
 % State why the main idea is important
 % State your thesis/claim
 
-A \gls{fol} problem consists of \gls{fol} formulas of two categories:
-premises and a conjecture.
-When presented with a \gls{fol} problem,
+A \gls{fol} problem consists of \gls{fol} formulas divided into two categories:
+one or more premises and one conjecture.
+% We assume that \gls{fol} is expanded to FOL.
+% For this reason the article is "an".
+When presented with an \gls{fol} problem,
 a \definiendum{saturation-based} \gls{atp} negates the conjecture (as a first step of proof by contradiction)
 and converts all the formulas into an equisatisfiable set of clauses in \gls{cnf}.
 \todo[author=Filip]{Are there any saturation-based ATPs that don't use CNF?}
@@ -33,6 +35,7 @@ or until no new clauses can be inferred.
 A proof of the fact that the premises and the negated conjecture entail a contradiction
 constitutes a proof that the premises entail the conjecture.
 \todo[author=Filip]{Cite some source that explains refutation-based automated theorem proving. Perhaps Harris?}
+\todo[author=Martin]{prvni odstavec uvodu bych pro CADE publikum vynechal a zacal rovnou s druhym}
 
 The state-of-the-art \gls{fol} \glspl{atp},
 such as \vampire{} \cite{10.1007/978-3-642-39799-8_1} and E \cite{10.1007/978-3-030-29436-6_29},
@@ -45,21 +48,23 @@ The two classes of simplification orderings commonly used in practice are
 \gls{lpo} \cite{Kamin1980} and \gls{kbo} \cite{Knuth1983}.
 In both classes the ordering is specified by a \definiendum{symbol precedence},
 \todo[author=Filip]{This may be an oversimplification: KBO is further parameterized by symbol weights.}
-that is a permutation of predicate and function symbols of the input problem.
+which is a permutation of predicate and function symbols of the input problem.
 
 The typical approach to constructing a symbol precedence orders the symbols by a property
 that is relatively cheap and straightforward to compute,
 such as the frequency (the number of occurrences in the input problem) \cite{E-manual} or the arity.
 \todo[author=Filip]{Cite the original source of the arity heuristic.}
-The structure of the problem contains a lot of information that is relevant for the choice of symbol precedence,
+The structure of the problem contains much information that is relevant for the choice of symbol precedence,
 but is completely ignored by the symbol properties that inform the symbol precedences.
 \todo[author=Filip]{Why do we believe this?}
+\todo[author=Martin]{Klicovou vetu ... by asi chtelo rozvest treba do celeho odstavce. Takhle vyzni dost krypticky a neni moc jasne, co se snazi vyjadrit: "The structure of the problem" neni predem vysvetleno. "completely ignored" - "ignored" trosku zavani nejakym agentem, pritom je zde predmetem neziva vec / abstraktum}
 
 This paper describes the architecture (\cref{sec:architecture}) and an empirical evaluation (\cref{sec:evaluation})
 of a symbol precedence heuristic based on a \gls{gcn} \cite{kipf2017semisupervised}
 and trained on proof attempts with random symbol precedences.
 The experiments presented in \cref{sec:evaluation} demonstrate an improvement of success rate by 20 \%
 compared to the state-of-the-art heuristic.
+\todo[author=Martin]{Poslednimyu ostaveci by taky asi jeste mohlo neco predhazet, aby to mohl shrnout: "the architecture" ma urcity clen, ale predtim zadna "architecture" jeste neni. "graph convolution network" taky vlastne zminujes poprve}
 
 % Filip: I decided not to follow the AWR structure in favor of Martin and CADE.
 
