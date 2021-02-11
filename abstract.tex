@@ -15,11 +15,17 @@
 
 This paper describes and evaluates a symbol precedence heuristic based on a \acrlong{gcn}.
 When trained on proof attempts with random symbol precedences,
-the heuristic outperforms the state of the art by more than 20~\%.
+the heuristic outperforms the state of the art by more than \SI{2}{\percent}.
 For the purpose of the evaluation, the symbol precedences predicted by the heuristic
 are used to instantiate Knuth-Bendix term simplification orderings.
 These orderings in turn guide the proof search in the state-of-the-art \acrlong{atp} \vampire{}
 by constraining the superposition calculus inferences.
-The evaluation is performed on \acrlong{fol} problems from the TPTP problem library.
+The evaluation is performed on \acrlong{fol} problems from the \acrshort{tptp} problem library.
+
+\keywords{saturation-based theorem proving \and
+term simplification ordering \and
+symbol precedence \and
+\acrlong{ml} \and
+\acrlong{gcn}}
 
 % Motivation and purpose of the study are excluded because the audience at CADE need not be reminded of the motivation for making the provers faster.
