@@ -1,0 +1,75 @@
+% General motivation for FOL ATPing:
+% Vampire is used as a sledgehammer in Isabelle/HOL:
+% 1. https://people.mpi-inf.mpg.de/~jblanche/life.pdf
+% 2. https://www.cl.cam.ac.uk/~lp15/papers/Automation/paar.pdf
+% Formal methods for verification (survey): https://arxiv.org/pdf/1912.03028.pdf
+
+\todo[author=Filip,inline]{Consider an alternative approach: Start with an example problem, rewrite in two ways, describe how do state-of-the-art provers differentiate between these two ways (by symbol precedence), ...}
+
+% Jones 2016 guidelines:
+% 1. Problem (explain by example)
+% 2. Contributions (refutable, forward references to sections)
+
+% AWR structure (Unit 7, page 1):
+% 1. Attention-getter (lead-in) [1-2 sentences]
+% 2. Set up for the thesis [minimum: 2-3 sentences]
+% 3. Thesis statement (essay map) [1 sentence]
+
+% AWR guidelines (Unit 7, page 5):
+% Whet the reader's appetite
+% Set the context
+% State why the main idea is important
+% State your thesis/claim
+
+A \gls{fol} problem consists of \gls{fol} formulas of two categories:
+premises and a conjecture.
+When presented with a \gls{fol} problem,
+a \definiendum{saturation-based} \gls{atp} negates the conjecture (as a first step of proof by contradiction)
+and converts all the formulas into an equisatisfiable set of clauses in \gls{cnf}.
+\todo[author=Filip]{Are there any saturation-based ATPs that don't use CNF?}
+The prover proceeds to iteratively infer new provable clauses
+until a contradiction, represented by the empty clause, is inferred,
+or until no new clauses can be inferred.
+A proof of the fact that the premises and the negated conjecture entail a contradiction
+constitutes a proof that the premises entail the conjecture.
+\todo[author=Filip]{Cite some source that explains refutation-based automated theorem proving. Perhaps Harris?}
+
+The state-of-the-art \gls{fol} \glspl{atp},
+such as \vampire{} \cite{10.1007/978-3-642-39799-8_1} and E \cite{10.1007/978-3-030-29436-6_29},
+are saturation-based and
+infer new provable clauses by applying the rules of \definiendum{superposition calculus}.
+\todo[author=Filip]{Cite some source that explains superposition calculus.}
+The inferences under superposition calculus are constrained by a \definiendum{simplification ordering on the terms}.
+\todo[author=Filip]{Do we mean terms in sensu stricto (applications of functions), or generalized terms (applications of functions and predicates)?}
+The two classes of simplification orderings commonly used in practice are
+\gls{lpo} \cite{Kamin1980} and \gls{kbo} \cite{Knuth1983}.
+In both classes the ordering is specified by a \definiendum{symbol precedence},
+\todo[author=Filip]{This may be an oversimplification: KBO is further parameterized by symbol weights.}
+that is a permutation of predicate and function symbols of the input problem.
+
+The typical approach to constructing a symbol precedence orders the symbols by a property
+that is relatively cheap and straightforward to compute,
+such as the frequency (the number of occurrences in the input problem) \cite{E-manual} or the arity.
+\todo[author=Filip]{Cite the original source of the arity heuristic.}
+The structure of the problem contains a lot of information that is relevant for the choice of symbol precedence,
+but is completely ignored by the symbol properties that inform the symbol precedences.
+\todo[author=Filip]{Why do we believe this?}
+
+This paper describes the architecture (\cref{sec:architecture}) and an empirical evaluation (\cref{sec:evaluation})
+of a symbol precedence heuristic based on a \gls{gcn} \cite{kipf2017semisupervised}
+and trained on proof attempts with random symbol precedences.
+The experiments presented in \cref{sec:evaluation} demonstrate an improvement of success rate by 20 \%
+compared to the state-of-the-art heuristic.
+
+% Filip: I decided not to follow the AWR structure in favor of Martin and CADE.
+
+\iffalse % AWR draft
+
+The performance of the state-of-the-art \acrfullpl{atp} is severely limited by some of the design decisions that constitute the provers' architecture.
+For example, the \frequency{} symbol precedence heuristic of the \acrfull{fol} \acrshort{atp} \vampire{} is easily outperformed by the best of 10 random precedences.\cite{}
+The gap in performance suggests that a more elaborate precedence heuristic with a superior performance exists.
+% what is precedence heuristic?
+% Thesis statement
+Training a model from proof attempts with random precedences yields a heuristic that significantly outperforms the state-of-the-art heuristic.
+
+\fi

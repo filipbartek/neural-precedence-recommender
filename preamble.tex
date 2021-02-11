@@ -1,0 +1,38 @@
+\usepackage{amsmath}
+\usepackage{cleveref}
+\usepackage{todonotes}
+
+\usepackage[numbers]{natbib}
+\bibliographystyle{plainnat}
+
+% Multi-letter identifier
+\newcommand{\mli}[1]{\mathit{#1}}
+
+\DeclareMathOperator{\re}{\mathbb{R}}
+\DeclareMathOperator{\sigmoid}{sigmoid}
+\newcommand{\inv}[1]{#1^{-1}}
+
+\DeclareMathOperator{\symbols}{\Sigma}
+\newcommand{\fv}{\mli{fv}}
+
+\DeclareMathOperator{\Cost}{\mli{c}}
+\DeclareMathOperator{\CostSym}{\mli{\Cost_{sym}}}
+\DeclareMathOperator{\CostPrec}{\mli{\Cost_{prec}}}
+\DeclareMathOperator{\CostPrecPair}{\mli{\Cost_{pair}}}
+
+\newcommand{\definiendum}[1]{#1}
+\newcommand{\vampire}{Vampire}
+\newcommand{\frequency}{\texttt{frequency}}
+\newcommand{\atping}{automated theorem proving}
+
+\usepackage{glossaries}
+\newacronym{atp}{ATP}{automated theorem prover}
+\newacronym{cnf}{CNF}{clause normal form}
+\newacronym{fol}{FOL}{first-order logic}
+\newacronym{gcn}{GCN}{graph convolution network}
+\newacronym{lpo}{LPO}{lexicographic path ordering}
+\newacronym{kbo}{KBO}{Knuth-Bendix ordering}
+
+\title{Neural Precedence Recommender System}
+\author{Filip Bártek}
+\date{October 2020}
