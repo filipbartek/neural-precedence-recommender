@@ -1,0 +1,10 @@
+# PdfLaTeX
+*.aux
+*.bbl
+*.blg
+*.log
+*.pdf
+*.synctex.gz
+
+# graphviz
+*.dot
