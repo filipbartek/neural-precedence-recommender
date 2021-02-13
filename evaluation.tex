@@ -166,12 +166,13 @@ To simplify the experiment, the time limit is only imposed on the Vampire run
 and excludes the time taken by the recommender to generate the precedence.
 \todo{Update if we include the preprocessing time.}
 
+\Cref{tab:results} shows the results.
+
 \begin{table*}
 \caption{
 Results of the evaluation of various predicate precedence heuristics on $\ProblemsVal$.
 Means and standard deviations over 5 runs are reported.
 }
-\label{table:results}
 \centering
 \begin{tabular}{l|ll|ll}
 
@@ -201,6 +202,7 @@ Model & \multicolumn{2}{l}{Successes out of \num{7648}} & \multicolumn{2}{l}{Suc
 \texttt{vampire -lcm standard} & ? & ? & ? & ? \\
 
 \end{tabular}
+\label{tab:results}
 \end{table*}
 \todo{FB: Add links to Neptune runs?}
 \todo{FB: Add results for function precedences.}
