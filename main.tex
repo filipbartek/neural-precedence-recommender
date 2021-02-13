@@ -391,13 +391,18 @@ Let $\PrecBetter, \PrecWorse \in \Perm{n}$ be two symbol precedences over $P$.
 Let $\PrecBetter$ yield a faster proof search on $P$ than $\PrecWorse$, denoted as $\Better{\PrecBetter}{\PrecWorse}$.
 The precedence cost model can be extended to predict the probability that $\PrecBetter$ is better than $\PrecWorse$:
 \todo{Fix this. Ensure the polarity is sound.}
+\todo{MS: zatim chybi vysvetleni $\sigmoid$.}
+\todo{MS: duvod proc mi v tomhle kontextu moc nesedi mluvit o pravdepodobnosti
+je ten, ze bez dalsiho vysvetlovani to vypada, ze si myslime, ze
+kdyz pomoci $\sigmoid$ splacnem v podstate libovolne hodnoty do
+intervalu $(0,1)$, zecne to automaticky fungovat jako pravdepodobnost.}
 \begin{align*}
 p(\Better{\PrecBetter}{\PrecWorse} | P)
 &= \sigmoid \SquareBracket{C(\PrecWorse | P) - C(\PrecBetter | P)} \\
 %&= \sigmoid \SquareBracket{k(n) \sum_{i=1}^n c_i \cdot (\inv{\PrecWorse}_i - \inv{\PrecBetter}_i)} \\
 &= \sigmoid \SquareBracket{k(n) \DotProd{c(P)}{\inv{\PrecWorse} - \inv{\PrecBetter}}}
 \end{align*}
-It is easy to see\todo{MS: Bez znalosti $\sigmoid$ uplne ne ;)} that $p(\Better{\PrecBetter}{\PrecWorse} | P) > 0.5$ if and only if $C(\PrecWorse | P) > C(\PrecBetter | P)$,
+It is easy to see that $p(\Better{\PrecBetter}{\PrecWorse} | P) > 0.5$ if and only if $C(\PrecWorse | P) > C(\PrecBetter | P)$,
 and that the value of $p$ can be increased by increasing $C(\PrecWorse | P)$ or decreasing $C(\PrecBetter | P)$.
 
 We consider the difference $C(\PrecWorse | P) - C(\PrecBetter | P)$
@@ -442,9 +447,19 @@ Note that this approach is generally applicable to all problems where it is nece
 \newcommand{\epos}{\etype{pos}}
 \newcommand{\eneg}{\etype{neg}}
 
+\todo{MS: HIN bych povazoval za pro CADE-people neznamuy pojem.
+Bude treba uvest aspon jednou vetou. Mozna neco citovat?} 
+
 Every \gls{cnf} problem can be represented by a \gls{hin} with the network schema shown in \cref{fig:CnfSchema}.\todo{MS: Mel jsem chut to opravit na velke "Fig.", ale s makrem se mi hadat nechce ;)}
 % Cite: https://www.kdd.org/exploration_files/V14-02-03-Sun.pdf
 % Referenced from: https://docs.dgl.ai/en/0.5.x/generated/dgl.DGLHeteroGraph.metagraph.html
+\todo{MS: Filosoficka k ``can be represented''; mozna by se mohlo nekde objevit:
+Snazime se do struktury HIN ``otisknout'' celou strukturu CNF (jak jsem rikal,
+znamena to, ze zobrazeni je proste), abychom siti nevzali moznost ``vedet o problemu
+uplne vsechno'' (az na veci, na kterych nezalezi jako poradi literaly v klauzulich, etc).
+Ta filosoficka poznamka je o tom, ze pro dobre uceni tohle vlastne vubec nemusi byt treba,
+ze nejaky ``hrubsi otisk'' by mohl stacit tez (a byt treba mensi),
+ale my nevime, jak takovy zvolit. }
 
 \begin{figure}[ht]
 \caption{CNF network schema}
@@ -529,6 +544,7 @@ Various levels of term sharing are possible. [continue]
 
 When presented with a \gls{cnf} problem $P$ with signature $\symbols$,
 the recommender produces a precedence $\pi$ of symbols from $\symbols$.
+\todo{MS: proc nepouzivat znaceni z predchoziho clanku, kdy $P = (\symbols,\mathit{Cl})$?}
 In order to generate the precedence,
 the recommender first assigns a cost value to each symbol
 by invoking a symbol cost model (a trained \gls{gcn}) on a graph representation of $P$.
@@ -537,6 +553,7 @@ Ordering the symbols by their predicted costs in nondecreasing order yields the 
 \subsection{Training}
 
 The training is performed using a fixed \acrlong{atp}.
+\todo{MS: zase spis preferuj cinny rod. A klidne muzes proste rict, ze pouzivame vampira :)}
 The configuration of the prover,
 including for example saturation algorithm, age-weight ratio, and term ordering scheme,
 is arbitrary\todo{MS: tohle slovo je prilis silny. Veta by spis mela vysvetlit, ze jsme si neco vybrali, protoze je nam to v postate jedno. Ale zaroven si uvedomujeme, ze to nejak ovlivni vysledek a ze v ultimatnim super-toolu, by se na vsech ostatni paramatrech dalo conditionovat.} and fixed.
@@ -545,6 +562,7 @@ and use a term simplification ordering parameterized by a symbol precedence.
 For example, the \glspl{atp} \vampire{} and E satisfy this requirement.
 Note that both of these provers support the \gls{kbo} and \gls{lpo} term simplification ordering schemes,
 and that each of these schemes is parameterized by a symbol precedence.
+\todo{MS: Jak jsme se o tom bavili; v ramvi Occamovky neni treba zminovat LPO.}
 
 As outlined in \cref{sec:generating},
 it is necessary to train a model of symbol costs.
@@ -641,7 +659,7 @@ Clearly $\CostPrecPair(\pi_0, \pi_1) > 0$ iff $\CostPrec(\pi_0) < \CostPrec(\pi_
 For a pair of precedences about which we know that $\pi_0$ is better than $\pi_1$,
 we want $\CostPrecPair(\pi_0, \pi_1) > 0$.
 
-We model the probability of the event "$\pi_0$ is better than $\pi_1$"
+We model the probability of the event ``$\pi_0$ is better than $\pi_1$''
 by the sigmoid of $\CostPrecPair(\pi_0, \pi_1)$:
 $$
 p(\pi_0, \pi_1) = \sigmoid(\CostPrecPair(\pi_0, \pi_1))
