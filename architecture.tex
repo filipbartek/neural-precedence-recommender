@@ -1,0 +1,552 @@
+\todo{Describe problem again, this time precisely / technically.}
+\todo{Prove that minimizing precedence cost corresponds to sorting by symbol cost.}
+\todo{Advantage of using pairs of precedences: we need to solve classification rather than regression.}
+\todo{Intuice: snazime se nastavit costy tak, aby co nejvic dvojic dopadlo spravne.}
+\todo{Some pairs of precedences are not informative. We hope that the non-systematic examples will cancel each other out.}
+\todo{Compare our GCN to Michael, Mirek etc.}
+
+\subsection{Learning to generate good permutations}
+
+Generating good symbol precedences is an instance of a more general task
+of generating permutations of arbitrary length.
+Each input problem corresponds to an input object that specifies the length of a permutation.
+
+Let $X$ be a set of objects.
+Let $l: O \to \nat$ assign each object $x \in X$ its signature length $l(x)$.
+Let $\{x_1, \ldots, x_n\}$ be the training samples.\todo{MS: je mi jasny, ze tu neni poradek, ale i tak; posledni dva odstavce jsou dost zmateny.}
+
+\subsubsection{Binary classification}
+
+Let $p_\theta : X \to \re$ be a binary classification model.\todo{MS: Dobry priklad na to, ktere pojmy je treba vysvetlovat. model je znamy pojem v logice, tady ale pouzivame jiny, ML vyznam. To by si zaslouzilo komentar. Navic pisem
+``binary'' a ``classification'' a neni tu jasny, co je ``binary''
+a co jsou ``classes''. Z pohledu ctenare, ktery o tom zatim neslysel, se misto ``binary classficiation model'' mohlo
+psat ``housenka'' a vyslo by to pro nej na stejno.}
+The model predicts the probability of label $1$.
+Let $(x_i, y_i)$ be the training samples,
+where $x_i \in X$ and $y_i \in Y = \{0, 1\}$.\todo{MS:
+``training'', ``sample'' a ``loss'' jsou dalsi priklady pojmu,
+ktere najednou spadly z hury.}
+
+For a training sample $(x, y) \in \re \times \{0, 1\}$, the binary cross-entropy loss is:
+$$
+L(\theta) = y \log{f_\theta(x)} + (1-y) \log{(1-f_\theta(x))}
+$$
+
+If $y_i = 1$ for all $i$, then the loss can be written in a simpler form:
+$$
+L(\theta) = \log{f_\theta(x)}
+$$
+
+\subsubsection{Permutations}
+
+Let $O$ be a set of objects (or contexts).
+Given an object $o \in O$, let $\Sigma(o)$ be its signature.
+Let $x_i = (o_i, \pi_i, \rho_i)$, where $o_i \in O$
+and $\pi_i, \rho_i \in \Perm(\Sigma(o_i))$.
+Let $y_i \in \{0, 1\}$.
+
+Let $p_\theta: X \to Y$.
+
+Loss:
+$$
+L(\theta) = \log{p_\theta(x)}
+$$
+
+Let $c_\theta(o, s)$ be the predicted cost of symbol $s$.
+Then:
+$$
+p_\theta(o, \pi, \rho) = C_\theta(o, \pi) - C_\theta(o, \rho)
+$$
+
+$$
+C_\theta(o, \pi) = \sum_{i=1}^{l(o)}{c(o, \pi_i)}
+$$
+
+\begin{align*}
+L(\theta) &= \log{p_\theta(o, \pi, \rho)} \\
+&= \log{(C_\theta(o, \pi) - C_\theta(o, \rho))} \\
+&= \log{(\sum_{i=1}^{l(o)}{c(o, \pi_i)} - \sum_{i=1}^{l(o)}{c(o, \rho_i)})} \\
+&= \log{\sum_{i=1}^{l(o)}{c(o, \pi_i) - c(o, \rho_i)}} \\
+\end{align*}
+
+If $c$ is differentiable,
+we can propagate loss gradients into it.
+
+\subsection{Notation}
+
+We denote the set of all finite vectors over $\re$ by $\re^* = \bigcup_{n=1}^\infty{\re^n}$.
+
+Dot product: $\DotProd{x}{y} = \sum_{i=1}^n x_i \cdot y_i$ for $x, y \in \re^n$.
+
+For any $n \in \nat$, we denote the set of all permutations over the set $\{1, \ldots, n\}$ by $\Perm{n}$.
+Permuting a vector $x = (x_1, \ldots, x_n) \in \re^n$ by a permutation $\pi = (\pi_1, \ldots, \pi_n) \in \Perm{n}$ yields the vector $\pi(x) = (x_{\pi_1}, \ldots, x_{\pi_n})$.
+$\inv{\pi}$ denotes the permutation inverse to $\pi$.
+$\inv{\pi} = ...$.
+\todo{Define permutation inversion.}
+\todo{MS: Mozna ani ne. Ono je obcas tezky zavest a pouzivat presnout matematickou notaci, ktera se navic muze stavat neprehlednou, kvuli te presnosti. Na druhou stranu, intuitivne, kazdy vi, co by to mela byt inverzni permutace. Takze nerikam psat nepresne veci, ale obcas jde
+zustak vagni s tim, ze vim, ze existuje zpusob jak to udelat presnym.
+A povrchni ctenar to nemusi resit a matematicky zdatny by si ten detail odvodil spravne ...}
+
+\newcommand{\Prec}{\pi}
+\newcommand{\PrecBetter}{\pi}
+\newcommand{\PrecWorse}{\rho}
+
+\subsection{Overview}
+
+Let $\cnf$ be the set of all \gls{cnf} problems.
+Let $P \in \cnf$ be an arbitrary problem.
+\todo{Consider using $F$ (as formula) instead of $P$ to free up P for probability.}
+Let $\signature{P}$ be the signature of $P$, that is a list of all non-logical symbols (predicates and functions)
+\todo{Should we rather use either predicates or functions? Or use a compound signature?}
+that appear in the problem.
+Let $n = \card{\signature{P}}$.
+A symbol precedence $\Prec \in \Perm{n}$ for problem $P$ is a permutation of the symbols of $P$.
+
+\newcommand{\Solver}{S}
+\newcommand{\SolverRun}[2]{\Solver(#1, #2)}
+
+Let $\Solver$ be an \gls{atp} with a fixed computation environment, configuration and time limit.
+The computation of $\Solver$ is assumed to be parameterized by symbol precedence.
+\todo{Discuss. What does this mean?}
+$\SolverRun{P}{\Prec}$ denotes the result of a proof attempt on problem $P$ with symbol precedence $\Prec$.
+$\SolverRun{P}{\Prec} = \top$ if $S$ solves $P$ within the time limit, and $\SolverRun{P}{\Prec} = \bot$ otherwise.
+\todo{MS: vadi zminit pocet iteraci smycky tak, jako v minulem paperu?}
+Since the result is generally non-deterministic in case the time limit is specified in wall clock units,
+we consider $\SolverRun{P}{\Prec}$ to be a random variable with a Bernoulli distribution.
+\todo{Cite?}
+We denote the probability of a successful proof search $\Prob{\SolverRun{P}{\Prec} = \top}$.
+\todo{MS: asi bych se primlouval za to v teto fazi o Bernoullim pomlcet.
+Otazky jsme generovali tak, ze proste porovnavame pocty iteraci saturatcni smycky a pocitame s tim, ze beh je deterministicky.
+To, ze se pozdeji, pri evalu, pouzije perspektiva nahodnosti
+bych uz chapal jako metodiku experimentu a teorii tim nekomplikoval.}
+
+The main task this paper deals with is this:
+Given a problem $P \in \cnf$, generate a symbol precedence $\Prec \in \Perm{n}$ that maximizes $\Prob{\SolverRun{P}{\Prec} = \top}$.
+MS: (Nehlede na to, ze main task by nejspis mel byt vysvetlen mnohem drive...) Asi bych to takhle nestavel. Jak pisu vyse, precijen je
+beh dokazovace deterministicky a brat to nejak Bayesovsky by sice mohlo 
+byt zajimave, ale jeste mnohem tezsi na obhajeni jako ``svetonazor''.
+Co proste priznat nasledujici assumption:
+verime, ze pokud bude model spravne odpovidat na otazky $(P, \pi_1, \pi_2)$ (s pravdepodobnosti $> \SI{50}{\percent}$), povede podle nej vybrana permutace minimalizujici \eqref{eq:model_cost} k rychlemu vyreseni problemu (a tim i idealne k vyreseni problemu, ktere byly drive out of reach.)\todo{MS: koukni prosim, jestli nejaky takovy mame. Tj zadna random permutace ho nevyresila, ale naucena sit pak ano!}
+
+Instead of modeling $\Prob{\SolverRun{P}{\Prec} = \top}$ directly,
+the system described in this paper predicts, given a problem $P$ and a pair of precedences $\PrecBetter, \PrecWorse \in \Perm{n}$,
+the probability\todo{MS: tohle je jeden z oficialnich zpusobu,
+jak vysvetlovat neuronky, ale neni nijak jasne do jake miry byva
+$\sigma(\mathit{logits})$ blizko nejake pravdepodobnosti. Za mne by klidne stacilo mluvit o tom, ze se snazime klasifikovat co nejvic dvojic
+spravne a ze na to pouzivame standard techologii neuronek (Binary Cross Entropy loss (against the final layer’s sigmoid non-linearity)). Tj opet hlasuji za to nemluvit zde o pravdepodobnosti. :)}
+\todo{MS: jo, ale pak bude nekde dobre zminit, ze jsme si vedomi, ze dvojice skoro jiste neobsahuji stejne mnozstvi ``signalu'', ze ktereho je mozne se ucit. Je to proste vlastnost vybrane metody a v prumeru to nevadi.}
+that $\PrecBetter$ outperforms $\PrecWorse$ in terms of success of proof search. This proxy task allows learning from pairs of precedences that both yield a successful proof search but differ in the number of steps taken in the proof search.
+\todo{Explain more.}
+
+% By taking the pairs, we get more data esp. from easy problems.
+% Consider weighting the samples by the result type: quantitative / qualitative etc.
+
+% TODO: Experiments: Increase depth and message size
+
+\begin{figure}[h]
+\caption{System overview}
+\label{fig:SystemOverview}
+\centering
+\usetikzlibrary{shapes}
+\tikzstyle{object} = [rectangle, draw]
+\tikzstyle{input} = [ellipse, draw]
+\tikzstyle{output} = [ellipse, draw]
+
+\begin{tikzpicture}[node distance = 0.5 and 1, ->]
+% https://tex.stackexchange.com/a/332796/202639
+
+\node (problem) [input] {\gls{cnf} problem $P$};
+\node (symbol embeddings) [object] [below=of problem] {Symbol embeddings};
+\node (symbol costs) [object] [below=of symbol embeddings] {Symbol costs};
+\node (symbol precedence) [output] [below=of symbol costs] {Symbol precedence};
+
+\draw (problem) to node [left] {GCN} (symbol embeddings);
+\draw (symbol embeddings) to node [left] {MLP} (symbol costs);
+\draw (symbol costs) to node [left] {Order symbols by their costs} (symbol precedence);
+
+\node (PrecBetter) [input] [right=of problem] {Precedence $\PrecBetter$};
+\node (PrecBetterInv) [object] [below=of PrecBetter] {$\inv{\PrecBetter}$};
+\draw (PrecBetter) to node [right] {Invert} (PrecBetterInv);
+
+\node (PrecWorse) [input] [right=of PrecBetter] {Precedence $\PrecWorse$};
+\node (PrecWorseInv) [object] [below=of PrecWorse] {$\inv{\PrecWorse}$};
+\draw (PrecWorse) to node [right] {Invert} (PrecWorseInv);
+
+\node (PrecDiff) [object] [right=2 of symbol costs] {$\inv{\PrecWorse} - \inv{\PrecBetter}$};
+\node (PrecDiffNormalized) [object] [below=of PrecDiff] {Normalized};
+\node (PrecPairCost) [object] [below=of PrecDiffNormalized] {Precedence pair cost};
+\node (loss) [output] [below=of PrecPairCost] {Loss};
+
+\draw (PrecBetterInv) to (PrecDiff);
+\draw (PrecWorseInv) to (PrecDiff);
+\draw (PrecDiff) to node [right] {Normalize} (PrecDiffNormalized);
+\draw (PrecDiffNormalized) to (PrecPairCost);
+\draw (PrecPairCost) to (loss);
+
+\draw (symbol costs) to (PrecPairCost);
+
+\end{tikzpicture}
+\end{figure}
+
+Fig.~\ref{fig:SystemOverview} \todo{MS: Na figures/tables bez referneci v textu se pohlizi obzvlast nelibe. Predpokladam, zes planoval pozdeji popsat, presto zmninuji. Konkretne k Fig.~\ref{fig:SystemOverview}:
+Napada me: neslo by precedenci definovat tak, aby uz byla tim $\pi^{-1}$? Invertovani zabira v obrazku skoustu mista, ale pritom
+jde o technicky detail a hlavni myslenku nijak neosvetluje...}
+
+\subsection{Symbol cost model}
+
+The symbol costs are modeled by a \gls{rgcn}.\cite{Schlichtkrull2017}
+\todo{Can I use the term \gls{rgcn} when I use a modified version? Namely, the activation is called earlier.}
+The model is a stack of graph convolutional layers.
+Each layer consists of one differentiable module for each edge type.
+Each module is a dense layer.
+$$
+h_i^{(l+1)} =
+\mathrm{LayerNorm} \Parentheses{h_i^{(l)} + \sum_{r \in \mathcal{R}} \sigma \Parentheses{\sum_{j \in \mathcal{N}_i^r} \frac{1}{c_{ji}} h_j^{(l)} W_r^{(l)}}}
+$$
+\todo{Include dropout?}
+% Inspiration: https://ufal.mff.cuni.cz/~straka/courses/npfl114/1920/slides.pdf/npfl114-07.pdf - slide 27 - Transformer
+$h_i^{(l)}$ denotes the embedding of node $i$ at layer $l$.
+$\mathcal{R}$ denotes the set of all relations in the graph.
+$\sigma$ denotes the activation function, for example the \gls{relu}.
+$\mathcal{N}_i^r$ denotes the set of neighbors of node $i$ under relation $r$.
+$c_{j, i, r} = \sqrt{\card{\mathcal{N}_j^r}} \sqrt{\card{\mathcal{N}_i^r}}$ is a normalization constant.\cite{kipf2017semisupervised}
+$W_r^{(l)}$ is a trainable weight matrix representing relation $r$ at layer $l$.
+
+Residual...
+Layer norm...
+
+\todo{MS: neni uplne jiste, ze ``CADE people'' oceni presny zapis 
+strutury site, vcetne prvku jako $\mathrm{LayerNorm}$ ve vzorecku.
+Nerikam, ze bychom to meli uplne zatajit, ale popis, ktery je zde, spis
+patri do appendixu (ML paperu). Na te siti vlastne nic originalniho neni,
+tak neni treba vsechno vysvetlit do detailu. Zajimavejsi tu
+potom je az to, jak se problem $P$ ``otiskne'' v topologii grafu. 
+To uz originalni je (a soutezi to s representacemi jako ta Mirkova)
+a popisujes to pak dal.}
+
+\subsection{Loss function} 
+\label{sec:loss}
+
+Let $\cnf$ be the set of all \gls{cnf} problems.
+Let $P \in \cnf$ be an arbitrary problem.
+Let $\signature{P}$ be the signature of $P$.
+Let $n = \card{\signature{P}}$.
+
+Given a problem $P$, a symbol cost model 
+\todo{MS: Zvidavy invalida Jirka Karasek: a co ze je to ten model? 
+Mohl byste to to prosim nekde driv vysvetlit?}
+$c : \cnf \to \re^*$
+\todo{MS: Mozna by se dalo zbavit lehce podivneho $\re^*$ tim,
+ze model bude funkce $(P \in \cnf, s \in \Sigma_P) \to \re$?
+Zas pak nepujde pouzivat zapis skalarniho soucinu; hmmm.}
+returns a vector of costs of the symbols of $P$:
+$$
+c(P) = (c_1, \ldots, c_n)
+$$
+
+Let $\Prec \in \Perm{n}$ be a precedence of symbols of problem $P$.
+Let $k(n) = \frac{2}{n(n+1)}$ be a normalization factor for precedences of length $n$.
+The symbol cost model $c$ can be extended to a precedence cost model $C$
+by taking the weighted sum of symbol costs:
+\begin{equation} \label{eq:model_cost}
+C(\Prec | P)
+= k(n) \sum_{i=1}^n c_{\Prec_i} \cdot i
+= k(n) \sum_{i=1}^n c_i \cdot \inv{\Prec}_i
+= k(n) \DotProd{c(P)}{\inv{\Prec}}
+\end{equation}
+Note that the value of $C$ is minimized by a precedence that orders the symbols by their costs in non-increasing order.
+\todo{Discuss, prove.}
+\todo{Mention here that minimizing C yields the best precedence.}
+
+Fixing the normalization factor $k(n)$ to the value $\frac{2}{n(n+1)}$
+ensures that costs of precedences of various lengths are commensurable.
+Observe namely that if $c$ assigns each symbol the same cost $c_0$,
+then the precedence cost is equal to $c_0$ irrespective of the signature length $n$:
+$$
+C(\Prec | P) = \frac{2}{n(n+1)} \sum_{i=1}^n c_0 \cdot i = c_0
+$$
+
+Let $\PrecBetter, \PrecWorse \in \Perm{n}$ be two symbol precedences over $P$.
+Let $\PrecBetter$ yield a faster proof search on $P$ than $\PrecWorse$, denoted as $\Better{\PrecBetter}{\PrecWorse}$.
+The precedence cost model can be extended to predict the probability that $\PrecBetter$ is better than $\PrecWorse$:
+\todo{Fix this. Ensure the polarity is sound.}
+\todo{MS: zatim chybi vysvetleni $\sigmoid$.}
+\todo{MS: duvod proc mi v tomhle kontextu moc nesedi mluvit o pravdepodobnosti
+je ten, ze bez dalsiho vysvetlovani to vypada, ze si myslime, ze
+kdyz pomoci $\sigmoid$ splacnem v podstate libovolne hodnoty do
+intervalu $(0,1)$, zecne to automaticky fungovat jako pravdepodobnost.}
+\begin{align*}
+p(\Better{\PrecBetter}{\PrecWorse} | P)
+&= \sigmoid \SquareBracket{C(\PrecWorse | P) - C(\PrecBetter | P)} \\
+%&= \sigmoid \SquareBracket{k(n) \sum_{i=1}^n c_i \cdot (\inv{\PrecWorse}_i - \inv{\PrecBetter}_i)} \\
+&= \sigmoid \SquareBracket{k(n) \DotProd{c(P)}{\inv{\PrecWorse} - \inv{\PrecBetter}}}
+\end{align*}
+It is easy to see that $p(\Better{\PrecBetter}{\PrecWorse} | P) > 0.5$ if and only if $C(\PrecWorse | P) > C(\PrecBetter | P)$,
+and that the value of $p$ can be increased by increasing $C(\PrecWorse | P)$ or decreasing $C(\PrecBetter | P)$.
+
+We consider the difference $C(\PrecWorse | P) - C(\PrecBetter | P)$
+to be the "logit"\todo{MS: Logit je taky tezky pojem, urcite ne automaticky znamy u ATP people.} score of the pair of precedences $\PrecBetter, \PrecWorse$,
+and denote it by $C(\Better{\PrecBetter}{\PrecWorse} | P)$.
+
+We define the loss of $c$ on the training sample $(\PrecBetter, \PrecWorse, P)$ as binary cross-entropy
+with ground truth $\Better{\PrecBetter}{\PrecWorse}$:
+
+\begin{align*}
+L(\PrecBetter, \PrecWorse, P)
+&= - \log p(\Better{\PrecBetter}{\PrecWorse} | P) \\
+&= - \log \sigmoid \SquareBracket{k(n) \DotProd{c(P)}{\inv{\PrecWorse} - \inv{\PrecBetter}}} \\
+&= - \log \sigmoid \SquareBracket{k(n) \sum_{i=1}^n c_i \cdot (\inv{\PrecWorse}_i - \inv{\PrecBetter}_i)}
+\end{align*}
+
+The loss is differentiable with respect to the symbol costs:
+\begin{align*}
+\frac{\partial L}{\partial c_i}
+&= -\sigmoid(-C(\Better{\PrecBetter}{\PrecWorse} | P)) \cdot k(n) \cdot (\inv{\PrecWorse}_i - \inv{\PrecBetter}_i) \\
+&= (p(\Better{\PrecBetter}{\PrecWorse} | P) - 1) \cdot k(n) \cdot (\inv{\PrecWorse}_i - \inv{\PrecBetter}_i)
+\end{align*}
+
+This means that it is possible to backpropagate the loss gradient into the symbol cost model. \todo{MS: tohle bude tezky,
+ale ackoliv ML people by tohle uz asi chapali, ATP crowd spis bude
+potrebovat obsirnejsi vysvetleni.}
+
+\subsubsection{Generalization}
+
+Note that this approach is generally applicable to all problems where it is necessary to generate permutations of arbitrary length.
+
+\todo[inline]{Finish.}
+
+\subsection{Symbol cost model}
+
+
+
+\subsection{Graph representation of problems}
+
+\newcommand{\ntype}[1]{\texttt{#1}}
+\newcommand{\etype}[1]{\texttt{#1}}
+\newcommand{\epos}{\etype{pos}}
+\newcommand{\eneg}{\etype{neg}}
+
+\todo{MS: HIN bych povazoval za pro CADE-people neznamuy pojem.
+Bude treba uvest aspon jednou vetou. Mozna neco citovat?} 
+
+Every \gls{cnf} problem can be represented by a \gls{hin} with the network schema shown in \cref{fig:CnfSchema}.\todo{MS: Mel jsem chut to opravit na velke "Fig.", ale s makrem se mi hadat nechce ;)}
+% Cite: https://www.kdd.org/exploration_files/V14-02-03-Sun.pdf
+% Referenced from: https://docs.dgl.ai/en/0.5.x/generated/dgl.DGLHeteroGraph.metagraph.html
+\todo{MS: Filosoficka k ``can be represented''; mozna by se mohlo nekde objevit:
+Snazime se do struktury HIN ``otisknout'' celou strukturu CNF (jak jsem rikal,
+znamena to, ze zobrazeni je proste), abychom siti nevzali moznost ``vedet o problemu
+uplne vsechno'' (az na veci, na kterych nezalezi jako poradi literaly v klauzulich, etc).
+Ta filosoficka poznamka je o tom, ze pro dobre uceni tohle vlastne vubec nemusi byt treba,
+ze nejaky ``hrubsi otisk'' by mohl stacit tez (a byt treba mensi),
+ale my nevime, jak takovy zvolit. }
+
+\begin{figure}[ht]
+\caption{CNF network schema}
+\label{fig:CnfSchema}
+\centering
+\tikzstyle{token} = [rectangle, draw]
+
+\begin{tikzpicture}[node distance = 1 and 2, ->]
+% https://tex.stackexchange.com/a/332796/202639
+
+% Node and edge types:
+% https://docs.google.com/spreadsheets/d/1PCPHEgk6vLxpdpcvB_PGoLx7p4DID6WtvVWy2mDuv4A/edit?usp=sharing
+
+\node (formula) [token] {\ntype{problem}};
+% TODO: Consider removing the Formula nodes.
+\node (clause) [token, below=of formula] {\ntype{clause}};
+\node (atom) [token, below left=of clause] {\ntype{atom}};
+\node (equality) [token, below right=of clause] {\ntype{equality}};
+\node (predicate) [token, left=of atom] {\ntype{predicate}};
+\node (argument) [token, below=of atom] {\ntype{argument}};
+\node (term) [token, below=of argument] {\ntype{term}};
+\node (function) [token, left=of term] {\ntype{function}};
+\node (variable) [token, right=of term] {\ntype{variable}};
+
+\draw (formula) to node [right] {\etype{contains}} (clause);
+\draw (clause) to [bend right] node [above] {\epos{}} (atom);
+\draw (clause) to [bend left] node [below] {\eneg{}} (atom);
+\draw (clause) to [bend left] node [above] {\epos{}} (equality);
+\draw (clause) to [bend right] node [below] {\eneg{}} (equality);
+\draw (clause) to node [above] {\etype{binds}} (variable);
+\draw (atom) to node [above] {\etype{atom\_applies}} (predicate);
+\draw (atom) to node [left] {\etype{atom\_has}} (argument);
+\draw (equality) to node {\etype{equalizes}} (term);
+\draw (equality) to node {\etype{equalizes}} (variable);
+\draw (argument) to [bend right] node [left] {\etype{is}} (term);
+\draw (argument) to [loop left] node [left] {\etype{precedes}} (argument);
+\draw (argument) to node [below] {\etype{is}} (variable);
+\draw (term) to node [above] {\etype{term\_applies}} (function);
+\draw (term) to [bend right] node [right] {\etype{term\_has}} (argument);
+
+\end{tikzpicture}
+\end{figure}
+
+The network of a problem is a directed graph $G = (V, E)$.
+The function $\tau: V \rightarrow A$ maps the nodes to their types:
+
+$$
+A = \{\ntype{problem}, \ntype{predicate}, \ntype{function}, \ntype{clause}, \ntype{atom}, \ntype{equality}, \ntype{term}, \ntype{variable}, \ntype{argument}\}
+$$
+
+The function $\phi: E \rightarrow E$ maps the edges to their types.
+
+\begin{itemize}
+\item The graph representation of problem $P$ contains exactly one root node of type \ntype{problem}.
+\item Each clause is represented by a \ntype{clause} node connected to the root \ntype{problem} node.
+\item Each atom is represented by an \ntype{atom} node (in case the atom is not an equality)
+or an \ntype{equality} node (in case the atom is an equality).
+For each literal occurrence there is an edge connecting the respective atom to the respective clause.
+The type of the edge corresponds to the polarity of the literal:
+\epos{} for positive literal and \eneg{} for negative literal.
+\item Each \ntype{equality} node is connected to two nodes that represent the operands,
+each of which is of type \ntype{term} or \ntype{variable}.
+The commutativity of the equality operator is reflected by the fact that the operand edges are not ordered.
+\item Each \ntype{atom} node is connected to one \ntype{predicate} node that represents the predicate symbol being applied by this atom.
+Note that these edges connect the applications of a predicate symbol across the whole problem.
+\item Each \ntype{atom} node is connected to zero or more \ntype{argument} nodes that represent the argument positions of the atom.
+\item Each pair of \ntype{argument} nodes that correspond to consecutive argument positions is connected by an edge.
+\item Each \ntype{argument} node is connected to a node that represents the argument term,
+which is either a \ntype{term} node or a \ntype{variable} node.
+\item Each \ntype{term} node is connected to one \ntype{function} node that represents the function symbol being applied by this term.
+\item For each variable, there is an edge connecting the \ntype{clause} node of the clause that binds the variable to the \ntype{variable} node that represents the variable.
+\end{itemize}
+
+\todo[inline]{Abstract from the edge types. Focus on the main idea. Technical details may be in technical report or appendix.}
+
+Various levels of term sharing are possible. [continue]
+
+\todo[inline]{Give an example of a problem and its graph.}
+
+\subsection{Generating precedences}
+\label{sec:generating}
+
+When presented with a \gls{cnf} problem $P$ with signature $\symbols$,
+the recommender produces a precedence $\pi$ of symbols from $\symbols$.
+\todo{MS: proc nepouzivat znaceni z predchoziho clanku, kdy $P = (\symbols,\mathit{Cl})$?}
+In order to generate the precedence,
+the recommender first assigns a cost value to each symbol
+by invoking a symbol cost model (a trained \gls{gcn}) on a graph representation of $P$.
+Ordering the symbols by their predicted costs in nondecreasing order yields the precedence $\pi$.
+
+\subsection{Training}
+
+The training is performed using a fixed \acrlong{atp}.
+\todo{MS: zase spis preferuj cinny rod. A klidne muzes proste rict, ze pouzivame vampira :)}
+The configuration of the prover,
+including for example saturation algorithm, age-weight ratio, and term ordering scheme,
+is arbitrary\todo{MS: tohle slovo je prilis silny. Veta by spis mela vysvetlit, ze jsme si neco vybrali, protoze je nam to v postate jedno. Ale zaroven si uvedomujeme, ze to nejak ovlivni vysledek a ze v ultimatnim super-toolu, by se na vsech ostatni paramatrech dalo conditionovat.} and fixed.
+The prover needs to support refutational reasoning on \gls{cnf} problems
+and use a term simplification ordering parameterized by a symbol precedence.
+For example, the \glspl{atp} \vampire{} and E satisfy this requirement.
+Note that both of these provers support the \gls{kbo} and \gls{lpo} term simplification ordering schemes,
+and that each of these schemes is parameterized by a symbol precedence.
+\todo{MS: Jak jsme se o tom bavili; v ramvi Occamovky neni treba zminovat LPO.}
+
+As outlined in \cref{sec:generating},
+it is necessary to train a model of symbol costs.
+The model is a \gls{gcn}.
+
+\todo[inline]{Include a metagraph and an example graph of a problem.}
+\todo[inline]{Compare to HINs}
+% https://medium.com/@jason_trost/heterogeneous-information-networks-and-applications-to-cyber-security-23b245461adb
+
+Since it is not obvious what the target symbol cost values should be,
+the symbol cost model is not trained directly.
+Instead, it is plugged into a classifier that predicts,
+given a problem $P$ and a pair of precedences $\pi_0, \pi_1$,
+which of the two precedences yields a better performance on $P$.
+
+The symbol cost model is trained by plugging the model into a classifier
+that is trained to predict which of a pair of precedences
+yields a better performance on an arbitrary problem.
+
+\begin{figure}[ht]
+\caption{Architecture overview}
+\centering
+\digraph[scale=0.4]{precedencepairclassifierdetailed}{
+	graph [splines=ortho];
+	node [shape=renctangle, fontsize=20];
+	edge [fontsize=20];
+	fol [label="FOL problem", shape=oval];
+	pi0 [shape=oval, label=<&pi;<SUB>0</SUB>>];
+	pi1 [shape=oval, label=<&pi;<SUB>1</SUB>>];
+	invpi0 [label=<&pi;<SUB>0</SUB><SUP>-1</SUP>>];
+	invpi1 [label=<&pi;<SUB>1</SUB><SUP>-1</SUP>>];
+	cnf [label="Clause normal form (CNF)"];
+	symbolembeddings [label="Symbol embeddings"];
+	symbolcosts [label="Symbol costs"];
+	pi1pi0 [label="Inverse precedence difference"];
+	normalized [label="Normalized inverse precedence difference"];
+	paircost [label="Precedence pair cost"];
+	fol -> cnf [xlabel=" Vampire "];
+	cnf -> symbolembeddings [xlabel=< <B>Graph Convolution Network</B> >];
+	symbolembeddings -> symbolcosts [xlabel=< <B>Feed-forward neural network</B> >, style=bold];
+	symbolcosts -> paircost [style=bold];
+	paircost -> loss [xlabel=" Binary cross-entropy ", style=bold];
+	loss [label="Loss", shape=oval];
+	pi0 -> invpi0 [xlabel=" Invert "];
+	pi1 -> invpi1 [xlabel=" Invert "];
+	invpi0 -> pi1pi0;
+	invpi1 -> pi1pi0;
+	pi1pi0 -> normalized [xlabel=" Normalize "];
+	normalized -> paircost;
+	symbolprecedence [label="Symbol precedence", style=dashed];
+	symbolcosts -> symbolprecedence [xlabel=" Order symbols by their costs ", style=dashed];
+}
+\end{figure}
+
+\subsection{Layers}
+'
+\begin{enumerate}
+\item Problem -> symbol embeddings
+\item Symbol embedding -> symbol cost
+\item Symbol costs -> precedence cost
+\end{enumerate}
+
+\subsection{Cost models}
+
+%Let $\CostSym: \symbols \rightarrow \re$ be a differentiable symbol cost model.
+
+We define the precedence cost:
+$$
+\CostPrec(\pi) =
+C \sum_{1 \leq i \leq n} \CostSym(\pi(i)) \cdot i =
+C \sum_{1 \leq i \leq n} \CostSym(s_i) \cdot \inv{\pi}(s_i)
+$$
+Precedence cost is minimized by $\pi$ that orders the symbols by their costs in non-increasing order
+($\forall (1 \leq i < j \leq n) . (\CostSym(\pi(i)) \geq \CostSym(\pi(j)))$).
+
+Note that we can weight the symbols with an arbitrary nondecreasing function $f$ of symbol index:
+$$
+\CostPrec(\pi) =
+C \sum_{1 \leq i \leq n} \CostSym(\pi(i)) \cdot f(i) =
+C \sum_{1 \leq i \leq n} \CostSym(s_i) \cdot f(\inv{\pi}(s_i))
+$$
+
+We set $C = \frac{2}{n(n+1)}$ so that $\CostSym(s) = 1$ for all $s$ implies $\CostPrec(\pi) = 1$ for all $\pi$.
+
+% Note that we use this orientation because the TensorFlow metric BinaryCrossentropy classifies 0 as negative and we use the value 0 for "failed to classify" logits.
+Given a pair of precedences $\pi_0, \pi_1$,
+we define the log-odds of the event "$\pi_0$ is better than $\pi_1$":
+$$
+\CostPrecPair(\pi_0, \pi_1) =
+\CostPrec(\pi_1) - \CostPrec(\pi_0) =
+C \sum_{1 \leq i \leq n} \CostSym(s_i) \cdot [\inv{\pi_1}(s_i) - \inv{\pi_0}(s_i)]
+$$
+Clearly $\CostPrecPair(\pi_0, \pi_1) > 0$ iff $\CostPrec(\pi_0) < \CostPrec(\pi_1)$.
+For a pair of precedences about which we know that $\pi_0$ is better than $\pi_1$,
+we want $\CostPrecPair(\pi_0, \pi_1) > 0$.
+
+We model the probability of the event ``$\pi_0$ is better than $\pi_1$''
+by the sigmoid of $\CostPrecPair(\pi_0, \pi_1)$:
+$$
+p(\pi_0, \pi_1) = \sigmoid(\CostPrecPair(\pi_0, \pi_1))
+$$
+
+We use the binary cross-entropy loss to train the model.
+Given a pair of precedences such that $\pi_0$ is better than $\pi_1$,
+the loss is as follows:
+$$
+Loss(\pi_0, \pi_1) = -\log(\sigmoid(\CostPrecPair(\pi_0, \pi_1)))
+$$
