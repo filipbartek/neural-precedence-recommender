@@ -41,8 +41,8 @@ Ted zminit AVATAR je nevhodne, pokud nevysvetlis, co to aspon ramcove je. A poku
 The training data consists of examples of the form $(P, \PrecBetter, \PrecWorse)$,
 where $P$ is a \gls{cnf} problem and $\PrecBetter, \PrecWorse$ are precedences of symbols of problem $P$
 such that out of the two precedences, $\PrecBetter$ yields a proof in fewer iterations of the saturation loop.
-\todo{Justify saturation loop iterations as a proxy for success.}
-\todo{Reference a detailed explanation of saturation loop iterations.}
+\todo{FB: Justify saturation loop iterations as a proxy for success.}
+\todo{FB: Reference a detailed explanation of saturation loop iterations.}
 
 Since neither of the common \glspl{sot}, i.e., \gls{kbo} nor \gls{lpo}, ever compares a predicate symbol with a function symbol,
 two separate precedences can be considered for each problem:
@@ -73,7 +73,7 @@ predicate precedence $\PrecBetter$ is recognized as better than precedence $\Pre
 denoted as $\Better{\PrecBetter}{\PrecWorse}$,
 if the proof search finishes successfully with $\PrecBetter$ ($\SolverRun{P}{\Prec} = \top$)
 and if the number of iterations of the saturation loop with $\PrecBetter$ is smaller than with $\PrecWorse$.
-\todo{FB: Use notation for saturation loop iterations if the notation was established earlier.}
+\todo{FB: Use notation for saturation loop iterations if the notation was established earlier. If failure is denoted by $\infty$, we can simply use $<$.}
 If one of the two precedences is recognized as better,
 the example $(P, \PrecBetter, \PrecWorse)$ is produced,
 where $\PrecBetter$ is the better precedence,
@@ -124,7 +124,7 @@ and \num{2571} problems in the train set $\ProblemsTrain$.
 % train&with_questions: 2647
 % train&with_questions&graphified: 2571
 % val&graphified: 7648
-\todo{MS: tady ale lidi bude okamzite zajimat, kolik teda tech problemu na kazde strane zbylo. A jeste by nebylo lepsi vzit nejdriv ty ``male'' problemy a pak teprve pulit.}
+\todo{MS: jeste by nebylo lepsi vzit nejdriv ty ``male'' problemy a pak teprve pulit.}
 
 \subsection{Training procedure}
 
@@ -192,10 +192,10 @@ Model & \multicolumn{2}{l}{Successes out of \num{7648}} & \multicolumn{2}{l}{Suc
 \end{tabular}
 \end{table*}
 \todo{FB: Add links to Neptune runs?}
+\todo{FB: Add results for function precedences.}
+\todo{FB: Try to evaluate a recommender that uses both predicate and function models.}
 
 \todo{Mention: time to compute graphs and precedences is excluded from the time.}
 
-\todo{Add results for function precedences.}
-\todo{Try to evaluate a recommender that uses both predicate and function models.}
-\todo{Add discussion.}
+\todo{FB: Add discussion.}
 \todo{FB: Evaluate on problems larger than 100k nodes.}
