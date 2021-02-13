@@ -157,6 +157,15 @@ The results are averaged over 5 runs to reduce the effect of noise due to wall c
 As a baseline, the performance of Vampire with the \texttt{frequency} precedence heuristic was evaluated
 with the same time limit.
 
+To generate a precedence for a problem,
+the recommender first converts the problem to a machine-friendly \gls{cnf} format,
+then converts the \gls{cnf} to a graph,
+then predicts symbol costs using the \gls{gcn} model
+and finally orders the symbols by their costs to produce the precedence.
+To simplify the experiment, the time limit is only imposed on the Vampire run
+and excludes the time taken by the recommender to generate the precedence.
+\todo{Update if we include the preprocessing time.}
+
 \begin{table*}
 \caption{
 Results of the evaluation of various predicate precedence heuristics on $\ProblemsVal$.
@@ -196,8 +205,6 @@ Model & \multicolumn{2}{l}{Successes out of \num{7648}} & \multicolumn{2}{l}{Suc
 \todo{FB: Add links to Neptune runs?}
 \todo{FB: Add results for function precedences.}
 \todo{FB: Try to evaluate a recommender that uses both predicate and function models.}
-
-\todo{Mention: time to compute graphs and precedences is excluded from the time.}
 
 \todo{FB: Add discussion.}
 \todo{FB: Evaluate on problems larger than 100k nodes.}
