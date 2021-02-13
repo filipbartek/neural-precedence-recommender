@@ -346,7 +346,7 @@ potom je az to, jak se problem $P$ ``otiskne'' v topologii grafu.
 To uz originalni je (a soutezi to s representacemi jako ta Mirkova)
 a popisujes to pak dal.}
 
-\subsection{Loss function} \todo{MS: tady jsem zatim skoncil...}
+\subsection{Loss function} 
 \label{sec:loss}
 
 Let $\cnf$ be the set of all \gls{cnf} problems.
@@ -354,8 +354,13 @@ Let $P \in \cnf$ be an arbitrary problem.
 Let $\signature{P}$ be the signature of $P$.
 Let $n = \card{\signature{P}}$.
 
-Given a problem $P$, a symbol cost model $c : \cnf \to \re^*$
-\todo{Confusing?}
+Given a problem $P$, a symbol cost model 
+\todo{MS: Zvidavy invalida Jirka Karasek: a co ze je to ten model? 
+Mohl byste to to prosim nekde driv vysvetlit?}
+$c : \cnf \to \re^*$
+\todo{MS: Mozna by se dalo zbavit lehce podivneho $\re^*$ tim,
+ze model bude funkce $(P \in \cnf, s \in \Sigma_P) \to \re$?
+Zas pak nepujde pouzivat zapis skalarniho soucinu; hmmm.}
 returns a vector of costs of the symbols of $P$:
 $$
 c(P) = (c_1, \ldots, c_n)
@@ -365,12 +370,12 @@ Let $\Prec \in \Perm{n}$ be a precedence of symbols of problem $P$.
 Let $k(n) = \frac{2}{n(n+1)}$ be a normalization factor for precedences of length $n$.
 The symbol cost model $c$ can be extended to a precedence cost model $C$
 by taking the weighted sum of symbol costs:
-$$
+\begin{equation} \label{eq:model_cost}
 C(\Prec | P)
 = k(n) \sum_{i=1}^n c_{\Prec_i} \cdot i
 = k(n) \sum_{i=1}^n c_i \cdot \inv{\Prec}_i
 = k(n) \DotProd{c(P)}{\inv{\Prec}}
-$$
+\end{equation}
 Note that the value of $C$ is minimized by a precedence that orders the symbols by their costs in non-increasing order.
 \todo{Discuss, prove.}
 
@@ -378,9 +383,9 @@ Fixing the normalization factor $k(n)$ to the value $\frac{2}{n(n+1)}$
 ensures that costs of precedences of various lengths are commensurable.
 Observe namely that if $c$ assigns each symbol the same cost $c_0$,
 then the precedence cost is equal to $c_0$ irrespective of the signature length $n$:
-\begin{equation} \label{eq:model_cost}
+$$
 C(\Prec | P) = \frac{2}{n(n+1)} \sum_{i=1}^n c_0 \cdot i = c_0
-\end{equation}
+$$
 
 Let $\PrecBetter, \PrecWorse \in \Perm{n}$ be two symbol precedences over $P$.
 Let $\PrecBetter$ yield a faster proof search on $P$ than $\PrecWorse$, denoted as $\Better{\PrecBetter}{\PrecWorse}$.
