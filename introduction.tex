@@ -21,6 +21,33 @@
 % State why the main idea is important
 % State your thesis/claim
 
+\todo[inline,author=FB]{Try to use the first page for something more flashy than exposure of saturation-based automated proving. Ideas: catchy puzzle-like example, abstract description of the crucial challenge etc.}
+
+Choosing the next inference to apply is the most important decision point in the state-of-the-art
+\todo{FB: Add "saturation-based"?}
+\glspl{atp} for \gls{fol}.
+Since the most popular \glspl{atp} use the superposition calculus with literal selection,
+the \gls{sot}, such as the \gls{kbo}, plays a key role in guiding the proof search.
+The \gls{kbo} is typically specified by a symbol precedence,
+that is a permutation of the non-logical symbols of the input problem.
+Each of the commonly used precedence heuristics orders the symbols
+lexicographically according to a small number of simple symbol properties,
+such as the number of occurrences in the input problem,
+% vampire --symbol_precedence frequency
+the arity of the symbol, or
+% vampire --symbol_precedence arity
+%occurrence in the conjecture,
+% vampire --symbol_precedence_boost goal
+%number of occurrences in unit clauses, or
+% vampire --symbol_precedence_boost units
+whether or not the symbol was introduced by the Tseytin transformation or skolemization.
+% vampire --introduced_symbol_precedence top
+Since none of the simple heuristics fits all the problems,
+choosing a symbol precedence that guides the proof search on a problem efficiently towards the refutation
+remains to be an intriguing task.
+This paper explores the possibility of solving this task by training a neural networks
+on the results of running the \gls{atp} Vampire \cite{10.1007/978-3-642-39799-8_1} with randomly sampled precedences.
+
 A \gls{fol} problem consists of \gls{fol} formulas divided into two categories:
 one or more premises and one conjecture.
 % We assume that \gls{fol} is expanded to FOL.
