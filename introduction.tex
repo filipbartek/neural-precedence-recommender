@@ -4,8 +4,6 @@
 % 2. https://www.cl.cam.ac.uk/~lp15/papers/Automation/paar.pdf
 % Formal methods for verification (survey): https://arxiv.org/pdf/1912.03028.pdf
 
-\todo[author=Filip,inline]{Consider an alternative approach: Start with an example problem, rewrite in two ways, describe how do state-of-the-art provers differentiate between these two ways (by symbol precedence), ...}
-
 % Jones 2016 guidelines:
 % 1. Problem (explain by example)
 % 2. Contributions (refutable, forward references to sections)
@@ -21,17 +19,18 @@
 % State why the main idea is important
 % State your thesis/claim
 
-\todo[inline,author=FB]{Try to use the first page for something more flashy than exposure of saturation-based automated proving. Ideas: catchy puzzle-like example, abstract description of the crucial challenge etc.}
-
-Choosing the next inference to apply is the most important decision point in the state-of-the-art
+Choosing the next inference to apply is arguably the most important decision point in the state-of-the-art
 \todo{FB: Add "saturation-based"?}
 \glspl{atp} for \gls{fol}.
-Since the most popular \glspl{atp} use the superposition calculus with literal selection,
-the \gls{sot}, such as the \gls{kbo}, plays a key role in guiding the proof search.
+Since the most popular \glspl{atp} use the superposition calculus with literal selection \cite{},
+the \gls{sot}, such as the \gls{kbo} \cite{Knuth1983},
+plays an important role in restricting the inferences and thus guiding the proof search.
 The \gls{kbo} is typically specified by a symbol precedence,
-that is a permutation of the non-logical symbols of the input problem.
+that is a permutation of non-logical symbols of the input problem.
 Each of the commonly used precedence heuristics orders the symbols
-lexicographically according to a small number of simple symbol properties,
+lexicographically according to a small number of simple
+\todo{FB: Is using the "simple" terminology from PAAR paper better than trying to find a better term?}
+symbol properties,
 such as the number of occurrences in the input problem,
 % vampire --symbol_precedence frequency
 the arity of the symbol, or
@@ -40,13 +39,22 @@ the arity of the symbol, or
 % vampire --symbol_precedence_boost goal
 %number of occurrences in unit clauses, or
 % vampire --symbol_precedence_boost units
-whether or not the symbol was introduced by the Tseytin transformation or skolemization.
+whether or not the symbol was introduced in the process of Tseitin transformation \cite{Tseitin1983} or Skolemization \cite{Harrison2009}.
+\todo{FB: Is citing Harrison better than nothing?}
 % vampire --introduced_symbol_precedence top
-Since none of the simple heuristics fits all the problems,
-choosing a symbol precedence that guides the proof search on a problem efficiently towards the refutation
-remains to be an intriguing task.
-This paper explores the possibility of solving this task by training a neural networks
+Given that each of the heuristics used in practice, up to our knowledge, fails on some problems,
+\todo{Mention that we tried already to find a good simple heuristic by ML.}
+the general task of
+finding a symbol precedence that guides the proof search efficiently on an arbitrary problem
+remains to be intriguing.
+This paper explores the possibility of tackling this task by training a neural network
 on the results of running the \gls{atp} Vampire \cite{10.1007/978-3-642-39799-8_1} with randomly sampled precedences.
+\todo{Ensure that the first paragraph fits on the first page.}
+
+\todo[author=Filip,inline]{Consider an alternative approach: Start with an example problem, rewrite in two ways, describe how do state-of-the-art provers differentiate between these two ways (by symbol precedence), ...}
+
+\todo[inline,author=FB]{Try to use the first page for something more flashy than exposure of saturation-based automated proving. Ideas: catchy puzzle-like example, abstract description of the crucial challenge etc.}
+
 
 A \gls{fol} problem consists of \gls{fol} formulas divided into two categories:
 one or more premises and one conjecture.
