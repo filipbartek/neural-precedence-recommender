@@ -13,9 +13,13 @@ Important dates:
 
 [Call for papers](https://easychair.org/cfp/CADE-28):
 
-> Regular papers. Up to 15 pages in LNCS style, excluding references. Proofs of theoretical results  that do not fit in the page limit may be provided in an appendix. Reviewers  may consider additional material in appendices, but submissions must be self-contained within the page limit.
+> Regular papers.
+> Up to 15 pages in LNCS style, excluding references.
+> Proofs of theoretical results  that do not fit in the page limit may be provided in an appendix.
+> Reviewers  may consider additional material in appendices, but submissions must be self-contained within the page limit.
 
-> The proceedings of the conference will be published in the Springer LNCS/LNAI series. Formatting instructions and the LNCS style files can be obtained at http://www.springer.de/comp/lncs/authors.html
+> The proceedings of the conference will be published in the Springer LNCS/LNAI series.
+> Formatting instructions and the LNCS style files can be obtained at http://www.springer.de/comp/lncs/authors.html
 
 [Springer: LNCS](https://www.springer.com/gp/computer-science/lncs/conference-proceedings-guidelines)
 
