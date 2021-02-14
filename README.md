@@ -21,7 +21,7 @@ Important dates:
 > The proceedings of the conference will be published in the Springer LNCS/LNAI series.
 > Formatting instructions and the LNCS style files can be obtained at http://www.springer.de/comp/lncs/authors.html
 
-[Springer: LNCS](https://www.springer.com/gp/computer-science/lncs/conference-proceedings-guidelines)
+[Springer: LNCS](https://www.springer.com/gp/computer-science/lncs/conference-proceedings-guidelines):
 
 > The most common types of papers accepted for publication are full papers (12–15+ pages)
 > [...]
@@ -30,6 +30,8 @@ Important dates:
 Example papers with this style:
 
 - https://www.springer.com/gp/book/9783030581497
+
+[Template in Overleaf](https://www.overleaf.com/latex/templates/springer-lecture-notes-in-computer-science/kzwwpvhwnvfj#.WuA4JS5uZpi)
 
 ### References
 
