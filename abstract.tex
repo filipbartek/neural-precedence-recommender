@@ -15,26 +15,33 @@
 % Results
 % Conclusions
 
+The state-of-the-art \acrlongpl{atp} for \acrlong{fol}, such as Vampire,
+use \glspl{sot} to constrain the proof search.
+The popular Knuth-Bendix simplification ordering is parameterized by the \emph{symbol precedence}
+\todo{FB: Is it ok to emphasize a word in abstract?}
+-- a permutation of the predicate and function symbols occurring in the input problem.
+The choice of the symbol precedence can have a substantial impact on the length of the proof search.
 
-This paper describes and evaluates a symbol precedence heuristic based on a \acrlong{gcn}.
-\todo{MS: I think we are more than just what one typically understands as a heuristic.
-Because we learn what to recommend from the data.}
-\todo{MS: From that perspectively, the learning itself seems more important than the particular use of a GCN.}
-When trained on proof attempts with random symbol precedences,
-the heuristic outperforms the state of the art by more than \SI{2}{\percent}.
-For the purpose of the evaluation, 
-\todo{MS: ``For the purpose of the evaluation'' je matouci. 
-Ta heuristika prece nema vubec smysl ve svete bez ``symbol precedences for Knuth-Bendix term simplification orderings''.
-Nebo tim chces naznacit, ze by pripadne sla pouzit obecneji? To by se ale muselo asi rict explicitne 
-a nebude to lehke vysvetlit strucne.}
-the symbol precedences predicted by the heuristic
-are used to instantiate Knuth-Bendix term simplification orderings.
-These orderings in turn guide the proof search in the state-of-the-art \acrlong{atp} \vampire{}
-by constraining the superposition calculus inferences.
+This paper describes and evaluates a symbol precedence recommender based on a \acrlong{gcn}.
+When trained on proof attempts that use random symbol precedences,
+the recommender outperforms the state-of-the-art heuristic by more than \SI{2}{\percent}.
+The recommender is evaluated on \acrlong{fol} problems from the \acrshort{tptp} problem library.
+\todo{FB: Should I mention Vampire here?}
+\todo{FB: Try to mention that the recommender is signature-agnostic.}
+
+\iffalse
+This paper describes and evaluates a symbol precedence recommender based on a \acrlong{gcn}.
+When trained on proof attempts that use random symbol precedences,
+the recommender outperforms the state of the art heuristic by more than \SI{2}{\percent}.
+The symbol precedences predicted by the recommender
+specify Knuth-Bendix \glspl{sot}.
+These orderings in turn guide the proof search in the state-of-the-art \acrlong{atp} Vampire
+by constraining the inferences in the superposition calculus.
 \todo{MS: uz i ty ``random symbol precedences'', kterymi to vypraveni nahore zacina potrebuji vampira.
 Mozna bude lepsi, trochu nudne, zacit tim, odkud se berou a na co se pouzivaji precedence
 a teprve pak rict, ze se z nich ucime a pak umime navrhovat nove, lepsi?}
-The evaluation is performed on \acrlong{fol} problems from the \acrshort{tptp} problem library.
+The recommender is evaluated on \acrlong{fol} problems from the \acrshort{tptp} problem library.
+\fi
 
 \keywords{saturation-based theorem proving \and
 \gls{sot} \and
