@@ -147,6 +147,25 @@ where $s_P$ is the number of examples of problem $P$ in the training set,
 so that each problem contributes to the training to the same degree irrespective of the relative numbers of examples.
 \todo{FB: Shall we remind that the examples are further normalized by $k(n)$ to make even across signature lengths?}
 
+\subsection{Environment}
+
+All the experiments were run on a computer with the following specification:
+
+\begin{itemize}
+\item CPU: Intel Xeon Gold 6140 (72 cores @ \SI{2.30}{GHz})
+\item RAM: \SI{383}{GiB}
+\item OS: Ubuntu 20.04
+\item Kernel: GNU/Linux 5.4.0-40-generic x86\_64
+\end{itemize}
+
+% From the paper Reliable benchmarking [BenchExec]:
+% – CPU model and size of RAM,
+% – specified resource limits,
+% – name and version of OS,
+% – version of important software packages, such as the kernel or runtime environments like the Java VM,
+% – version and configuration of the benchmarked tool(s), and
+% – version of the benchmark set (input files)
+
 \subsection{Results}
 
 The final evaluation is performed on $\ProblemsVal$.
