@@ -1,3 +1,5 @@
+% !TEX root = main.tex
+
 % AWR: Guidelines (Unit 7, page 5):
 % At most 300 words
 % Content:
@@ -13,13 +15,25 @@
 % Results
 % Conclusions
 
+
 This paper describes and evaluates a symbol precedence heuristic based on a \acrlong{gcn}.
+\todo{MS: I think we are more than just what one typically understands as a heuristic.
+Because we learn what to recommend from the data.}
+\todo{MS: From that perspectively, the learning itself seems more important than the particular use of a GCN.}
 When trained on proof attempts with random symbol precedences,
 the heuristic outperforms the state of the art by more than \SI{2}{\percent}.
-For the purpose of the evaluation, the symbol precedences predicted by the heuristic
+For the purpose of the evaluation, 
+\todo{MS: ``For the purpose of the evaluation'' je matouci. 
+Ta heuristika prece nema vubec smysl ve svete bez ``symbol precedences for Knuth-Bendix term simplification orderings''.
+Nebo tim chces naznacit, ze by pripadne sla pouzit obecneji? To by se ale muselo asi rict explicitne 
+a nebude to lehke vysvetlit strucne.}
+the symbol precedences predicted by the heuristic
 are used to instantiate Knuth-Bendix term simplification orderings.
 These orderings in turn guide the proof search in the state-of-the-art \acrlong{atp} \vampire{}
 by constraining the superposition calculus inferences.
+\todo{MS: uz i ty ``random symbol precedences'', kterymi to vypraveni nahore zacina potrebuji vampira.
+Mozna bude lepsi, trochu nudne, zacit tim, odkud se berou a na co se pouzivaji precedence
+a teprve pak rict, ze se z nich ucime a pak umime navrhovat nove, lepsi?}
 The evaluation is performed on \acrlong{fol} problems from the \acrshort{tptp} problem library.
 
 \keywords{saturation-based theorem proving \and
