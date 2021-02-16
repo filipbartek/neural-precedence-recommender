@@ -15,21 +15,13 @@
 % Results
 % Conclusions
 
-% The state-of-the-art \acrlongpl{atp} for \acrlong{fol}, such as Vampire,
-State-of-the-art superposition-based theorem provers for \acrlong{fol} % such as E or Vampire,
-% - imho sem patri neurcity clen (the 0 clen v mnoznem cisle)
-% - byl specifictejsi z vymezenim katergorie dokazovacu
-% - to ``such as'' bych pripadne vynechal
-% use \glspl{sot} to constrain the proof search.
+State-of-the-art superposition-based theorem provers for \acrlong{fol}
 rely on \glspl{sot} to constrain the applicability of inference rules 
 which in turn shapes the ensuing search space.
 The popular Knuth-Bendix simplification ordering is parameterized by 
 a \emph{symbol precedence}---a permutation of the predicate and function symbols
-% occurring in the input problem.
-% maybe:
 of the input problem's signature.
 The choice of the precedence thus has an indirect yet often substantial impact 
-% on the length of the proof search.
 on the amount of work required to successfully complete a proof search.
 
 \todo{MS: idea maybe to work out more in the introduction: 
@@ -41,16 +33,10 @@ which precendences are good and which are bad!}
 This paper describes and evaluates a symbol precedence recommender,
 a machine learning system which estimates the best possible precedence
 based on observations of prover performance on a set of problems and random precedences.
-Using the graph convolutional neural network technology % \acrlong{gcn} % how to put neural in the middle?
+Using the graph convolutional neural network technology
 the system does not presuppose the problems to be related or share a common signature. 
 When coupled with the theorem prover Vampire and evaluated on the \acrshort{tptp} problem library
 the recommender is found to outperform a state-of-the-art heuristic by more than \SI{2}{\percent}.
-
-% When trained on proof attempts that use random symbol precedences,
-% the recommender outperforms the state-of-the-art heuristic by more than \SI{2}{\percent}.
-% The recommender is evaluated on \acrlong{fol} problems from the \acrshort{tptp} problem library.
-% \todo{FB: Should I mention Vampire here?}
-% \todo{FB: Try to mention that the recommender is signature-agnostic.}
 
 \iffalse
 This paper describes and evaluates a symbol precedence recommender based on a \acrlong{gcn}.
@@ -67,8 +53,7 @@ The recommender is evaluated on \acrlong{fol} problems from the \acrshort{tptp} 
 \fi
 
 \keywords{saturation-based theorem proving \and
-% \gls{sot} \and
-simplification ordering \and % isn't it great to be sometimes able to say ``simplification ordering on terms'' and sometimes just "simplification ordering"?
+simplification ordering \and
 symbol precedence \and
 \acrlong{ml} \and
 \acrlong{gcn}}
