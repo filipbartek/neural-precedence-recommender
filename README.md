@@ -1,10 +1,10 @@
 # Neural Precedence Recommender System
 
-Target venue: [CADE 28](https://www.cs.cmu.edu/~mheule/CADE28/)
+- Target venue: [CADE 28](https://www.cs.cmu.edu/~mheule/CADE28/)
+- [Call for papers](https://easychair.org/cfp/CADE-28)
+- [Submission 94](https://easychair.org/conferences/submission?a=25958734;submission=5327793)
 
-Call for papers: https://easychair.org/cfp/CADE-28
-
-Important dates:
+## Important dates
 
 - Abstract deadline: 15 February 2021
 - Submission deadline: 22 February 2021
