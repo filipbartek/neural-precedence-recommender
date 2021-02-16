@@ -19,10 +19,10 @@ State-of-the-art superposition-based theorem provers for \acrlong{fol}
 rely on \glspl{sot} to constrain the applicability of inference rules,
 which in turn shapes the ensuing search space.
 The popular Knuth-Bendix simplification ordering is parameterized by 
-a \emph{symbol precedence}---a permutation of the predicate and function symbols
+\emph{symbol precedence}---a permutation of the predicate and function symbols
 of the input problem's signature.
-The choice of precedence thus has an indirect yet often substantial impact
-on the amount of work required to successfully complete a proof search.
+Thus, the choice of precedence has an indirect yet often substantial impact
+on the amount of work required to complete a proof search.
 
 \todo{MS: idea maybe to work out more in the introduction: 
 We could stress how the impact or the choice of a precedence is \emph{indirect}, 
@@ -31,7 +31,7 @@ all the more interesting one can learn from observing just this indirect impact
 which precendences are good and which are bad!}
 
 This paper describes and evaluates a symbol precedence recommender,
-a machine learning system which estimates the best possible precedence
+a machine learning system that estimates the best possible precedence
 based on observations of prover performance on a set of problems and random precedences.
 Using the graph convolutional neural network technology,
 the system does not presuppose the problems to be related or share a common signature. 
