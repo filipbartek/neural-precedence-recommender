@@ -16,7 +16,7 @@
 % Conclusions
 
 State-of-the-art superposition-based theorem provers for \acrlong{fol}
-rely on \glspl{sot} to constrain the applicability of inference rules
+rely on \glspl{sot} to constrain the applicability of inference rules,
 which in turn shapes the ensuing search space.
 The popular Knuth-Bendix simplification ordering is parameterized by 
 a \emph{symbol precedence}---a permutation of the predicate and function symbols
@@ -33,9 +33,9 @@ which precendences are good and which are bad!}
 This paper describes and evaluates a symbol precedence recommender,
 a machine learning system which estimates the best possible precedence
 based on observations of prover performance on a set of problems and random precedences.
-Using the graph convolutional neural network technology
+Using the graph convolutional neural network technology,
 the system does not presuppose the problems to be related or share a common signature. 
-When coupled with the theorem prover Vampire and evaluated on the \acrshort{tptp} problem library
+When coupled with the theorem prover Vampire and evaluated on the \acrshort{tptp} problem library,
 the recommender is found to outperform a state-of-the-art heuristic by more than \SI{2}{\percent}.
 
 \iffalse
