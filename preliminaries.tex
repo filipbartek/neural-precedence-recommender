@@ -9,43 +9,48 @@ In a \emph{refutation-based} \emph{\acrfull{atp}},
 proving that the premises entail the conjecture
 is reduced to proving that the premises together with the negated conjecture entail a \emph{contradiction}.
 The most popular \gls{fol} \glspl{atp}, such as Vampire \cite{10.1007/978-3-642-39799-8_1}, E \cite{10.1007/978-3-030-29436-6_29}, or SPASS \cite{},
-start the proof search by converting the input \gls{fol} formulas to an equisatisfiable representation in \emph{quantifier-free first-order \gls{cnf}}.\cite{Harrison2009}
-We denote a problem in \gls{cnf} as $P = (\Sigma, \mathrm{Cl})$,
-where $\Sigma$ is a list of all non-logical symbols in the problem,
-and $\mathrm{Cl}$ is the set of the clauses of the problem (including the negated conjecture).
+start the proof search by converting the input \gls{fol} formulas to an equisatisfiable representation in \emph{quantifier-free first-order \gls{cnf}} \cite{Harrison2009}.
+We denote a problem in \gls{cnf} as $P = (\Sigma, \mathit{Cl})$,
+where $\Sigma$ is a list of all non-logical (predicate and function)
+\emph{symbols} in the problem called the \emph{signature},
+and $\mathit{Cl}$ is the set of the clauses of the problem (including the negated conjecture).
 
 Given a problem $P$ in \gls{cnf},
 a \emph{saturation-based} \gls{atp} searches for a refutational proof
 by iteratively applying the \emph{inference rules} from the given \emph{calculus}
-to infer new clauses entailed by $\mathrm{Cl}$.
+to infer new clauses entailed by $\mathit{Cl}$.
 As soon as the empty clause, denoted by $\square$, is inferred,
 the prover concludes that the premises entail the conjecture,
 the sequence of inferences taken constituting a proof.
 In case the premises do not entail the conjecture,
 the proof search continues until
 the set of the inferred clauses is saturated with respect to the inference rules.
-In the common setting of time-restricted proof search, a timeout may end the process prematurely.
+In the common setting of time-restricted proof search, a time limit may end the process prematurely.
 
-\todo[inline,author=FB]{Add terminology: saturation iteration, $\bot$.}
+The common saturation-based \glspl{atp} structure the proof search
+by maintaining two classes of the inferred clauses: processed and unprocessed \cite{10.1007/978-3-030-29436-6_29}.
+In each \emph{iteration of the saturation loop}, one clause (so-called \emph{given clause})
+is selected from the unprocessed set
+and all the inferences between the given clause and the processed clauses are performed.
+The resulting new clauses are added to the unprocessed set.
 
-%\vampire{} is a saturation-based prover.
-%Given a \gls{fol} problem,
-%\vampire{} converts the problem into \gls{cnf}.
-%and proceeds to saturate the set of clauses
-%by repeated application of inference rules.
+\todo[inline,author=FB]{Add terminology: $\bot$.}
 
 \subsection{Superposition calculus}
 
-\todo[inline,author=FB]{Mention: Vampire, superposition calculus, inference rules (resolution, superposition), simplification ordering on terms, KBO, symbol precedence. How does the STO influence the rules? Mention transfinite KBO (lcm predicate), which is only relevant to literal selection. Cite Voronkov: transfinite KBO (see section Notes on implementation). We use TKBO to increase the impact of predicate precedence. Vampire sets all KBO weights to 1.}
+The superposition calculus is of special interest
+because it is used in the most successful \gls{fol} \glspl{atp}.
 
-%\vampire{} searches for a proof by applying the rules
-%of the superposition inference system
-%\cite{10.1007/978-3-642-39799-8_1}.
+The inference rules of superposition calculus are constrained by a \gls{sot}.
+
+\todo[inline,author=FB]{Mention: Vampire, superposition calculus, inference rules (resolution, superposition), simplification ordering on terms, KBO, symbol precedence. How does the STO influence the rules? Mention transfinite KBO (lcm predicate), which is only relevant to literal selection. Cite Voronkov: transfinite KBO (see section Notes on implementation). We use TKBO to increase the impact of predicate precedence. Vampire sets all KBO weights to 1.}
 
 \subsubsection{\Gls{sot}}
 
-% AWR candidate
-Simplification ordering on terms
+An ordering on terms is called a \emph{simplification ordering} if it satisfies the following conditions:
+
+...
+
 influences the proof search in Vampire on two levels.
 First, the inferences on each clause are limited
 to the selected literals.
@@ -70,6 +75,19 @@ in effect, the length of the proof search.
 
 \todo[inline,author=FB]{Define terminology.}
 
-\subsection{\Acrlongpl{gcn}}
+\subsection{Neural networks}
 
+A \emph{feed-forward neural network} is a directed acyclic graph
+of differentiable \emph{modules} that operate on numeric vectors.
+The common modules include multiplication by a matrix, and nonlinearity such as ReLU or sigmoid.
+Some of the modules are parameterized by trainable parameters or hyperparameters.
+In a typical usage, the neural network is trained by \emph{gradient descent}.
+In this setting, the trained network outputs a single numeric value called \emph{loss}.
+Since the network is differentiable,
+a gradient of the loss is computed with respect to all the trainable parameters of the network.
+The gradients are typically computed by \emph{backpropagation}.
+The values of the parameters are then updated by taking a small step in the direction that minimizes the loss.
+
+\todo{Define sigmoid.}
+\todo{Maybe we don't need to make GCN a preliminary; we can define it later instead.}
 \todo[inline,author=FB]{GCN? Backprop?, gradient descent, loss, gradient, epoch}
