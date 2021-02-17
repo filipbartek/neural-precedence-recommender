@@ -20,6 +20,14 @@ Vampire was modified to allow the user to supply explicit predicate and function
 (normally, the user only picks a precedence generation heuristic).
 \todo[inline]{FB: Add a link to the modified Vampire.}
 
+Vampire was run with a time limit of 10 seconds.
+To increase the potential impact of predicate precedences,
+we used a simple \gls{tkbo} \cite{Ludwig2007,Kovacs2011}
+that compares atoms according to the predicate precedence first,
+Using the ordinary \gls{kbo} as a tie-breaker.
+Ordinary \gls{kbo} was used to compare terms.
+\todo[inline,author=FB]{Describe the detailed configuration in an appendix and reference the appendix here.}
+
 % All explicit options:
 % vampire --encode on --statistics full --time_statistics on --proof off --avatar off --saturation_algorithm discount --age_weight_ratio 10 --literal_comparison_mode predicate --symbol_precedence frequency --time_limit 10
 
@@ -29,7 +37,6 @@ Vampire was modified to allow the user to supply explicit predicate and function
 % Notable implicit options:
 % --term_ordering kbo
 
-\todo[inline,author=FB]{Describe the Vampire options.}
 \todo[inline,author=MS]{Literal comparison mode is not a standard thing. Mentioning the option name is again too low level. Explaining the effect (point two) is appropriate, although a bit too vague. To kdyztak opravim ja. 
 Popsat presne setup je dulezite, kvuli reprodukovatelnosti, ale ne nutne primo v clanku (budem nejspis stejne dodavat odkaz na nejake reproducibility repo).
 Ted zminit AVATAR je nevhodne, pokud nevysvetlis, co to aspon ramcove je. A pokud to budes vysvetlovat, je otazka, proc tim ztracet misto, kdyz to neni bezprostredne relevantni pro dalsi vysvetlovani.}
