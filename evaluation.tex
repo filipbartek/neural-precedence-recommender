@@ -45,9 +45,8 @@ Ordinary \gls{kbo} was used to compare terms.
 
 The training data consists of examples of the form $(P, \PrecBetter, \PrecWorse)$,
 where $P$ is a \gls{cnf} problem and $\PrecBetter, \PrecWorse$ are precedences of symbols of problem $P$
-such that out of the two precedences, $\PrecBetter$ yields a proof in fewer iterations of the saturation loop.
+such that out of the two precedences, $\PrecBetter$ yields a proof in fewer iterations of the saturation loop (see \cref{sec:saturation}).
 \todo{FB: Justify saturation loop iterations as a proxy for success. MS: Ano, ale driv nez zde!}
-\todo{FB: Reference a detailed explanation of saturation loop iterations. MS: podobne jako v PAAR clanku. Dal bych to nekam okolo prelim.}
 
 Since neither of the common \glspl{sot}, i.e., \gls{kbo} nor \gls{lpo},
 \todo{FB: Consider omitting LPO completely if we don't discuss it anywhere in the paper.}
@@ -118,9 +117,7 @@ $$
 where $n = \sum_{P \in \ProblemsTptp} n_P$ is the total number of tries on all problems.
 The parallelizing relaxation means that the $s_P$ values are only updated once in \num{1000} iterations,
 allowing up to \num{2000} parallel solver executions.
-\todo{Explain in detail? MS: Myslim, ze takhle v kontextu uz dobry. Pusobi to hezky dojmem, 
-ze kdyz to nechapes, je to jen tim, zes necetl prislusne clanky. A zaroven jde tusit, ze to jsou pomerne
-standardni veci, ktere sice ovlivni dataset, ale zakldni myslenku ``ucit se z nahodnych permutaci'' nijak zasadne nemeni.}
+\todo{Explain in detail?}
 
 The sampling runs until a total of \num{1000000} examples are generated.
 % sftp://cluster.ciirc.cvut.cz/home/bartefil/git/vampire-ml/out/20210108-generate-predicate/questions_generated
