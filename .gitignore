@@ -5,6 +5,7 @@
 *.log
 *.pdf
 *.synctex.gz
+*.out
 
 # graphviz
 *.dot
