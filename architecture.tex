@@ -220,15 +220,17 @@ bych uz chapal jako metodiku experimentu a teorii tim nekomplikoval.}
 
 The main task this paper deals with is this:
 Given a problem $P \in \cnf$, generate a symbol precedence $\Prec \in \Perm{n}$ that maximizes $\Prob{\SolverRun{P}{\Prec} = \top}$.
-MS: (Nehlede na to, ze main task by nejspis mel byt vysvetlen mnohem drive...) Asi bych to takhle nestavel. Jak pisu vyse, precijen je
+\todo[inline]{MS: (Nehlede na to, ze main task by nejspis mel byt vysvetlen mnohem drive...) Asi bych to takhle nestavel. Jak pisu vyse, precijen je
 beh dokazovace deterministicky a brat to nejak Bayesovsky by sice mohlo 
 byt zajimave, ale jeste mnohem tezsi na obhajeni jako ``svetonazor''.
 Co proste priznat nasledujici assumption:
-verime, ze pokud bude model spravne odpovidat na otazky $(P, \pi_1, \pi_2)$ (s pravdepodobnosti $> \SI{50}{\percent}$), povede podle nej vybrana permutace minimalizujici \eqref{eq:model_cost} k rychlemu vyreseni problemu (a tim i idealne k vyreseni problemu, ktere byly drive out of reach.)\todo{MS: koukni prosim, jestli nejaky takovy mame. Tj zadna random permutace ho nevyresila, ale naucena sit pak ano!}
+verime, ze pokud bude model spravne odpovidat na otazky $(P, \pi_1, \pi_2)$ (s pravdepodobnosti $> \SI{50}{\percent}$), povede podle nej vybrana permutace minimalizujici \eqref{eq:model_cost} k rychlemu vyreseni problemu (a tim i idealne k vyreseni problemu, ktere byly drive out of reach.)}
+\todo{MS: koukni prosim, jestli nejaky takovy mame. Tj zadna random permutace ho nevyresila, ale naucena sit pak ano!}
 
 Instead of modeling $\Prob{\SolverRun{P}{\Prec} = \top}$ directly,
 the system described in this paper predicts, given a problem $P$ and a pair of precedences $\PrecBetter, \PrecWorse \in \Perm{n}$,
-the probability\todo{MS: tohle je jeden z oficialnich zpusobu,
+the probability
+\todo{MS: tohle je jeden z oficialnich zpusobu,
 jak vysvetlovat neuronky, ale neni nijak jasne do jake miry byva
 $\sigma(\mathit{logits})$ blizko nejake pravdepodobnosti. Za mne by klidne stacilo mluvit o tom, ze se snazime klasifikovat co nejvic dvojic
 spravne a ze na to pouzivame standard techologii neuronek (Binary Cross Entropy loss (against the final layer’s sigmoid non-linearity)). Tj opet hlasuji za to nemluvit zde o pravdepodobnosti. :)}
@@ -286,7 +288,8 @@ that $\PrecBetter$ outperforms $\PrecWorse$ in terms of success of proof search.
 \end{tikzpicture}
 \end{figure}
 
-Fig.~\ref{fig:SystemOverview} \todo{MS: Na figures/tables bez referneci v textu se pohlizi obzvlast nelibe. Predpokladam, zes planoval pozdeji popsat, presto zmninuji. Konkretne k Fig.~\ref{fig:SystemOverview}:
+Fig.~\ref{fig:SystemOverview}
+\todo{MS: Na figures/tables bez referneci v textu se pohlizi obzvlast nelibe. Predpokladam, zes planoval pozdeji popsat, presto zmninuji. Konkretne k Fig.~\ref{fig:SystemOverview}:
 Napada me: neslo by precedenci definovat tak, aby uz byla tim $\pi^{-1}$? Invertovani zabira v obrazku skoustu mista, ale pritom
 jde o technicky detail a hlavni myslenku nijak neosvetluje...}
 
