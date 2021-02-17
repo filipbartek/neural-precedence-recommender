@@ -5,6 +5,8 @@
 \todo{Some pairs of precedences are not informative. We hope that the non-systematic examples will cancel each other out.}
 \todo{Compare our GCN to Michael, Mirek etc.}
 
+\iffalse
+
 \subsection{Learning to generate good permutations}
 
 Generating good symbol precedences is an instance of a more general task
@@ -86,6 +88,102 @@ $\inv{\pi} = ...$.
 \todo{MS: Mozna ani ne. Ono je obcas tezky zavest a pouzivat presnout matematickou notaci, ktera se navic muze stavat neprehlednou, kvuli te presnosti. Na druhou stranu, intuitivne, kazdy vi, co by to mela byt inverzni permutace. Takze nerikam psat nepresne veci, ale obcas jde
 zustak vagni s tim, ze vim, ze existuje zpusob jak to udelat presnym.
 A povrchni ctenar to nemusi resit a matematicky zdatny by si ten detail odvodil spravne ...}
+
+\fi
+
+This section describes a structure of a symbol precedence recommender.
+When presented with a \gls{cnf} problem $P = (\Sigma, \mathit{Cl})$,
+the recommender generates a precedence $\pi^*$ of symbols $\Sigma$.
+
+\subsection{Precedence generator}
+
+The precedence generator, given a \gls{cnf} problem $P = (\Sigma, \mathit{Cl})$,
+generates a precedence over $\Sigma$
+that is expected to yield a successful proof search.
+
+The recommender first computes a cost value for each symbol of the input problem,
+and then orders the symbols by their costs in a non-increasing order.
+In this manner, the task of finding good precedences is reduced to the task
+of finding a good symbol cost function.
+We use a standard \gls{ml} terminology and denote
+the practical realization of the symbol cost function as \emph{symbol cost model}.
+
+Note here that the symbol precedence heuristics commonly used in practice
+conform to this scheme:
+they order the symbols by a numeric property, such as arity or number of occurrences.
+
+\subsection{Symbol cost model}
+
+The symbol cost model, given a \gls{cnf} problem $P = (\Sigma, \mathit{Cl})$,
+assigns each symbol in $s \in \Sigma$ a real value $c(s)$.
+It first uses a symbol embedding model to assign each symbol an embedding.
+The resulting symbol cost is a dot product of the symbol embedding with a trainable weight vector:
+
+$$
+c(s) = \DotProd{E(s)}{w} + b
+$$
+
+\subsection{Symbol embedding model}
+
+The symbol embedding model, given a problem,
+assigns each symbol $s \in \Sigma$ an embedding $E(s) \in \re^n$.
+Our implementation uses a \gls{rgcn} \cite{}.
+
+\todo[inline]{What is the structure of the graphs? What are the trainable parameters? Etc.}
+
+\subsection{Loss function}
+
+To train the symbol cost model,
+examples of the form $(P, \pi, \rho)$ are used.
+To be able to train the model by gradient descent,
+we need to define a loss function that is differentiable with respect to the model parameters,
+and that is minimized by a symbol cost model that produces good precedences.
+Optimizing the output precedence directly is not possible
+because the sorting operation is not differentiable
+and because we generally don't know the best precedence on a given problem.
+
+\todo[inline]{Idea for next project: Optimize precedence directly in a RL fashion: Generate precedence and evaluate with Vampire. If it is the best precedence seen so far, loss is 0 and gradient is 0. Otherwise ground truth is the best precedence seen so far on this problem and we use "differentiable ranking" to backpropagate. Possibly with some exploration, e.g. random swaps of pairs of symbols.}
+
+\subsection{Notes}
+
+The recommender consists of the following components:
+
+\begin{itemize}
+\item Symbol embedding model
+\item Symbol cost model
+\item Loss function
+\item Precedence generator
+\end{itemize}
+
+\begin{figure}[ht]
+\caption{Architecture overview}
+\centering
+\digraph[scale=0.4]{ArchitectureOverview}{
+graph [splines=ortho];
+node [shape=box, fontsize=20];
+edge [fontsize=20];
+
+Problem [label="CNF problem"];
+GCN [style=rounded, label="GCN"];
+SymbolEmbedding [label="Symbol embeddings"];
+SymbolCostModel [style=rounded, label="MLP"];
+SymbolCost [label="Symbol costs"];
+Sort [style=rounded, label="Sort"];
+Precedence [label="Output precedence"];
+
+Problem -> GCN -> SymbolEmbedding -> SymbolCostModel -> SymbolCost -> Sort -> Precedence;
+
+pi [label=<Precedence &pi;>];
+rho [label=<Precedence &rho;>];
+LossFunction [style=rounded, label="Loss function"];
+Loss [label="Loss value"];
+
+pi -> LossFunction;
+rho -> LossFunction;
+SymbolCost -> LossFunction;
+LossFunction -> Loss;
+}
+\end{figure}
 
 \newcommand{\Prec}{\pi}
 \newcommand{\PrecBetter}{\pi}
