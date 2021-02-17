@@ -9,3 +9,6 @@
 
 # graphviz
 *.dot
+
+# Meld
+*.orig
