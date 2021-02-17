@@ -48,9 +48,7 @@ where $P$ is a \gls{cnf} problem and $\PrecBetter, \PrecWorse$ are precedences o
 such that out of the two precedences, $\PrecBetter$ yields a proof in fewer iterations of the saturation loop (see \cref{sec:saturation}).
 \todo{FB: Justify saturation loop iterations as a proxy for success. MS: Ano, ale driv nez zde!}
 
-Since neither of the common \glspl{sot}, i.e., \gls{kbo} nor \gls{lpo},
-\todo{FB: Consider omitting LPO completely if we don't discuss it anywhere in the paper.}
-ever compares a predicate symbol with a function symbol,
+Since the \gls{tkbo} never compares a predicate symbol with a function symbol,
 two separate precedences can be considered for each problem:
 a predicate precedence and a function precedence.
 We trained a predicate precedence recommender separately from a function precedence recommender
