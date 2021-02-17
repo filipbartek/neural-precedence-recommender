@@ -155,9 +155,9 @@ MS2: tak ale ted uz to menit nebudeme!}
 \subsection{Training procedure}
 
 A predicate symbol cost model is trained by gradient backpropagation
-\todo{FB: Explain?}
+\todo{FB: Explain? MS: tohle by melo byt k pochopeni z predchozich sekci.}
 on the precedence pair classification task
-\todo{FB: Reference a section.}
+\todo{FB: Reference a section. MS: Ano!}
 using the examples generated from the problems in $\ProblemsTrain$.
 \todo{Add references to the sections that describe the architecture.}
 To avoid redundant computations, all examples generated from a problem are processed in the same training batch.
@@ -172,6 +172,11 @@ Each of the training examples of problem $P$ contributes to the training with th
 where $s_P$ is the number of examples of problem $P$ in the training set,
 so that each problem contributes to the training to the same degree irrespective of the relative numbers of examples.
 \todo{FB: Shall we remind that the examples are further normalized by $k(n)$ to make even across signature lengths?}
+\todo{MS: asi dobry, pokud to bude jasne receny nejaky predchozi sekci.}
+
+MS: nechybi tu odstavec tom, jak klesala loss, ale validacni moc ne.
+(Mozna i o accuracy?) Pak o (continuous) ATP eval...
+and how we chose the final model?
 
 \subsection{Environment}
 
@@ -210,6 +215,9 @@ and finally orders the symbols by their costs to produce the precedence.
 To simplify the experiment, the time limit is only imposed on the Vampire run
 and excludes the time taken by the recommender to generate the precedence.
 \todo{Update if we include the preprocessing time.}
+\todo{MS: and if we don't, this would be the perfect place to summarize
+how long the just described procedure took on an average problem,
+or how it (roughly) scales with the graph/cnf/tptp\_file size.} 
 
 \Cref{tab:results} shows the results.
 
