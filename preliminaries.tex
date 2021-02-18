@@ -1,3 +1,5 @@
+% !TEX root = main.tex
+
 % Terminology
 
 \todo[inline,author=FB]{Get inspiration from PAAR paper.}
@@ -9,7 +11,7 @@ A \emph{\acrfull{fol} problem} consists of a set of premise formulas and a conje
 In a \emph{refutation-based} \emph{\acrfull{atp}},
 proving that the premises entail the conjecture
 is reduced to proving that the premises together with the negated conjecture entail a \emph{contradiction}.
-The most popular \gls{fol} \glspl{atp}, such as Vampire \cite{10.1007/978-3-642-39799-8_1}, E \cite{10.1007/978-3-030-29436-6_29}, or SPASS \cite{},
+The most popular \gls{fol} \glspl{atp}, such as Vampire \cite{10.1007/978-3-642-39799-8_1}, E \cite{10.1007/978-3-030-29436-6_29}, or SPASS \cite{DBLP:conf/cade/WeidenbachDFKSW09},
 start the proof search by converting the input \gls{fol} formulas to an equisatisfiable representation in \emph{quantifier-free first-order \gls{cnf}} \cite{Harrison2009}.
 We denote a problem in \gls{cnf} as $P = (\Sigma, \mathit{Cl})$,
 where $\Sigma$ is a list of all non-logical (predicate and function)
