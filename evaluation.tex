@@ -269,29 +269,18 @@ and excludes the time taken by the recommender to generate the precedence.
 \todo{MS: and if we don't, this would be the perfect place to summarize
 how long the just described procedure took on an average problem,
 or how it (roughly) scales with the graph/cnf/tptp\_file size.}
-When run with 2 threads on 1000 problems chosen uniformly randomly from $\ProblemsVal$,
+When run with 2 threads,
+the preprocessing of a single problem
+takes at most at most \num[round-mode=places,round-precision=2]{1.262744486} seconds
+for \SI{80}{\percent} of the problems
+according to data measured on a random sample of \num{1000} problems.
+% Analysis: https://docs.google.com/spreadsheets/d/1GujYNEtETpC3jk4iyENLjptv8mDmI5f1ZEhbmwtqnPM/edit?usp=sharing
+% VML-715
 \todo{MS: 1) single-core bych chapal jako default. tj netreba zminovat?
 2) kterych 1000? To opet drazdi k otazkam. tj to bych asi taky vynechal, ale...
 3) to maximum prece zalezi na tom, kterych 1000 to bylo.}
-the preprocessing took
-approximately \num[round-mode=places,round-precision=2]{1.024237694} seconds on average,
-increasing approximately linearly with the number of nodes of the graph representation of the problem
-(see \cref{fig:preprocessing}).
 \todo{MS: Idea: kdyz je to linearni: co cas potrebny na recommending
 vztahnout k casu klauzifikace? Jako rict, ze to trva x-krat dyl nez jen klauzifikovat?}
-\todo{FB: Measure the times with joint recommender and TF restricted to 1 thread.
- Fix the numbers once we have a solid measurement.
- Add a comment with a reference to the data.}
- \todo{MS: To by bylo taky fajn!}
-
-\begin{figure}[h]
-\caption{The dependence of preprocessing time on the number of nodes in the problem graph on 1000 random validation problems}
-\label{fig:preprocessing}
-\centering
-\includesvg[width=\textwidth]{preprocessing}
-% Source: https://docs.google.com/spreadsheets/d/1GujYNEtETpC3jk4iyENLjptv8mDmI5f1ZEhbmwtqnPM/edit#gid=394425425&fvid=659935521
-% Experiment: VML-715
-\end{figure}
 
 \Cref{tab:results} shows the results.
 
