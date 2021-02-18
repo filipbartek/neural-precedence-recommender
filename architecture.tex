@@ -95,6 +95,18 @@ This section describes the structure of a symbol precedence recommender.
 When presented with a \gls{cnf} problem $P = (\Sigma, \mathit{Cl})$,
 the recommender generates a precedence $\pi^*$ of symbols $\Sigma$.
 
+\subsection{System overview}
+
+The precedence recommender is a system that takes
+a \gls{cnf} problem $P = (\Sigma, \mathit{Cl})$ as the input,
+and produces a precedence of the symbols $\Sigma$ as the output.
+
+The input problem is assumed to be specified in the \gls{cnf} fragment
+of the \acrshort{tptp} language.
+% http://www.tptp.org/TPTP/SyntaxBNF.html
+Note that if the input problem is specified in \gls{fof},
+it can be converted to \gls{cnf} by an \gls{atp} such as Vampire.
+
 \subsection{Precedence generator}
 
 The precedence generator, given a \gls{cnf} problem $P = (\Sigma, \mathit{Cl})$,
