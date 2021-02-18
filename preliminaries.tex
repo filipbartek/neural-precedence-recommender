@@ -101,7 +101,8 @@ Recall the two views:
 
 A \emph{feed-forward neural network} is a directed acyclic graph
 of differentiable \emph{modules} that operate on numeric vectors.
-The common modules include multiplication by a matrix, and nonlinearity such as ReLU or sigmoid.
+The common modules include multiplication by a matrix, and nonlinearity such as ReLU or sigmoid.\footnote{
+These are, respectively, $f(x) = \max\{0,x\}$ and $g(x) = 1/(1+e^{-x}$). }
 Some of the modules are parameterized by trainable parameters or hyperparameters.
 In a typical usage, the neural network is trained by \emph{gradient descent}.
 In this setting, the trained network outputs a single numeric value called \emph{loss}.
@@ -110,6 +111,5 @@ a gradient of the loss is computed with respect to all the trainable parameters 
 The gradients are typically computed by \emph{backpropagation}.
 The values of the parameters are then updated by taking a small step in the direction that minimizes the loss.
 
-\todo{Define sigmoid.}
 \todo{Maybe we don't need to make GCN a preliminary; we can define it later instead.}
 \todo[inline,author=FB]{GCN? Backprop?, gradient descent, loss, gradient, epoch}
