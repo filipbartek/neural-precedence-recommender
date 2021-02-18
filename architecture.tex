@@ -342,17 +342,6 @@ and because we generally don't know the best precedence on a given problem.
 
 \todo[inline]{Idea for next project: Optimize precedence directly in a RL fashion: Generate precedence and evaluate with Vampire. If it is the best precedence seen so far, loss is 0 and gradient is 0. Otherwise ground truth is the best precedence seen so far on this problem and we use "differentiable ranking" to backpropagate. Possibly with some exploration, e.g. random swaps of pairs of symbols.}
 
-\subsection{Notes}
-
-The recommender consists of the following components:
-
-\begin{itemize}
-\item Symbol embedding model
-\item Symbol cost model
-\item Loss function
-\item Precedence generator
-\end{itemize}
-
 \newcommand{\Prec}{\pi}
 \newcommand{\PrecBetter}{\pi}
 \newcommand{\PrecWorse}{\rho}
@@ -582,10 +571,6 @@ potrebovat obsirnejsi vysvetleni.}
 Note that this approach is generally applicable to all problems where it is necessary to generate permutations of arbitrary length.
 
 \todo[inline]{Finish.}
-
-\subsection{Symbol cost model}
-
-
 
 \subsection{Generating precedences}
 \label{sec:generating}
