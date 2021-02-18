@@ -251,6 +251,49 @@ Ta filosoficka poznamka je o tom, ze pro dobre uceni tohle vlastne vubec nemusi 
 ze nejaky ``hrubsi otisk'' by mohl stacit tez (a byt treba mensi),
 ale my nevime, jak takovy zvolit. }
 
+\subsection{\Gls{gcn}: From graphs to symbol embeddings}
+
+For each symbol in the problem,
+we seek to find a vector representation, i.e., an \emph{embedding},
+that captures the symbol's properties that are relevant
+for the desirable relative rank of the symbol in the symbol precedence.
+The symbol embeddings are modeled by a \gls{rgcn} \cite{Schlichtkrull2017},
+\todo{Can I use the term \gls{rgcn} when I use a modified version? Namely, the activation is called earlier.}
+which is a stack of graph convolutional layers.
+Each layer consists of a collection of differentiable modules --- one for each edge type.
+A pass through the convolutional layer takes the embeddings of all symbols,
+converts them by the edge modules of the adjacent edges to form the messages,
+passes the messages to the destination nodes
+and aggregates the incoming messages of each node.
+In the simple case that each edge module is a dense layer,
+the output embeddings $h^{(l+1)}$ is computed from the input embeddings $h^{(l)}$ in the following manner:
+$$
+h_i^{(l+1)} =
+\sum_{r \in \mathcal{R}} \sigma \Parentheses{\sum_{j \in \mathcal{N}_i^r} \frac{1}{c_{ji}} h_j^{(l)} W_r^{(l)}}
+$$
+%$$
+%h_i^{(l+1)} =
+%\mathrm{LayerNorm} \Parentheses{h_i^{(l)} + \sum_{r \in \mathcal{R}} \sigma \Parentheses{\sum_{j \in %\mathcal{N}_i^r} \frac{1}{c_{ji}} h_j^{(l)} W_r^{(l)}}}
+%$$
+% Inspiration: https://ufal.mff.cuni.cz/~straka/courses/npfl114/1920/slides.pdf/npfl114-07.pdf - slide 27 - Transformer
+\todo{FB: Mention inspiration: Transformer. See Straka's slides.}
+$h_i^{(l)}$ denotes the embedding of node $i$ at layer $l$.
+$\mathcal{R}$ denotes the set of all relations in the graph.
+$\sigma$ denotes the activation function, for example the \gls{relu}.
+$\mathcal{N}_i^r$ denotes the set of neighbors of node $i$ under relation $r$.
+$c_{j, i, r} = \sqrt{\card{\mathcal{N}_j^r}} \sqrt{\card{\mathcal{N}_i^r}}$ is a normalization constant \cite{kipf2017semisupervised}.
+$W_r^{(l)}$ is a trainable weight matrix representing relation $r$ at layer $l$.
+
+\todo[inline]{Explain residual connections and layer normalization.}
+\todo[inline]{MS: neni uplne jiste, ze ``CADE people'' oceni presny zapis 
+strutury site, vcetne prvku jako $\mathrm{LayerNorm}$ ve vzorecku.
+Nerikam, ze bychom to meli uplne zatajit, ale popis, ktery je zde, spis
+patri do appendixu (ML paperu). Na te siti vlastne nic originalniho neni,
+tak neni treba vsechno vysvetlit do detailu. Zajimavejsi tu
+potom je az to, jak se problem $P$ ``otiskne'' v topologii grafu. 
+To uz originalni je (a soutezi to s representacemi jako ta Mirkova)
+a popisujes to pak dal.}
+
 
 The precedence generator, given a \gls{cnf} problem $P = (\Sigma, \mathit{Cl})$,
 generates a precedence over $\Sigma$
