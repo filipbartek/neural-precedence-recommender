@@ -95,16 +95,17 @@ A povrchni ctenar to nemusi resit a matematicky zdatny by si ten detail odvodil 
 
 The precedence recommender is a system that takes
 a \gls{cnf} problem $P = (\Sigma, \mathit{Cl})$ as the input,
-and produces a precedence over the symbols $\Sigma$ as the output.
+and produces a precedence $\pi^*$ over the symbols $\Sigma$ as the output.
 
 The architecture is designed so that the recommender can be trained
-on the results of solver executions with random precedences.
+on the results executions of an \gls{atp} on various problems with random precedences.
 The recommender is parameterized by weight tensors
 whose values can be trained by gradient descent.
 \todo{Ensure we have defined ``gradient descent''.}
 The goal of the training is to find parameter values
 such that the recommender produces precedences
 that are likely to yield a successful proof in few iterations of the saturation loop.
+\todo{FB: Too vague?}
 
 The recommender consists of modules that perform specific subtasks (see \cref{fig:architecture}):
 \begin{enumerate}
