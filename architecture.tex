@@ -520,27 +520,6 @@ $$
 
 The function $\phi: E \rightarrow E$ maps the edges to their types.
 
-\begin{itemize}
-\item The graph representation of problem $P$ contains exactly one root node of type \ntype{problem}.
-\item Each clause is represented by a \ntype{clause} node connected to the root \ntype{problem} node.
-\item Each atom is represented by an \ntype{atom} node (in case the atom is not an equality)
-or an \ntype{equality} node (in case the atom is an equality).
-For each literal occurrence there is an edge connecting the respective atom to the respective clause.
-The type of the edge corresponds to the polarity of the literal:
-\epos{} for positive literal and \eneg{} for negative literal.
-\item Each \ntype{equality} node is connected to two nodes that represent the operands,
-each of which is of type \ntype{term} or \ntype{variable}.
-The commutativity of the equality operator is reflected by the fact that the operand edges are not ordered.
-\item Each \ntype{atom} node is connected to one \ntype{predicate} node that represents the predicate symbol being applied by this atom.
-Note that these edges connect the applications of a predicate symbol across the whole problem.
-\item Each \ntype{atom} node is connected to zero or more \ntype{argument} nodes that represent the argument positions of the atom.
-\item Each pair of \ntype{argument} nodes that correspond to consecutive argument positions is connected by an edge.
-\item Each \ntype{argument} node is connected to a node that represents the argument term,
-which is either a \ntype{term} node or a \ntype{variable} node.
-\item Each \ntype{term} node is connected to one \ntype{function} node that represents the function symbol being applied by this term.
-\item For each variable, there is an edge connecting the \ntype{clause} node of the clause that binds the variable to the \ntype{variable} node that represents the variable.
-\end{itemize}
-
 \todo[inline]{Abstract from the edge types. Focus on the main idea. Technical details may be in technical report or appendix.}
 
 Various levels of term sharing are possible. [continue]
