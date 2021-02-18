@@ -12,3 +12,6 @@
 
 # Meld
 *.orig
+
+# svg
+svg-inkscape/*
