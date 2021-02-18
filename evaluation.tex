@@ -60,6 +60,34 @@ Ordinary \gls{kbo} was used to compare terms.
 % Notable implicit options:
 % --term_ordering kbo
 
+\subsubsection{Input problems}
+
+The raw input problems are assumed to be specified in the \gls{cnf} or the \gls{fof} fragment
+of the \acrshort{tptp} language \cite{Sutcliffe2017}.
+% http://www.tptp.org/TPTP/SyntaxBNF.html
+Each problem is first preprocessed by Vampire:
+\gls{fof} problems are converted into equisatisfiable \gls{cnf} problems,
+and basic simplifications are performed.
+\todo{FB: Explain in more detail or better terms.}
+New symbols may be introduced into the problems during preprocessing.
+We denote the preprocessed \gls{cnf} problem as $P = (\Sigma, \mathit{Cl})$,
+where $\Sigma$ denotes the list of all predicate and function symbols of the problem,
+and $\mathit{Cl}$ denotes a set of clauses over $\Sigma$ that constitute the problem.
+
+In addition to the signature and the structure of the problem,
+some metadata is extracted from the input problem to allow training a more efficient recommender.
+First, each clause is annotated with its role in the problem,
+which can be either axiom, assumption, or negated conjecture.
+% This is simplified. There are actually 7 clause roles defined internally in Vampire,
+% and it seems that only 4 of them are ever used in FOL problems:
+% AXIOM, ASSUMPTION, CONJECTURE, NEGATED_CONJECTURE
+% CONJECTURE is used in FOF problems and NEGATED_CONJECTURE is used in CNF problems,
+% so the recommender can actually differentiate between these two forms.
+Second, each symbol is annotated with two bits of data:
+whether it was introduced into the problem during preprocessing,
+and whether the symbol appears in a conjecture clause.
+% Note that the second bit is redundant, since the clauses are annotated with their roles.
+
 \subsection{Training data}
 
 The training data consists of examples of the form $(P, \PrecBetter, \PrecWorse)$,
