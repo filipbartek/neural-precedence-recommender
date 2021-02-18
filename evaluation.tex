@@ -287,25 +287,26 @@ vztahnout k casu klauzifikace? Jako rict, ze to trva x-krat dyl nez jen klauzifi
 
 \begin{table*}[h]
 \caption{
-Results of the evaluation of various predicate precedence heuristics on $\ProblemsVal$.
+Results of the evaluation of various predicate precedence heuristics on $\ProblemsVal$
+($\card{\ProblemsVal} = 7648$).
 Means and standard deviations over 5 runs are reported.
 }
 \label{tab:results}
 \centering
-\begin{tabular}{l|ll|ll}
+\begin{tabular}{l|ll|rl}
 
-Model & \multicolumn{2}{l}{Successes out of \num{7648}} & Mean success rate & Baseline multiple \\
-& Mean & Std & & \\
+Model & \multicolumn{2}{l}{Successes on $\ProblemsVal$} & \multicolumn{2}{l}{Improvement over baseline} \\
+& Mean & Std & Absolute & Relative \\
 
 \hline
 
 
 \acrshort{gcn} (predicate and function) &
 % VML-706
-
 \num{3951.6} &
 \num[round-mode=places,round-precision=2]{1.624807680927192} &
-\SI{51.69}{\percent} &
+%\SI{51.69}{\percent} &
++182.0 &
 \num[round-mode=places,round-precision=3]{1.048280985} \\
 
 
@@ -316,16 +317,13 @@ Model & \multicolumn{2}{l}{Successes out of \num{7648}} & Mean success rate & Ba
 % Difference in success count from baseline: 154 ~ 0.020135983
 % Estimated difference from baseline (estimate on 891 problems): 0.021099888
 % Checkpoint: outputs/2021-02-06/14-55-41/tf_ckpts/epoch/weights.00079-0.61.tf VML-540 0.511785
-
 \num{3923.6} &
 % Success mean: validation_solver_eval/all/success/count/mean: 3923.6
-
 \num{2.24} &
 % Success std: validation_solver_eval/all/success/count/std 2.24
-
-\SI{51.30}{\percent} &
+%\SI{51.30}{\percent} &
 % Success rate: 0.513023013
-
++154.0 &
 \num[round-mode=places,round-precision=3]{1.040853141} \\
 
 
@@ -334,23 +332,21 @@ Model & \multicolumn{2}{l}{Successes out of \num{7648}} & Mean success rate & Ba
 % Evaluated checkpoint: outputs/2021-02-16/12-28-14/tf_ckpts/epoch/weights.00289.tf
 % Results file: sftp://cluster.ciirc.cvut.cz/home/bartefil/git/vampire-ml/outputs/2021-02-17/12-01-09/solver_eval/symbol_cost/epoch_-1/logs.yaml
 % Total: val/all/problems/measured&split&category: 7648
-
 \num{3874.2} &
 % Success mean: val/all/success/count/mean: 3874.2
-
 \num[round-mode=places,round-precision=2]{1.8330302779823362} &
 % Success std: val/all/success/count/mean: 1.8330302779823362
-
-\SI{50.66}{\percent} &
+%\SI{50.66}{\percent} &
 % Success rate: val/all/success/count/mean: 0.5065638075313807
-
++104.6 &
 \num[round-mode=places,round-precision=3]{1.027748302} \\
 
 
-Simple &
+Simple (predicate only) &
 \num{3827.2} &
 \num[round-mode=places,round-precision=2]{1.9390719429665317} &
-\SI{50.04}{\percent} &
+%\SI{50.04}{\percent} &
++57.6 &
 \num[round-mode=places,round-precision=3]{1.015280136} \\
 % Final vector from PAAR paper: [0,0.429306921481749,0.57069307851825,0,0,0,0,0,0,0,0,0]
 % Source: https://docs.google.com/spreadsheets/d/1HSsC7piUAtWt6uwA9SYOX5vmiF0Ab3Ae4FPyGsDALIg/edit#gid=99404775
@@ -363,13 +359,10 @@ Simple &
 % Row: 'val&graphified&solver_eval'
 % Problems total: 7648
 % Success rate: 0.492887029
-
 \num{3769.6} &
-
 \num{3.07} &
-
-\SI{49.29}{\percent} &
-
+%\SI{49.29}{\percent} &
+0.0 &
 \num[round-mode=places,round-precision=3]{1.0} \\
 
 
