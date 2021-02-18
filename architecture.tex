@@ -155,7 +155,102 @@ LossFunction -> Loss;
 }
 \end{figure}
 
-\subsection{Precedence generator}
+\subsection{From \gls{cnf} to graphs}
+
+As the first step of the recommender processing pipeline,
+the input problem is converted from a \gls{cnf} representation
+to a \emph{heterogeneous directed graph}.\footnote{Data mining literature often uses the term \gls{hin} \cite{Shi2015} for heterogeneous graphs.
+We prefer to conform to the terminology common in literature studying \glspl{gnn}.}
+\todo{FB: Consider removing the footnote because it is basically useless.}
+Each of the nodes is labeled with a node type,
+and each edge is labeled with an edge type,
+informing the heterogeneous nature of the graph.
+The nodes of the graph correspond to various elements that constitute the \gls{cnf} formula,
+such as clauses, atoms and predicate symbols.
+Each such category of elements corresponds to one node type.
+The edges represent the (oriented) relations between the elements,
+for example the relation between a clause and one of its atoms,
+or the relation between an atom and its predicate symbol.
+\Cref{fig:CnfSchema} shows the types of nodes and edges used in our graph representation.
+
+\todo[inline]{Give an example of a problem and its graph.}
+
+\newcommand{\ntype}[1]{\texttt{#1}}
+\newcommand{\etype}[1]{\texttt{#1}}
+\newcommand{\epos}{\etype{pos}}
+\newcommand{\eneg}{\etype{neg}}
+
+\begin{figure}[h]
+\caption{CNF network schema}
+\label{fig:CnfSchema}
+\centering
+\tikzstyle{token} = [rectangle, draw]
+
+\begin{tikzpicture}[node distance = 1 and 2, ->]
+% https://tex.stackexchange.com/a/332796/202639
+
+% Node and edge types:
+% https://docs.google.com/spreadsheets/d/1PCPHEgk6vLxpdpcvB_PGoLx7p4DID6WtvVWy2mDuv4A/edit?usp=sharing
+
+\node (formula) [token] {\ntype{problem}};
+% TODO: Consider removing the Formula nodes.
+\node (clause) [token, below=of formula] {\ntype{clause}};
+\node (atom) [token, below left=of clause] {\ntype{atom}};
+\node (equality) [token, below right=of clause] {\ntype{equality}};
+\node (predicate) [token, left=of atom] {\ntype{predicate}};
+\node (argument) [token, below=of atom] {\ntype{argument}};
+\node (term) [token, below=of argument] {\ntype{term}};
+\node (function) [token, left=of term] {\ntype{function}};
+\node (variable) [token, right=of term] {\ntype{variable}};
+
+\draw (formula) to node [right] {\etype{contains}} (clause);
+\draw (clause) to [bend right] node [above] {\epos{}} (atom);
+\draw (clause) to [bend left] node [below] {\eneg{}} (atom);
+\draw (clause) to [bend left] node [above] {\epos{}} (equality);
+\draw (clause) to [bend right] node [below] {\eneg{}} (equality);
+\draw (clause) to node [above] {\etype{binds}} (variable);
+\draw (atom) to node [above] {\etype{atom\_applies}} (predicate);
+\draw (atom) to node [left] {\etype{atom\_has}} (argument);
+\draw (equality) to node {\etype{equalizes}} (term);
+\draw (equality) to node {\etype{equalizes}} (variable);
+\draw (argument) to [bend right] node [left] {\etype{is}} (term);
+\draw (argument) to [loop left] node [left] {\etype{precedes}} (argument);
+\draw (argument) to node [below] {\etype{is}} (variable);
+\draw (term) to node [above] {\etype{term\_applies}} (function);
+\draw (term) to [bend right] node [right] {\etype{term\_has}} (argument);
+
+\end{tikzpicture}
+\end{figure}
+
+The graph representation has the following properties:
+\begin{itemize}
+\item For each relation $r$, its inverse $\inv{r}$ is also present in the graph,
+represented by a different edge type (unless $r = \inv{r}$ is an identity).
+% Note: The relation is considered an identity if it is a subset of the complete identity relation.
+\item Lossless: The original problem can be reconstructed from the graph representation completely
+(up to equivalent modifications).
+\item Signature agnostic: Renaming the symbols and variables in the input problem yields an isomorphic graph.
+\item A singleton node of type \ntype{problem} is connected to all the clauses of the problem.
+\item The polarity of the literals is expressed by the type of the edge (\epos{} or \eneg{})
+connecting the respective atom to the clause it occurs in.
+\item For every non-equality atom and term, the order of its arguments is captured by a sequence of \ntype{argument} nodes chained by edges \cite{Rawson2020}.
+\item The two operands of equality are not ordered.
+This reflects the symmetry of equality.
+\item Term-sharing is employed: Redundant atoms and terms share a node representation \cite{}.
+Note that since each variable is bound by a clause,
+ground terms may be shared across clauses,
+but non-ground terms may only be shared within a clause.
+\todo{FB: Remove as of little interest?}
+\end{itemize}
+\todo{FB: Reference appendix if we describe the representation in more detail there.}
+\todo[inline]{MS: Filosoficka k ``can be represented''; mozna by se mohlo nekde objevit:
+Snazime se do struktury HIN ``otisknout'' celou strukturu CNF (jak jsem rikal,
+znamena to, ze zobrazeni je proste), abychom siti nevzali moznost ``vedet o problemu
+uplne vsechno'' (az na veci, na kterych nezalezi jako poradi literaly v klauzulich, etc).
+Ta filosoficka poznamka je o tom, ze pro dobre uceni tohle vlastne vubec nemusi byt treba,
+ze nejaky ``hrubsi otisk'' by mohl stacit tez (a byt treba mensi),
+ale my nevime, jak takovy zvolit. }
+
 
 The precedence generator, given a \gls{cnf} problem $P = (\Sigma, \mathit{Cl})$,
 generates a precedence over $\Sigma$
@@ -448,84 +543,6 @@ Note that this approach is generally applicable to all problems where it is nece
 \subsection{Symbol cost model}
 
 
-
-\subsection{Graph representation of problems}
-
-\newcommand{\ntype}[1]{\texttt{#1}}
-\newcommand{\etype}[1]{\texttt{#1}}
-\newcommand{\epos}{\etype{pos}}
-\newcommand{\eneg}{\etype{neg}}
-
-\todo{MS: HIN bych povazoval za pro CADE-people neznamuy pojem.
-Bude treba uvest aspon jednou vetou. Mozna neco citovat?} 
-
-Every \gls{cnf} problem can be represented by a \gls{hin} with the network schema shown in \cref{fig:CnfSchema}.\todo{MS: Mel jsem chut to opravit na velke "Fig.", ale s makrem se mi hadat nechce ;)}
-% Cite: https://www.kdd.org/exploration_files/V14-02-03-Sun.pdf
-% Referenced from: https://docs.dgl.ai/en/0.5.x/generated/dgl.DGLHeteroGraph.metagraph.html
-\todo{MS: Filosoficka k ``can be represented''; mozna by se mohlo nekde objevit:
-Snazime se do struktury HIN ``otisknout'' celou strukturu CNF (jak jsem rikal,
-znamena to, ze zobrazeni je proste), abychom siti nevzali moznost ``vedet o problemu
-uplne vsechno'' (az na veci, na kterych nezalezi jako poradi literaly v klauzulich, etc).
-Ta filosoficka poznamka je o tom, ze pro dobre uceni tohle vlastne vubec nemusi byt treba,
-ze nejaky ``hrubsi otisk'' by mohl stacit tez (a byt treba mensi),
-ale my nevime, jak takovy zvolit. }
-
-\begin{figure}[ht]
-\caption{CNF network schema}
-\label{fig:CnfSchema}
-\centering
-\tikzstyle{token} = [rectangle, draw]
-
-\begin{tikzpicture}[node distance = 1 and 2, ->]
-% https://tex.stackexchange.com/a/332796/202639
-
-% Node and edge types:
-% https://docs.google.com/spreadsheets/d/1PCPHEgk6vLxpdpcvB_PGoLx7p4DID6WtvVWy2mDuv4A/edit?usp=sharing
-
-\node (formula) [token] {\ntype{problem}};
-% TODO: Consider removing the Formula nodes.
-\node (clause) [token, below=of formula] {\ntype{clause}};
-\node (atom) [token, below left=of clause] {\ntype{atom}};
-\node (equality) [token, below right=of clause] {\ntype{equality}};
-\node (predicate) [token, left=of atom] {\ntype{predicate}};
-\node (argument) [token, below=of atom] {\ntype{argument}};
-\node (term) [token, below=of argument] {\ntype{term}};
-\node (function) [token, left=of term] {\ntype{function}};
-\node (variable) [token, right=of term] {\ntype{variable}};
-
-\draw (formula) to node [right] {\etype{contains}} (clause);
-\draw (clause) to [bend right] node [above] {\epos{}} (atom);
-\draw (clause) to [bend left] node [below] {\eneg{}} (atom);
-\draw (clause) to [bend left] node [above] {\epos{}} (equality);
-\draw (clause) to [bend right] node [below] {\eneg{}} (equality);
-\draw (clause) to node [above] {\etype{binds}} (variable);
-\draw (atom) to node [above] {\etype{atom\_applies}} (predicate);
-\draw (atom) to node [left] {\etype{atom\_has}} (argument);
-\draw (equality) to node {\etype{equalizes}} (term);
-\draw (equality) to node {\etype{equalizes}} (variable);
-\draw (argument) to [bend right] node [left] {\etype{is}} (term);
-\draw (argument) to [loop left] node [left] {\etype{precedes}} (argument);
-\draw (argument) to node [below] {\etype{is}} (variable);
-\draw (term) to node [above] {\etype{term\_applies}} (function);
-\draw (term) to [bend right] node [right] {\etype{term\_has}} (argument);
-
-\end{tikzpicture}
-\end{figure}
-
-The network of a problem is a directed graph $G = (V, E)$.
-The function $\tau: V \rightarrow A$ maps the nodes to their types:
-
-$$
-A = \{\ntype{problem}, \ntype{predicate}, \ntype{function}, \ntype{clause}, \ntype{atom}, \ntype{equality}, \ntype{term}, \ntype{variable}, \ntype{argument}\}
-$$
-
-The function $\phi: E \rightarrow E$ maps the edges to their types.
-
-\todo[inline]{Abstract from the edge types. Focus on the main idea. Technical details may be in technical report or appendix.}
-
-Various levels of term sharing are possible. [continue]
-
-\todo[inline]{Give an example of a problem and its graph.}
 
 \subsection{Generating precedences}
 \label{sec:generating}
