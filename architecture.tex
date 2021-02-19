@@ -101,7 +101,8 @@ and produces a precedence $\pi^*$ over the symbols $\Sigma$ as the output.
 
 The architecture is designed so that the recommender can be trained
 on the results of \gls{atp} executions on various problems with random precedences.
-The recommender is parameterized by weight tensors
+Since the recommender contains a neural network,
+it is parameterized by weight tensors
 whose values can be trained by gradient descent.
 \todo{Ensure we have defined ``gradient descent''.}
 \todo{MS: chapu ucel (a vidim, ze dalsi veta navazuje na ``parameters'', ale je to kostrbate.
@@ -117,7 +118,7 @@ The recommender consists of modules that perform specific subtasks (see \cref{fi
 \begin{enumerate}
 \item Graphifier\todo{MS: Zatim nevidim Graphifier ve \cref{fig:architecture}.} converts the input \gls{cnf} problem into a problem graph.
 \item \gls{gcn} converts a problem graph into symbol embeddings.
-The \gls{gcn} contains one or more convolution layers.
+%The \gls{gcn} contains one or more convolution layers.
 \item Projection converts the symbol embeddings into a vector of symbol costs.
 \item Sorting converts the symbol costs into a symbol precedence.
 It is only used in generating mode.
@@ -174,8 +175,8 @@ We prefer to conform to the terminology common in literature studying \glspl{gnn
 Each of the nodes is labeled with a node type,
 and each edge is labeled with an edge type,
 informing\todo{MS: maybe better ``defining''?} the heterogeneous nature of the graph.
-The nodes of the graph correspond to various elements that constitute the \gls{cnf} formula,
-such as predicate symbols, atoms, and clauses.
+Each node corresponds to one of the elements that constitute the \gls{cnf} formula,
+such as a clause, an atom or a predicate symbol.
 Each such category of elements corresponds to one node type.
 The edges represent the (oriented) relations between the elements,
 for example the incidence relation between a clause and one of its (literal's) atoms,
@@ -233,13 +234,12 @@ or the relation between an atom and its predicate symbol.
 
 The graph representation has the following properties:
 \begin{itemize}
-\item For each relation $r$, its inverse $\inv{r}$ is also present in the graph,
-represented by a different edge type (unless $r = \inv{r}$ is an identity).
-% Note: The relation is considered an identity if it is a subset of the complete identity relation.
-\todo{MS: tohle jsem nepochopil. Nemuzeme rict, ze (az na nejakou vyjimkou) jsou edges v obou smerech?}
 \item Lossless: The original problem can be faithfully reconstructed from the corresponding graph representation
 (up to logical equivalence).
 \item Signature agnostic: Renaming the symbols and variables in the input problem yields an isomorphic graph.
+\item For each relation $r$, its inverse $\inv{r}$ is also present in the graph,
+typically represented by a different edge type.
+\todo{MS: tohle jsem nepochopil. Nemuzeme rict, ze (az na nejakou vyjimkou) jsou edges v obou smerech?}
 \item A singleton node of type \ntype{problem} is connected to all the clauses of the problem.
 \item The polarity of the literals is expressed by the type of the edge (\epos{} or \eneg{})
 connecting the respective atom to the clause it occurs in.
@@ -250,8 +250,8 @@ This reflects the symmetry of equality.
 Predpokladam ze dva ruzne ground literaly p(c) tam budou taky jen jendnou?}
 Redundant atoms and terms share a node representation \cite{}.
 Note that since each variable is bound by a clause,
-ground terms may be shared across clauses,
-but non-ground terms may only be shared within a clause.
+ground terms are shared across clauses,
+but non-ground terms are only shared within the context of a clause.
 \todo{FB: Remove as of little interest?}
 \end{itemize}
 \todo{FB: Reference appendix if we describe the representation in more detail there.}
