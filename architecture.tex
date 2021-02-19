@@ -182,8 +182,7 @@ The edges represent the (oriented) relations between the elements,
 for example the incidence relation between a clause and one of its (literal's) atoms,
 or the relation between an atom and its predicate symbol.
 \Cref{fig:CnfSchema} shows the types of nodes and edges used in our graph representation.
-
-\todo[inline]{Give an example of a problem and its graph.}
+\Cref{fig:GcnExample} shows an example of a graph representation of a simple problem.
 
 \newcommand{\ntype}[1]{\texttt{#1}}
 \newcommand{\etype}[1]{\texttt{#1}}
@@ -230,6 +229,52 @@ or the relation between an atom and its predicate symbol.
 \draw (term) to [bend right] node [right] {\etype{term\_has}} (argument);
 
 \end{tikzpicture}
+\end{figure}
+
+\begin{figure}[h]
+\caption{Graph representation of the \gls{cnf} formula $a=b \wedge f(a,b) \neq f(b,b)$.}
+\label{fig:GcnExample}
+\centering
+\digraph[scale=0.3]{GcnExample}{
+	node [fontsize=32, shape=record];
+	edge [fontsize=32, dir=both, arrowtail=empty];
+	problem [label=<problem|a=b &and; f(a,b)&ne;f(b,b)>];
+	c0 [label="clause|a=b"];
+	c1 [label=<clause|f(a,b)&ne;f(b,b)>];
+	problem -> c0;
+	problem -> c1;
+	t0 [label="equality atom|a=b"];
+	t1 [label="equality atom|f(a,b)=f(b,b)"];
+	c0 -> t0 [label=" + "];
+	c1 -> t1 [label=" &ndash; "];
+	ta [label="term|a"];
+	tb [label="term|b"];
+	ff [label="function|f", style=bold];
+	fa [label="function|a", style=bold];
+	fb [label="function|b", style=bold];
+	tfab [label="term|f(a,b)"];
+	tfbb [label="term|f(b,b)"];
+	tfab0 [label="argument|1", style=dotted];
+	tfab1 [label="argument|2", style=dotted];
+	tfbb0 [label="argument|1", style=dotted];
+	tfbb1 [label="argument|2", style=dotted];
+	t0 -> ta;
+	t0 -> tb;
+	t1 -> tfab;
+	t1 -> tfbb;
+	tfab -> ff;
+	tfab -> tfab0;
+	tfab0 -> tfab1;
+	tfab0 -> ta;
+	tfab1 -> tb;
+	tfbb -> ff;
+	tfbb -> tfbb0;
+	tfbb0 -> tfbb1;
+	tfbb0 -> tb;
+	tfbb1 -> tb;
+	ta -> fa;
+	tb -> fb;
+}
 \end{figure}
 
 The graph representation has the following properties:
