@@ -85,6 +85,9 @@ Second, each symbol is annotated with two bits of data:
 whether it was introduced into the problem during preprocessing,
 and whether the symbol appears in a conjecture clause.
 % Note that the second bit is redundant, since the clauses are annotated with their roles.
+This metadata is used to construct the initial embeddings of the respective nodes
+in the graph representation of the problem (see \cref{sec:gcn}).
+\todo{FB: Consider simplifying the paragraph by removing overlap with \cref{sec:gcn}.}
 
 \subsection{Training data}
 
