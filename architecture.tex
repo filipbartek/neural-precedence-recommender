@@ -325,15 +325,16 @@ of finding a good symbol cost function.
 We use a standard \gls{ml} terminology and denote
 the practical realization of the symbol cost function as \emph{symbol cost model}.
 
-Note here that the symbol precedence heuristics commonly used in practice
+Note that the symbol precedence heuristics commonly used in practice
 conform to this scheme:
 they order the symbols by a numeric property, such as arity or number of occurrences.
+\todo{MS: tohle se mi libi!}
 
 \subsection{Symbol cost model}
 
 The symbol cost model, given a \gls{cnf} problem $P = (\Sigma, \mathit{Cl})$,
 assigns each symbol in $s \in \Sigma$ a real value $c(s)$.
-It first uses a symbol embedding model to assign each symbol an embedding.
+It first uses a symbol embedding model to assign each symbol $s$ an embedding $E(s)$.
 The resulting symbol cost is a dot product of the symbol embedding with a trainable weight vector:
 
 $$
