@@ -316,30 +316,53 @@ for the correctly ranking the symbol in the observed symbol precedences.
 The symbol embeddings are modeled\todo{MS: embeddings are ``output''? } by a \gls{rgcn} \cite{Schlichtkrull2017},
 \todo{Can I use the term \gls{rgcn} when I use a modified version? Namely, the activation is called earlier. MS: sounds good.}
 which is a stack of graph convolutional layers.
-Each layer consists of a collection of differentiable modules --- one for each edge type.
-A pass through the convolutional layer takes the embeddings of all symbols,
-converts them by the edge modules of the adjacent edges to form the messages,\todo{MS: ``message'' occurs for the first time. 
+Each layer consists of a collection of differentiable modules---one module per edge type.
+The computation of the \gls{gcn} starts with assigning each node an initial embedding
+and then repeatedly updates the embeddings by passing them through convolutional layers.
+\todo{Ensure terms are clear (preferably defined): embedding, vector, trainable vector, feature vector.}
+
+The initial embedding is a concatenation of two vectors:
+a node feature vector (typically empty)
+and a trainable vector shared by all nodes of the same type.
+In our particular implementation,
+feature vectors are used in nodes that correspond to clauses and symbols.
+Each clause node has a feature vector with a one-hot encoding of the role of the clause,
+which can be either axiom, assumption, or negated conjecture.
+Each symbol node has a feature vector with two bits of data:
+whether the symbol was introduced into the problem during preprocessing,
+and whether the symbol appears in a conjecture clause.
+
+One pass through the convolutional layer
+updates the node embeddings by passing a message along each of the edges.
+\todo{MS: ``message'' occurs for the first time. 
 Maybe ``a message'', or explain beforehand.}
-passes the messages to the destination nodes
-and aggregates the incoming messages of each node.
-In the simple case that each edge module is a dense layer,\todo{MS: hnidopich nevi, co to znamena ``dense layer''}
-the output embedding $h^{(l+1)}$ is computed from the input embeddings $h^{(l)}$ in the following manner:
+For an edge of type $r \in \mathcal{R}$ going from source node $s$ to destination node $d$ at layer $l$,
+the message is composed by converting the embedding of the source node $h_s^{(l)}$
+using the module associated with the edge type $r$.
+In the simple case that the module is a dense layer with weights $W_r^{(l)}$,
+\todo{MS: hnidopich nevi, co to znamena ``dense layer''}
+the message is $h_s^{(l)} W_r^{(l)}$.
+Each message is then divided by a normalization constant
+$c_{s,d} = \sqrt{\card{\mathcal{N}_s^r}} \sqrt{\card{\mathcal{N}_d^r}}$ \cite{kipf2017semisupervised},
+where $\mathcal{N}_n^r$ is the set of neighbors of node $n$ under the relation $r$.
+\todo{FB: Mention that we mean both in- and out-neighbors?}
+Once all the messages are computed,
+they are aggregated by the destination nodes to form the new node embedding.
+Each node $d$ aggregates all the incoming messages of a given edge type $r$ by summation,
+then passes the sum through an activation function $\sigma$ such as the \gls{relu},
+and finally aggregates the messages across the edge types by summation,
+yielding the new embedding $h_d^{(l+1)}$.
+The following formula captures the update of embedding of node $d$:
 $$
-h_i^{(l+1)} =
-\sum_{r \in \mathcal{R}} \sigma \Parentheses{\sum_{j \in \mathcal{N}_i^r} \frac{1}{c_{ji}} h_j^{(l)} W_r^{(l)}}
+h_d^{(l+1)} =
+\sum_{r \in \mathcal{R}} \sigma \Parentheses{\sum_{j \in \mathcal{N}_s^r} \frac{1}{c_{s,d}} h_s^{(l)} W_r^{(l)}}
 $$
 %$$
 %h_i^{(l+1)} =
 %\mathrm{LayerNorm} \Parentheses{h_i^{(l)} + \sum_{r \in \mathcal{R}} \sigma \Parentheses{\sum_{j \in %\mathcal{N}_i^r} \frac{1}{c_{ji}} h_j^{(l)} W_r^{(l)}}}
 %$$
 % Inspiration: https://ufal.mff.cuni.cz/~straka/courses/npfl114/1920/slides.pdf/npfl114-07.pdf - slide 27 - Transformer
-\todo{FB: Mention inspiration: Transformer. See Straka's slides.}
-$h_i^{(l)}$ denotes the embedding of node $i$ at layer $l$.
-$\mathcal{R}$ denotes the set of all relations in the graph.
-$\sigma$ denotes the activation function, for example the \gls{relu}.
-$\mathcal{N}_i^r$ denotes the set of neighbors of node $i$ under relation $r$.
-$c_{j, i, r} = \sqrt{\card{\mathcal{N}_j^r}} \sqrt{\card{\mathcal{N}_i^r}}$ is a normalization constant \cite{kipf2017semisupervised}.
-$W_r^{(l)}$ is a trainable weight matrix representing relation $r$ at layer $l$.
+%\todo{FB: Mention inspiration: Transformer. See Straka's slides.}
 
 \todo[inline]{Explain residual connections and layer normalization.}
 \todo[inline]{MS: neni uplne jiste, ze ``CADE people'' oceni presny zapis 
