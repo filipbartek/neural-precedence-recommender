@@ -107,7 +107,18 @@ compared to the state-of-the-art heuristic.
 
 % Filip: I decided not to follow the AWR structure in favor of Martin and CADE.
 
-\todo[inline,author=FB]{Mention contributions explicitly.}
+Our contributions:
+\begin{itemize}
+\item Up to our knowledge, \cref{sec:architecture} constitutes the first attempt
+to propose good symbol precedences automatically using a non-linear transformation of the input problem structure.
+Specifically, we explore the possibility of using a \gls{gnn} to learn symbol representations conducive for creating good precedences.
+\item The experimental evaluation in \cref{sec:evaluation} proves practical feasibility of the proposed approach.
+\item Besides tackling the particular task of generating symbol precedences,
+the approach described in \cref{sec:architecture} may be of a more general interest
+for a researcher trying to apply statistical learning to produce arbitrarily long permutations
+that optimize some non-differentiable quantitative criterion.
+\todo{FB: Give examples of such tasks. How about constructive TSP?}
+\end{itemize}
 
 \iffalse % AWR draft
 
