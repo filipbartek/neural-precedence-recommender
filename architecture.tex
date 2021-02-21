@@ -392,8 +392,52 @@ For input problem $P$
 with signature $\Sigma = (s_1, \ldots, s_n)$,
 we denote the cost of the $i$-th symbol as $c(i)$.
 
+\subsection{Ranking: From symbol costs to precedence}
 
-\subsection{Sort: From symbol costs to precedence}
+We extend the notion of cost from symbols to precedences
+by summing up the symbol costs
+weighted by their positions in the given precedence $\pi$:
+$$
+C(\pi) = \sum_{i=1}^n c(\pi(i)) \cdot i
+$$
+
+\begin{lemma}
+Precedence cost $C$ is minimized by the precedence that ranks the symbols by their costs in non-increasing order:
+% FB: The ranking terminology is from Fast Differentiable [...] Ranking.
+$$
+\argmin_\pi C(\pi) \in \argsort^- (c(1), \ldots, c(n))
+$$
+\end{lemma}
+
+\begin{proof}
+We prove the lemma by contradiction.
+Let $\pi$ minimize $C$ and let $\pi$ not rank the costs in non-increasing order.
+Then there exist $k < l$ such that $c(\pi(k)) < c(\pi(l))$.
+Let $\bar{\pi}$ be a precedence obtained from $\pi$ by swapping the elements $k$ and $l$.
+%$\bar{\pi} = (\pi(1), \ldots, \pi(k-1), \pi(l), \pi(k+1), \ldots, \pi(l-1), \pi(k), \pi(l+1), \ldots, \pi(n))$.
+\begin{align*}
+C(\bar{\pi}) - C(\pi)
+&= kc(\bar{\pi}(k)) + lc(\bar{\pi}(l)) - kc(\pi(k)) - lc(\pi(l)) \\
+&= kc(\pi(l)) + lc(\pi(k)) - kc(\pi(k)) - lc(\pi(l)) \\
+&= k(c(\pi(l)) - c(\pi(k))) - l(c(\pi(l)) - c(\pi(k))) \\
+&= (k-l) (c(\pi(l)) - c(\pi(k))) \\
+&< 0
+\end{align*}
+The final inequality is due to the assumption that $k-l < 0$ and
+$c(\pi(l)) - c(\pi(k)) > 0$.
+Thus, $C(\bar{\pi}) < C(\pi)$, which is contradicts the assumption that $\pi$ minimizes $C$. \qed
+\end{proof}
+
+Once the symbol costs are known,
+producing a precedence that minimizes the precedence cost is cheap
+because ranking is a fast operation.
+
+Note that the precedence that minimizes $C$
+orders the symbols with the lowest cost as the last,
+prioritizing them for early inferences.
+
+\todo[inline]{FB: Why is the equality predicate always the first in the precedence?}
+
 
 \subsection{Loss}
 
