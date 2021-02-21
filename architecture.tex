@@ -165,6 +165,7 @@ LossFunction -> Loss;
 \end{figure}
 
 \subsection{From \gls{cnf} to graphs}
+\label{sec:graphifier}
 
 As the first step of the recommender processing pipeline,
 the input problem is converted from a \gls{cnf} representation
@@ -378,6 +379,7 @@ To uz originalni je (a soutezi to s representacemi jako ta Mirkova)
 a popisujes to pak dal.}
 
 \subsection{Output layer: From symbol embeddings to symbol costs}
+\label{sec:output}
 
 The symbol cost of each symbol is computed by passing the symbol's embedding through a dense layer with a single output unit.
 No activation function is applied so that the output values can span the whole $\re$.
@@ -391,8 +393,11 @@ arguably because the underlying \gls{gcn} learns a sufficiently complex transfor
 For input problem $P$
 with signature $\Sigma = (s_1, \ldots, s_n)$,
 we denote the cost of the $i$-th symbol as $c(i)$.
+\todo{FB: Consider using $c(s_i)$.}
+\todo{FB: Consider making the background problem explicit by using $c(i|P)$ or $C(i,P)$.}
 
 \subsection{Ranking: From symbol costs to precedence}
+\label{sec:ranking}
 
 We extend the notion of cost from symbols to precedences
 by summing up the symbol costs
@@ -400,6 +405,8 @@ weighted by their positions in the given precedence $\pi$:
 $$
 C(\pi) = \sum_{i=1}^n c(\pi(i)) \cdot i
 $$
+\todo{FB: Consider making the background problem explicit by using $C(\pi|P)$ or $C(\pi,P)$.}
+\todo[inline]{FB: Consider accessing elements $\pi$ as vector elements $\pi_i$ instead of $\pi(i)$. Keep in mind that $\inv{\pi}$ must be updated as well. The motivation for using $\pi(i)$ is that $\inv{\pi}(i)$ looks clearer than $\inv{\pi}_i$. How about using $(\inv{\pi})_i$? We may also omit the inversion completely.}
 
 \begin{lemma}
 Precedence cost $C$ is minimized by the precedence that ranks the symbols by their costs in non-increasing order:
@@ -437,8 +444,139 @@ orders the symbols with the lowest cost as the last,
 prioritizing them for early inferences.
 
 \todo[inline]{FB: Why is the equality predicate always the first in the precedence?}
+\todo[inline]{FB: Mention that the common heuristics fit this scheme.}
 
-\subsection{Loss function}
+\subsection{Training}
+
+In \cref{sec:graphifier,sec:gcn,sec:output,sec:ranking} we described the structure of a recommender system that generates a precedence for an arbitrary input problem.
+The efficacy of the recommender depends on the quality of the underlying symbol cost function.
+In theory, the symbol cost function can assign the costs so that
+ranking the symbols by their costs yields an optimum precedence,
+and all the information necessary to determine the optimum precedence is present in the graph representation of the input problem.
+Our approach to defining an appropriate symbol cost function is based on statistical learning
+from executions of an \gls{atp} on a set of problems with various precedences.
+
+\subsubsection{Training data}
+
+Each training example has the form $(P, \PrecBetter, \PrecWorse)$,
+where $P = (\Sigma, \mathit{Cl})$ is a problem
+and $\PrecBetter, \PrecWorse$ are precedences over $\Sigma$
+such that $\PrecBetter$ solves $P$ in fewer iterations of the saturation loop than $\PrecWorse$,
+denoted as $\Better{\PrecBetter}{\PrecWorse}$.
+\todo{Is this sufficient?}
+
+\subsubsection{Loss function}
+
+\todo{Two levels of proxy metrics: 0-1 loss, differentiable loss (hinge, logistic)}
+
+To ensure that ranking the symbols by their costs
+yields a good precedence,
+we want the symbol cost function $c$
+to satisfy the inequality $C(\PrecBetter) < C(\PrecWorse)$
+which can alternatively be expressed as $s(\PrecBetter, \PrecWorse) = C(\PrecBetter) - C(\PrecWorse) < 0$.
+We consider the value $s(\PrecBetter, \PrecWorse)$
+to be the score of the (ordered) precedence pair $(\PrecBetter, \PrecWorse)$.
+Given a set of examples of the form $(P, \PrecBetter, \PrecWorse)$
+where $\Better{\PrecBetter}{\PrecWorse}$,
+our goal is to maximize the accuracy
+$\frac{1}{m} \sum_x \iverson{s(\PrecBetter, \PrecWorse) < 0}$.
+% Alternative: We actually don't care about the relative order of non-minimum precedences.
+
+A common approach to training a binary classifier is to relax the non-differentiable accuracy $[s(\PrecBetter, \PrecWorse) < 0]$
+to a differentiable proxy
+such as the logistic loss
+$L = - \log \sigmoid s(\PrecBetter, \PrecWorse)$.
+
+\subsection{Notes}
+
+We need to train $c$ in a way that ensures that $C$ is minimized by a good precedence.
+On pairs,
+$C(\pi)$ should be smaller than $C(\rho)$ iff $\Better{\pi}{\rho}$.
+
+% What if we trained the binary classifier on vector:
+% C(\pi), C(\rho), C(\pi)^2, C(\rho)^2 (kernel trick?)
+
+Let $P = (\Sigma, \mathit{Cl})$ be a problem.
+Let $\PrecBetter, \PrecWorse$ be two precedences over $\Sigma$.
+% that are comparable according to AST.
+Let $y = 1$ if $\PrecBetter$ is better than $\PrecWorse$,
+denoted as $\Better{\PrecBetter}{\PrecWorse}$,
+and $y = 0$ otherwise.
+
+The examples that the recommender will be trained on have the form
+$(P, \PrecBetter, \PrecWorse)$, where $P = (\Sigma, \mathit{Cl})$ is a \gls{cnf} problem, and $\PrecBetter, \PrecWorse$ are precedences over $\Sigma$
+where $\PrecBetter$ yields a faster proof search than $\PrecWorse$,
+\todo{FB: Rephrase?}
+denoted as $\Better{\PrecBetter}{\PrecWorse}$.
+
+Given an example $x$,
+a binary classifier predicts the probability of event $1$,
+denoted as $p(x)$.
+The classifier is trained on samples of the form $(x, y)$,
+where $x$ is the observable state and $y \in \{0, 1\}$ is the target label.
+Logistic regression is a popular approach to train a binary classifier.
+Logistic regression is based on the logistic loss:
+$$
+L(x, y) = - y \log p(x) - (1-y) \log (1-p(x))
+$$
+
+
+% Hinge loss (y \in {-1, 1}):
+% L = max(0, 1 - ty)
+% t = 1: L = max(0, 1-y)
+
+% Binary crossentropy (y \in {0, 1}):
+% L = - y log p(1)) - (1-y) log p(0)
+% y = 1: L = - log p(1) = - log sigmoid c
+
+We train the system on results of \gls{atp} executions on problems with random precedences.
+Let $P = (\Sigma, \mathit{Cl})$ be a problem
+and let $\PrecBetter, \PrecWorse$ be two precedences over $\Sigma$.
+We run an \gls{atp} on $P$ with the two precedences.
+If the run with $\PrecBetter$ finds the proof successfully and uses less saturation loop iterations than the run with $\PrecWorse$,
+we can be certain that $\PrecBetter$ is a better precedence for $P$ than $\PrecWorse$,
+denoted as $\Better{\PrecBetter}{\PrecWorse}$.
+
+A binary classifier predicts the probability of complementary events $0$ and $1$,
+denoted as $p(0)$ and $p(1)$ respectively.
+The events are complementary,
+meaning $p(0) = 1 - p(1)$ and $p(0) + p(1) = 1$.
+
+A binary classifier with a binary crossentropy loss
+takes the predicted probability $p$ of events $0, 1$
+and computes the loss:
+$$
+L(y) = y log(p(1)) + (1-y) log(p(0))
+$$
+
+The examples that the recommender will be trained on have the form
+$(P, \PrecBetter, \PrecWorse)$, where $P = (\Sigma, \mathit{Cl})$ is a \gls{cnf} problem, and $\PrecBetter, \PrecWorse$ are precedences over $\Sigma$
+where $\PrecBetter$ yields a faster proof search than $\PrecWorse$,
+\todo{FB: Rephrase?}
+denoted as $\Better{\PrecBetter}{\PrecWorse}$.
+
+We train a binary classifier that decides,
+for a pair of precedences $\PrecBetter, \PrecWorse$,
+whether $\Better{\PrecBetter}{\PrecWorse}$.
+Since all the training examples are oriented so that $\Better{\PrecBetter}{\PrecWorse}$,
+the classification target value for all the samples is $1$.
+\todo{FB: Somebody might think that this is a problem because the classifier can simply learn to always say "1". The structure of the classifier ($C(x_1) - C(x_2)$) prevents that. Consider explaining.}
+Thus the binary crossentropy loss can be expressed as a simple expression:
+$$
+L(P, \PrecBetter, \PrecWorse) = - \log \sigmoid (C(\PrecWorse) - C(\PrecBetter))
+$$
+
+Derivation:
+$$
+L(P, \PrecBetter, \PrecWorse) = - \sum y \log p(y)
+$$
+
+$$
+p(0) = \sigmoid (C(\PrecBetter) - C(\PrecWorse)) \\
+p(1) = \sigmoid (C(\PrecWorse) - C(\PrecBetter))
+$$
+
+\todo{Mention normalization.}
 
 \subsection{[Alternative: Top-down approach]}
 
@@ -489,10 +627,6 @@ because the sorting operation is not differentiable
 and because we generally don't know the best precedence on a given problem.
 
 \todo[inline]{Idea for next project: Optimize precedence directly in a RL fashion: Generate precedence and evaluate with Vampire. If it is the best precedence seen so far, loss is 0 and gradient is 0. Otherwise ground truth is the best precedence seen so far on this problem and we use "differentiable ranking" to backpropagate. Possibly with some exploration, e.g. random swaps of pairs of symbols.}
-
-\newcommand{\Prec}{\pi}
-\newcommand{\PrecBetter}{\pi}
-\newcommand{\PrecWorse}{\rho}
 
 \subsection{Overview}
 
