@@ -360,7 +360,7 @@ yielding the new embedding $h_d^{(l+1)}$.
 The following formula captures the update of embedding of node $d$:
 $$
 h_d^{(l+1)} =
-\sum_{r \in \mathcal{R}} \sigma \Parentheses{\sum_{j \in \mathcal{N}_s^r} \frac{1}{c_{s,d}} h_s^{(l)} W_r^{(l)}}
+\sum_{r \in \mathcal{R}} \sigma \Parentheses{\sum_{s \in \mathcal{N}_d^r} \frac{1}{c_{s,d}} (h_s^{(l)} W_r^{(l)} + b_r^{(l)})}
 $$
 %$$
 %h_i^{(l+1)} =
