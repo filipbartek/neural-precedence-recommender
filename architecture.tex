@@ -117,10 +117,9 @@ The recommender consists of modules that perform specific subtasks,
 each of which is described in detail in one of the following sections (see also \cref{fig:architecture}):
 \begin{enumerate}
 \item Graphifier converts the input \gls{cnf} problem into a problem graph.
-\item \gls{gcn} converts a problem graph into symbol embeddings.
-%The \gls{gcn} contains one or more convolution layers.
-\item Projection converts the symbol embeddings into a vector of symbol costs.
-\item Sorting converts the symbol costs into a symbol precedence.
+\item \Gls{gcn} converts a problem graph into symbol embeddings.
+\item Output function \cite{Zhou2018} converts the symbol embeddings into a vector of symbol costs.
+\item Ranking converts the symbol costs into a symbol precedence.
 It is only used in generating mode.
 \item Loss function converts the symbol costs and a pair of precedences into a loss value.
 It is only used in training mode.
