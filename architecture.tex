@@ -377,7 +377,21 @@ potom je az to, jak se problem $P$ ``otiskne'' v topologii grafu.
 To uz originalni je (a soutezi to s representacemi jako ta Mirkova)
 a popisujes to pak dal.}
 
-\subsection{Projection: From symbol embeddings to symbol costs}
+\subsection{Output layer: From symbol embeddings to symbol costs}
+
+The symbol cost of each symbol is computed by passing the symbol's embedding through a dense layer with a single output unit.
+No activation function is applied so that the output values can span the whole $\re$.
+
+Note that it is possible to use a more complex projection module,
+e.g., a feed-forward network with one or more hidden layers.
+\todo{FB: Ensure the term is defined.}
+Our experiments showed no significant improvement when a hidden layer is added,
+arguably because the underlying \gls{gcn} learns a sufficiently complex transformation.
+
+For input problem $P$
+with signature $\Sigma = (s_1, \ldots, s_n)$,
+we denote the cost of the $i$-th symbol as $c(i)$.
+
 
 \subsection{Sort: From symbol costs to precedence}
 
