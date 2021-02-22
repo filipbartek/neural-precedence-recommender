@@ -110,7 +110,7 @@ Recommender = system, chapu jako program. Programy vetsinou neparametrizujeme te
 nez aby parametrizovane programy primo ucil. Uceni je spis nejaka technologie, kterou recommender pouziva, aby ... ``produces precedences
 that are likely to yield a successful proof''.  }
 The goal of the training is to find parameter values such that the recommender produces precedences
-that are likely to yield a successful proof in as few iterations of the saturation loop as possible.\todo{MS: mozna udernejsi?}
+that are likely to yield a successful proof in as few iterations of the saturation loop as possible.
 
 The recommender consists of modules that perform specific subtasks,
 each of which is described in detail in one of the following sections (see also \cref{fig:architecture}):
@@ -120,7 +120,8 @@ each of which is described in detail in one of the following sections (see also 
 \todo{MS: Kdyz embeddingy nebudou v preliminaries, je asi OK ctenare, ktery by o nich neslysel, zde trochu vydesit.
 Ale v te prislusne podsekci tim zas zacit.}
 \item An output function \cite{Zhou2018} converts the symbol embeddings into a vector of symbol costs.
-\todo{MS: ``output function \cite{Zhou2018}'' my nic nerika, mel bych to znat?}
+\todo{MS: ``output function \cite{Zhou2018}'' my nic nerika, mel bych to znat?\\
+FB: Zhou2018 je review GNNs. Output function je termin, ktery se tam pouziva. Ta citace je nejspis tady nepotrebna.}
 \item Ranking converts the symbol costs into a symbol precedence.
 It is only used in generating mode.
 \item Loss function converts the symbol costs and a pair of precedences into a loss value.
@@ -185,7 +186,7 @@ The edges represent the (oriented) relations between the elements,
 for example the incidence relation between a clause and one of its (literals') atoms,
 or the relation between an atom and its predicate symbol.
 \Cref{fig:CnfSchema} shows the types of nodes and edges used in our graph representation.
-\Cref{fig:GcnExample}\todo{MS: ten se mi libi!} shows an example of a graph representation of a simple problem.
+\Cref{fig:GcnExample} shows an example of a graph representation of a simple problem.
 
 \newcommand{\ntype}[1]{\texttt{#1}}
 \newcommand{\etype}[1]{\texttt{#1}}
@@ -323,16 +324,11 @@ For each symbol in the problem,
 we seek to find a vector representation, i.e., an \emph{embedding},
 that captures the symbol's properties that are relevant
 for correctly ranking the symbol in the observed symbol precedences.
-\todo{FB: What does "correct" mean? MS: nic moc, ale v prvnim paragrafu sekce se to snad snese a zni to imho dobre:)
-Nebo mas lepsi napad? "successfully"?
-Napsat presne ale strucne, ze ty embeddingy jsou takove, aby siti pomohly mit co nejnizsi loss na proxy tasku 
-hadani dvojic otazek, bude o dost tezsi...}
 The symbol embeddings are output by a \gls{rgcn} \cite{Schlichtkrull2017},
 which is a stack of graph convolutional layers.
 Each layer consists of a collection of differentiable modules---one module per edge type.
 The computation of the \gls{gcn} starts with assigning each node an initial embedding
 and then repeatedly updates the embeddings by passing them through convolutional layers.
-\todo{MS: to se mi libi, ze to nekde zacina a nekam to smeruje.}
 \todo{FB: Ensure terms are clear (preferably defined): embedding, vector, trainable vector, feature vector.
 MS: (convolutional, layers, ...)}
 
@@ -354,8 +350,8 @@ the message is composed by converting the embedding of the source node $h_s^{(l)
 using the module associated with the edge type $r$.
 In the simple case that the module is a dense layer with weight matrix $W_r^{(l)}$,
 \todo{MS: hnidopich nevi, co to znamena ``dense layer''}
-the message is $h_s^{(l)} W_r^{(l)}$.\todo{MS: mas nejakou preferenci pro column/row vectors a z jake strany je prirozene nasobit?
-Ja bych mozna spis psal $W_r^{(l)} h_s^{(l)}$, a mozna s explicitnim  $W_r^{(l)} \cdot h_s^{(l)}$.}
+the message is $W_r^{(l)} h_s^{(l)}$.
+% Notation is from Kipf: RGCN paper.
 Each message is then divided by a normalization constant
 $c_{s,d} = \sqrt{\card{\mathcal{N}_s^r}} \sqrt{\card{\mathcal{N}_d^r}}$ \cite{kipf2017semisupervised},
 where $\mathcal{N}_n^r$ is the set of neighbors of node $n$ under the relation $r$.
@@ -369,7 +365,7 @@ yielding the new embedding $h_d^{(l+1)}$.
 The following formula captures the update of embedding of node $d$:
 $$
 h_d^{(l+1)} =
-\sum_{r \in \mathcal{R}} \sigma \Parentheses{\sum_{s \in \mathcal{N}_d^r} \frac{1}{c_{s,d}} (h_s^{(l)} W_r^{(l)} + b_r^{(l)})}
+\sum_{r \in \mathcal{R}} \sigma \Parentheses{\sum_{s \in \mathcal{N}_d^r} \frac{1}{c_{s,d}} (W_r^{(l)} h_s^{(l)} + b_r^{(l)})}
 $$
 %$$
 %h_i^{(l+1)} =
@@ -448,9 +444,10 @@ Thus, $C(\bar{\pi}) < C(\pi)$, which is contradicts the assumption that $\pi$ mi
 
 Once the symbol costs are known,
 producing a precedence that minimizes the precedence cost is cheap
-because ranking is a fast operation.\todo{MS: can we not say ``sorting''? Also slightly earlier.}
+because ranking is a fast operation.\todo{MS: can we not say ``sorting''? Also slightly earlier.\\
+FB: This terminology is from the "Fast differentiable ranking" paper. Sorting rearranges the input vector. Ranking is argsort.}
 
-Note that a precedence that minimizes $C$\todo{MS: Indefinite article; there can be more than one such...}
+Note that a precedence that minimizes $C$
 orders the symbols with the lowest cost as the last, prioritizing them for early inferences.
 
 \todo[inline]{FB: Why is the equality predicate always the first in the precedence?
@@ -464,13 +461,11 @@ In \cref{sec:graphifier,sec:gcn,sec:output,sec:ranking} we described the structu
 The efficacy of the recommender depends on the quality of the underlying symbol cost function.
 In theory, the symbol cost function can assign the costs so that
 ranking the symbols by their costs yields an optimum precedence.
-\todo{MS: hezky, to zacina dobre!}
-Furthermore, all the information necessary to determine the optimum precedence is present in the graph representation of the input problem.
-\todo{MS: ``because the of the lossless property of the graph encoding mentioned before.''
-(Na druhou stranu nevime, jestli to dokaze zvladnout navrzena architectura.)}
+Furthermore, all the information necessary to determine the optimum precedence is present in the graph representation of the input problem
+thanks to the lossless property of the graph encoding mentioned before.
 \todo{MS: Hlavne tady ale jakoby chybi druha pulky ty vety. Neco jako ``In practice, however, ...'' Nemyslis?} 
 Our approach to defining an appropriate symbol cost function is based on statistical learning
-from executions of an \gls{atp} on a set of problems with various\todo{MS: proc ne ``random''?} precedences.
+from executions of an \gls{atp} on a set of problems with random precedences.
 
 Our ultimate goal is to train the precedence cost function $C$ so that it is minimized by the best precedence,
 measuring the quality of a precedence by the number of iterations of the saturation loop taken to solve the problem.
@@ -498,8 +493,11 @@ denoted as $\Better{\PrecBetter}{\PrecWorse}{P}$.
 
 Let $(P, \PrecBetter, \PrecWorse)$ be a training example ($\Better{\PrecBetter}{\PrecWorse}{P}$).
 The precedence cost classifies this example correctly if $C(\PrecBetter) < C(\PrecWorse)$,
-or alternatively $C_2(\PrecBetter, \PrecWorse) = C(\PrecBetter) - C(\PrecWorse) < 0$.
+or alternatively $C_2(\PrecBetter, \PrecWorse) = C(\PrecWorse) - C(\PrecBetter) > 0$.
+% We have positive C_2 score for correctly predicted examples.
+% The loss function transorms that into a loss value close to 0.
 We approach this problem as an instance of binary classification with the logistic loss \cite{Mohri2018}:
+% p. 128
 \todo{MS: First mention of a ``binary classifier''!
 We classify the examples, sure, but you did not say it yet.}
 \begin{align*}
@@ -508,8 +506,6 @@ L(P, \PrecBetter, \PrecWorse)
 %&= - \log \sigmoid (C(\PrecBetter) - C(\PrecWorse)) \\
 %&= - \log \sigmoid \sum_{i=1}^n i (c(\PrecBetter(i)) - c(\PrecWorse(i)))
 \end{align*}
-\todo{MS: neni tu ted spatne zniminko? Nebo spis uz v definici score? Cekal bych, ze pro positivni examply (coz jsou u nas vsechny)
-bude chit $s$ kladne.}
 
 Note that the classifier cannot simply train $C_2$ to output a negative number on all pairs of precedences,
 because $C_2$ is a difference of two precedence costs.
