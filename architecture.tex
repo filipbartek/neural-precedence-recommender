@@ -514,10 +514,12 @@ The precedence cost classifies this example correctly if $C(\PrecBetter) < C(\Pr
 or alternatively $S(\PrecBetter, \PrecWorse) = C(\PrecWorse) - C(\PrecBetter) > 0$.
 % We have positive S score for correctly predicted examples.
 % The loss function transorms that into a loss value close to 0.
-We approach this problem as an instance of binary classification with the logistic loss \cite{Mohri2018}:
+We approach this problem as an instance of binary classification with the logistic loss \cite{Mohri2018},
 % p. 128
-\todo{MS: First mention of a ``binary classifier''!
-We classify the examples, sure, but you did not say it yet.}
+a loss function routinely used in classification tasks in \acrlong{ml}:
+\todo[inline]{MS: First mention of a ``binary classifier''!
+We classify the examples, sure, but you did not say it yet.\\
+FB: Is it ok to mention binary classification for the first time here if we cite \cite{Mohri2018} immediately?}
 \begin{align*}
 \loss(P, \PrecBetter, \PrecWorse)
 &= - \log \sigmoid S(\PrecBetter, \PrecWorse)
