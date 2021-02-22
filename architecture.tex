@@ -496,8 +496,8 @@ denoted as $\Better{\PrecBetter}{\PrecWorse}{P}$.
 
 Let $(P, \PrecBetter, \PrecWorse)$ be a training example ($\Better{\PrecBetter}{\PrecWorse}{P}$).
 The precedence cost classifies this example correctly if $C(\PrecBetter) < C(\PrecWorse)$,
-or alternatively $C_2(\PrecBetter, \PrecWorse) = C(\PrecWorse) - C(\PrecBetter) > 0$.
-% We have positive C_2 score for correctly predicted examples.
+or alternatively $S(\PrecBetter, \PrecWorse) = C(\PrecWorse) - C(\PrecBetter) > 0$.
+% We have positive S score for correctly predicted examples.
 % The loss function transorms that into a loss value close to 0.
 We approach this problem as an instance of binary classification with the logistic loss \cite{Mohri2018}:
 % p. 128
@@ -505,13 +505,13 @@ We approach this problem as an instance of binary classification with the logist
 We classify the examples, sure, but you did not say it yet.}
 \begin{align*}
 L(P, \PrecBetter, \PrecWorse)
-&= - \log \sigmoid C_2(\PrecBetter, \PrecWorse)
+&= - \log \sigmoid S(\PrecBetter, \PrecWorse)
 %&= - \log \sigmoid (C(\PrecBetter) - C(\PrecWorse)) \\
 %&= - \log \sigmoid \sum_{i=1}^n i (c(\PrecBetter(i)) - c(\PrecWorse(i)))
 \end{align*}
 
-Note that the classifier cannot simply train $C_2$ to output a negative number on all pairs of precedences,
-because $C_2$ is a difference of two precedence costs.
+Note that the classifier cannot simply train $S$ to output a negative number on all pairs of precedences,
+because $S$ is a difference of two precedence costs.
 By training on the example $(P, \PrecBetter, \PrecWorse)$,
 we are effectively pushing $C(\PrecBetter)$ down and $C(\PrecWorse)$ up.
 
