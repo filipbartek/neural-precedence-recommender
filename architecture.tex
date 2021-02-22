@@ -412,8 +412,21 @@ We extend the notion of cost from symbols to precedences
 by summing up the symbol costs
 weighted by their positions in the given precedence $\pi$:
 $$
-C(\pi) = \sum_{i=1}^n c(\pi(i)) \cdot i
+C(\pi) = Z_n \sum_{i=1}^n i \cdot c(\pi(i))
+% We call the normalization factor Z_n to follow convention from Foundations of Machine Learning, p. 122.
 $$
+$Z_n = \frac{2}{n(n+1)}$ is a normalization factor
+that ensures the commensurability of precedence costs across signature sizes.
+More precisely, normalizing by $Z_n$ makes the expected value of precedence cost
+independent of the signature size $n$:
+\begin{align*}
+\mathbb{E}_\pi [C(\pi)]
+&= \mathbb{E}_\pi \SquareBracket{Z_n \sum_{i=1}^n i \cdot c(\pi(i))} \\
+&= Z_n \sum_{i=1}^n i \cdot \mathbb{E}_{\pi, i} [c(\pi(i))] \\
+&= Z_n \Parentheses{\sum_{i=1}^n i} \mathbb{E}_i [c(i)] \\
+&= \frac{2}{n(n+1)} \frac{n(n+1)}{2} \mathbb{E}_i [c(i)] \\
+&= \mathbb{E}_i [c(i)]
+\end{align*}
 \todo{FB: Consider making the background problem explicit by using $C(\pi|P)$ or $C(\pi,P)$.}
 \todo[inline]{FB: Consider accessing elements $\pi$ as vector elements $\pi_i$ instead of $\pi(i)$. Keep in mind that $\inv{\pi}$ must be updated as well. The motivation for using $\pi(i)$ is that $\inv{\pi}(i)$ looks clearer than $\inv{\pi}_i$. How about using $(\inv{\pi})_i$? We may also omit the inversion completely.}
 
@@ -433,14 +446,16 @@ Let $\bar{\pi}$ be a precedence obtained from $\pi$ by swapping the elements $k$
 Then we obtain
 %$\bar{\pi} = (\pi(1), \ldots, \pi(k-1), \pi(l), \pi(k+1), \ldots, \pi(l-1), \pi(k), \pi(l+1), \ldots, \pi(n))$.
 \begin{align*}
-C(\bar{\pi}) - C(\pi)
+\frac{C(\bar{\pi}) - C(\pi)}{Z_n}
 &= kc(\bar{\pi}(k)) + lc(\bar{\pi}(l)) - kc(\pi(k)) - lc(\pi(l)) \\
 &= kc(\pi(l)) + lc(\pi(k)) - kc(\pi(k)) - lc(\pi(l)) \\
 &= k(c(\pi(l)) - c(\pi(k))) - l(c(\pi(l)) - c(\pi(k))) \\
 &= (k-l) (c(\pi(l)) - c(\pi(k))) \\
 &< 0
 \end{align*}
+\todo{FB: Isn't the inclusion of $Z_n$ too confusing?}
 The final inequality is because $k-l < 0$ and $c(\pi(l)) - c(\pi(k)) > 0$.
+Clearly, $Z_n > 0$ for any $n \geq 0$.
 Thus, $C(\bar{\pi}) < C(\pi)$, which is contradicts the assumption that $\pi$ minimizes $C$. \qed
 \end{proof}
 
