@@ -109,16 +109,18 @@ whose values can be trained by gradient descent.
 Recommender = system, chapu jako program. Programy vetsinou neparametrizujeme tenzorama a gradient descent zije na jine urovni,
 nez aby parametrizovane programy primo ucil. Uceni je spis nejaka technologie, kterou recommender pouziva, aby ... ``produces precedences
 that are likely to yield a successful proof''.  }
-The goal of the training is to find parameter values
-such that the recommender produces precedences
-that are likely to yield a successful proof in few iterations of the saturation loop.
+The goal of the training is to find parameter values such that the recommender produces precedences
+that are likely to yield a successful proof in as few iterations of the saturation loop as possible.\todo{MS: mozna udernejsi?}
 
 The recommender consists of modules that perform specific subtasks,
 each of which is described in detail in one of the following sections (see also \cref{fig:architecture}):
 \begin{enumerate}
 \item Graphifier converts the input \gls{cnf} problem into a problem graph.
 \item \Gls{gcn} converts a problem graph into symbol embeddings.
-\item Output function \cite{Zhou2018} converts the symbol embeddings into a vector of symbol costs.
+\todo{MS: Kdyz embeddingy nebudou v preliminaries, je asi OK ctenare, ktery by o nich neslysel, zde trochu vydesit.
+Ale v te prislusne podsekci tim zas zacit.}
+\item An output function \cite{Zhou2018} converts the symbol embeddings into a vector of symbol costs.
+\todo{MS: ``output function \cite{Zhou2018}'' my nic nerika, mel bych to znat?}
 \item Ranking converts the symbol costs into a symbol precedence.
 It is only used in generating mode.
 \item Loss function converts the symbol costs and a pair of precedences into a loss value.
@@ -126,7 +128,7 @@ It is only used in training mode.
 \end{enumerate}
 \todo{MS: tohle zatim chapu jako predbezny nastrel. Leda by uz pred tim bylo vysvetleno:
 embedding, \gls{gcn}/convolution layers, ... \\
-FB: Staci predestrit, ze detaily vysvetlim pozdeji?}
+FB: Staci predestrit, ze detaily vysvetlim pozdeji? MS: asi jo :)}
 
 \begin{figure}[h]
 \caption{Recommender architecture overview.
@@ -183,7 +185,7 @@ The edges represent the (oriented) relations between the elements,
 for example the incidence relation between a clause and one of its (literals') atoms,
 or the relation between an atom and its predicate symbol.
 \Cref{fig:CnfSchema} shows the types of nodes and edges used in our graph representation.
-\Cref{fig:GcnExample} shows an example of a graph representation of a simple problem.
+\Cref{fig:GcnExample}\todo{MS: ten se mi libi!} shows an example of a graph representation of a simple problem.
 
 \newcommand{\ntype}[1]{\texttt{#1}}
 \newcommand{\etype}[1]{\texttt{#1}}
@@ -295,8 +297,10 @@ connecting the respective atom to the clause it occurs in.
 This reflects the symmetry of equality.
 \item Perfect sub-expression sharing:
 \todo{MS: Predpokladam ze dva ruzne ground literaly p(c) tam budou taky jen jendnou?\\
-FB: Literaly nemaji nody. Atomy maji nody a polarita literalu je zakodovana v typu hrany, ktery jej spojuje s klauzuli.}
+FB: Literaly nemaji nody. Atomy maji nody a polarita literalu je zakodovana v typu hrany, ktery jej spojuje s klauzuli.
+MS: O to my, neslo. Slo o to, jestli se sdily ground termy mezi klauzulemi, ted uz dobry! :)}
 Redundant atoms and terms share a node representation \cite{}.
+\todo{MS: Ale mezitim se to tu zmenilo a ja prestavam chapat, co je ``Redundant''.}
 Note that since each variable is bound by a clause,
 ground terms are shared across clauses,
 but non-ground terms are only shared within the context of a clause.
@@ -319,13 +323,18 @@ For each symbol in the problem,
 we seek to find a vector representation, i.e., an \emph{embedding},
 that captures the symbol's properties that are relevant
 for correctly ranking the symbol in the observed symbol precedences.
-\todo{FB: What does "correct" mean?}
+\todo{FB: What does "correct" mean? MS: nic moc, ale v prvnim paragrafu sekce se to snad snese a zni to imho dobre:)
+Nebo mas lepsi napad? "successfully"?
+Napsat presne ale strucne, ze ty embeddingy jsou takove, aby siti pomohly mit co nejnizsi loss na proxy tasku 
+hadani dvojic otazek, bude o dost tezsi...}
 The symbol embeddings are output by a \gls{rgcn} \cite{Schlichtkrull2017},
 which is a stack of graph convolutional layers.
 Each layer consists of a collection of differentiable modules---one module per edge type.
 The computation of the \gls{gcn} starts with assigning each node an initial embedding
 and then repeatedly updates the embeddings by passing them through convolutional layers.
-\todo{FB: Ensure terms are clear (preferably defined): embedding, vector, trainable vector, feature vector.}
+\todo{MS: to se mi libi, ze to nekde zacina a nekam to smeruje.}
+\todo{FB: Ensure terms are clear (preferably defined): embedding, vector, trainable vector, feature vector.
+MS: (convolutional, layers, ...)}
 
 The initial embedding is a concatenation of two vectors:
 a node feature vector (typically empty)
@@ -343,9 +352,10 @@ updates the node embeddings by passing a message along each of the edges.
 For an edge of type $r \in \mathcal{R}$ going from source node $s$ to destination node $d$ at layer $l$,
 the message is composed by converting the embedding of the source node $h_s^{(l)}$
 using the module associated with the edge type $r$.
-In the simple case that the module is a dense layer with weights $W_r^{(l)}$,
+In the simple case that the module is a dense layer with weight matrix $W_r^{(l)}$,
 \todo{MS: hnidopich nevi, co to znamena ``dense layer''}
-the message is $h_s^{(l)} W_r^{(l)}$.
+the message is $h_s^{(l)} W_r^{(l)}$.\todo{MS: mas nejakou preferenci pro column/row vectors a z jake strany je prirozene nasobit?
+Ja bych mozna spis psal $W_r^{(l)} h_s^{(l)}$, a mozna s explicitnim  $W_r^{(l)} \cdot h_s^{(l)}$.}
 Each message is then divided by a normalization constant
 $c_{s,d} = \sqrt{\card{\mathcal{N}_s^r}} \sqrt{\card{\mathcal{N}_d^r}}$ \cite{kipf2017semisupervised},
 where $\mathcal{N}_n^r$ is the set of neighbors of node $n$ under the relation $r$.
@@ -383,12 +393,13 @@ a popisujes to pak dal.}
 
 The symbol cost of each symbol is computed by passing the symbol's embedding through a dense layer with a single output unit.
 No activation function is applied so that the output values can span the whole $\re$.
+\todo{MS: provided the input embeddings can...}
 
 Note that it is possible to use a more complex projection module,
 e.g., a feed-forward network with one or more hidden layers.
 \todo{FB: Ensure the term is defined.}
-Our experiments showed no significant improvement when a hidden layer is added,
-arguably because the underlying \gls{gcn} learns a sufficiently complex transformation.
+Our experiments showed no significant improvement when a hidden layer was added,
+likely because the underlying \gls{gcn} learns a sufficiently complex transformation.
 
 For input problem $P$
 with signature $\Sigma = (s_1, \ldots, s_n)$,
@@ -421,6 +432,7 @@ We prove the lemma by contradiction.
 Let $\pi$ minimize $C$ and let $\pi$ not rank the costs in non-increasing order.
 Then there exist $k < l$ such that $c(\pi(k)) < c(\pi(l))$.
 Let $\bar{\pi}$ be a precedence obtained from $\pi$ by swapping the elements $k$ and $l$.
+Then we obtain
 %$\bar{\pi} = (\pi(1), \ldots, \pi(k-1), \pi(l), \pi(k+1), \ldots, \pi(l-1), \pi(k), \pi(l+1), \ldots, \pi(n))$.
 \begin{align*}
 C(\bar{\pi}) - C(\pi)
@@ -430,20 +442,20 @@ C(\bar{\pi}) - C(\pi)
 &= (k-l) (c(\pi(l)) - c(\pi(k))) \\
 &< 0
 \end{align*}
-The final inequality is due to the assumption that $k-l < 0$ and
-$c(\pi(l)) - c(\pi(k)) > 0$.
+The final inequality is because $k-l < 0$ and $c(\pi(l)) - c(\pi(k)) > 0$.
 Thus, $C(\bar{\pi}) < C(\pi)$, which is contradicts the assumption that $\pi$ minimizes $C$. \qed
 \end{proof}
 
 Once the symbol costs are known,
 producing a precedence that minimizes the precedence cost is cheap
-because ranking is a fast operation.
+because ranking is a fast operation.\todo{MS: can we not say ``sorting''? Also slightly earlier.}
 
-Note that the precedence that minimizes $C$
-orders the symbols with the lowest cost as the last,
-prioritizing them for early inferences.
+Note that a precedence that minimizes $C$\todo{MS: Indefinite article; there can be more than one such...}
+orders the symbols with the lowest cost as the last, prioritizing them for early inferences.
 
-\todo[inline]{FB: Why is the equality predicate always the first in the precedence?}
+\todo[inline]{FB: Why is the equality predicate always the first in the precedence?
+MS: Andrei Voronokov reasons. It's typically better in practice to postpone equational reasoning,
+so we want equalities to be generally small.}
 \todo[inline]{FB: Mention that the common heuristics fit this scheme.}
 
 \subsection{Training}
@@ -452,40 +464,51 @@ In \cref{sec:graphifier,sec:gcn,sec:output,sec:ranking} we described the structu
 The efficacy of the recommender depends on the quality of the underlying symbol cost function.
 In theory, the symbol cost function can assign the costs so that
 ranking the symbols by their costs yields an optimum precedence,
+\todo{MS: hezky, to zacina dobre!}
 and all the information necessary to determine the optimum precedence is present in the graph representation of the input problem.
+\todo{MS: ``because the of the lossless property of the graph encoding mentioned before.''
+(Na druhou stranu nevime, jestli to dokaze zvladnout navrzena architectura.)}
+\todo{MS: Hlavne tady ale jakoby chybi druha pulky ty vety. Neco jako ``In practice, however, ...'' Nemyslis?} 
 Our approach to defining an appropriate symbol cost function is based on statistical learning
-from executions of an \gls{atp} on a set of problems with various precedences.
+from executions of an \gls{atp} on a set of problems with various\todo{MS: proc ne ``random''?} precedences.
 
 \subsubsection{Training data}
 
 Each training example has the form $(P, \PrecBetter, \PrecWorse)$,
 where $P = (\Sigma, \mathit{Cl})$ is a problem
 and $\PrecBetter, \PrecWorse$ are precedences over $\Sigma$
-such that $\PrecBetter$ solves $P$ in fewer iterations of the saturation loop than $\PrecWorse$,
-denoted as $\Better{\PrecBetter}{\PrecWorse}$.
+such that the prover using $\PrecBetter$ solves $P$ in fewer iterations of the saturation loop than with $\PrecWorse$,
+denoted as $\Better{\PrecBetter}{\PrecWorse}$.\todo{MS: Could we have $\PrecBetter \prec_P\PrecWorse$?}
 \todo{Is this sufficient?}
 
 \subsubsection{Loss function}
 
 \todo{Two levels of proxy metrics: 0-1 loss, differentiable loss (hinge, logistic)}
-
 To ensure that ranking the symbols by their costs
 yields a good precedence,
 we want the symbol cost function $c$
 to satisfy the inequality $C(\PrecBetter) < C(\PrecWorse)$
-which can alternatively be expressed as $s(\PrecBetter, \PrecWorse) = C(\PrecBetter) - C(\PrecWorse) < 0$.
-We consider the value $s(\PrecBetter, \PrecWorse)$
-to be the score of the (ordered) precedence pair $(\PrecBetter, \PrecWorse)$.
+for as many training examples $(P, \PrecBetter, \PrecWorse)$ as possible.
+%
+This can alternatively be expressed as $s(\PrecBetter, \PrecWorse) := C(\PrecBetter) - C(\PrecWorse) < 0$,
+introducing a new quantity
+$s(\PrecBetter, \PrecWorse)$
+as the \emph{score} of the (ordered) precedence pair $(\PrecBetter, \PrecWorse)$.
 Given a set of examples of the form $(P, \PrecBetter, \PrecWorse)$
 where $\Better{\PrecBetter}{\PrecWorse}$,
 our goal is to maximize the accuracy
 $\frac{1}{m} \sum_x \iverson{s(\PrecBetter, \PrecWorse) < 0}$.
+\todo{MS: Not sure if we can assume $\iverson{X}$ to be universally understandable.}
 % Alternative: We actually don't care about the relative order of non-minimum precedences.
 
-A common approach to training a binary classifier is to relax the non-differentiable accuracy $[s(\PrecBetter, \PrecWorse) < 0]$
+A common approach to training a binary classifier\todo{MS: First mention of a ``binary classifier''!
+We classify the examples, sure, but you did not say it yet.}
+is to relax the non-differentiable accuracy $\iverson{s(\PrecBetter, \PrecWorse) < 0}$
 to a differentiable proxy
 such as the logistic loss
 $L = - \log \sigmoid s(\PrecBetter, \PrecWorse)$.
+\todo{MS: neni tu ted spatne zniminko? Nebo spis uz v definici score? Cekal bych, ze pro positivni examply (coz jsou u nas vsechny)
+bude chit $s$ kladne.}
 
 \subsection{Notes}
 
