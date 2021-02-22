@@ -81,6 +81,13 @@ clause selection strategies, etc.)?
 
 KBO is a also parametrized by weights (along with the precedence). Could we learn those as well? (Jointly?)
 
+Reinforcement learning will allow using a trained recommender to generate data from harder problems.
+
+In our experiments, too much attention is spent on uninteresting examples.
+We learn to order pairs of non-optimal precedences.
+However, if the recommender ordered a non-optimal pair wrong, it could still produce the optimum precedence correctly.
+Besides, we train from pairs of successful runs that only differ in number of iterations.
+
 \section*{Acknowledgments}
 % > Acknowledgements should generally be placed in an unnumbered subsection at the end of the paper.
 
