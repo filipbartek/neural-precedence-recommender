@@ -463,14 +463,26 @@ so we want equalities to be generally small.}
 In \cref{sec:graphifier,sec:gcn,sec:output,sec:ranking} we described the structure of a recommender system that generates a precedence for an arbitrary input problem.
 The efficacy of the recommender depends on the quality of the underlying symbol cost function.
 In theory, the symbol cost function can assign the costs so that
-ranking the symbols by their costs yields an optimum precedence,
+ranking the symbols by their costs yields an optimum precedence.
 \todo{MS: hezky, to zacina dobre!}
-and all the information necessary to determine the optimum precedence is present in the graph representation of the input problem.
+Furthermore, all the information necessary to determine the optimum precedence is present in the graph representation of the input problem.
 \todo{MS: ``because the of the lossless property of the graph encoding mentioned before.''
 (Na druhou stranu nevime, jestli to dokaze zvladnout navrzena architectura.)}
 \todo{MS: Hlavne tady ale jakoby chybi druha pulky ty vety. Neco jako ``In practice, however, ...'' Nemyslis?} 
 Our approach to defining an appropriate symbol cost function is based on statistical learning
 from executions of an \gls{atp} on a set of problems with various\todo{MS: proc ne ``random''?} precedences.
+
+Our ultimate goal is to train the precedence cost function $C$ so that it is minimized by the best precedence,
+measuring the quality of a precedence by the number of iterations of the saturation loop taken to solve the problem.
+Since the number of possible precedences grows with the factorial of the signature size,
+it is not feasible to determine the best precedence conclusively on most practical problems.
+Instead of learning to classify one or more precedences on each problem as the best,
+we train the system to decide which of a pair of arbitrary precedences is better.
+We do this by training $C$ so that better precedences are assigned lower costs.
+The motivation for learning to order pairs of precedences
+is that it may allow the system to generalize to precedences that are better than any of those seen during training.
+\todo{FB: We should test this hypothesis by training on one problem in isolation.}
+\todo{FB: Argue better.}
 
 \subsubsection{Training data}
 
@@ -479,36 +491,37 @@ where $P = (\Sigma, \mathit{Cl})$ is a problem
 and $\PrecBetter, \PrecWorse$ are precedences over $\Sigma$
 such that the prover using $\PrecBetter$ solves $P$ in fewer iterations of the saturation loop than with $\PrecWorse$,
 denoted as $\Better{\PrecBetter}{\PrecWorse}$.\todo{MS: Could we have $\PrecBetter \prec_P\PrecWorse$?}
-\todo{Is this sufficient?}
+\todo{FB: Is this sufficient?}
+\todo{FB: Describe the distribution of problems and precedences.}
 
 \subsubsection{Loss function}
 
-\todo{Two levels of proxy metrics: 0-1 loss, differentiable loss (hinge, logistic)}
-To ensure that ranking the symbols by their costs
-yields a good precedence,
-we want the symbol cost function $c$
-to satisfy the inequality $C(\PrecBetter) < C(\PrecWorse)$
-for as many training examples $(P, \PrecBetter, \PrecWorse)$ as possible.
-%
-This can alternatively be expressed as $s(\PrecBetter, \PrecWorse) := C(\PrecBetter) - C(\PrecWorse) < 0$,
-introducing a new quantity
-$s(\PrecBetter, \PrecWorse)$
-as the \emph{score} of the (ordered) precedence pair $(\PrecBetter, \PrecWorse)$.
-Given a set of examples of the form $(P, \PrecBetter, \PrecWorse)$
-where $\Better{\PrecBetter}{\PrecWorse}$,
-our goal is to maximize the accuracy
-$\frac{1}{m} \sum_x \iverson{s(\PrecBetter, \PrecWorse) < 0}$.
-\todo{MS: Not sure if we can assume $\iverson{X}$ to be universally understandable.}
-% Alternative: We actually don't care about the relative order of non-minimum precedences.
-
-A common approach to training a binary classifier\todo{MS: First mention of a ``binary classifier''!
+Let $(P, \PrecBetter, \PrecWorse)$ be a training example ($\Better{\PrecBetter}{\PrecWorse}$).
+The precedence cost classifies this example correctly if $C(\PrecBetter) < C(\PrecWorse)$,
+or alternatively $C_2(\PrecBetter, \PrecWorse) = C(\PrecBetter) - C(\PrecWorse) < 0$.
+We approach this problem as an instance of binary classification with the logistic loss \cite{Mohri2018}:
+\todo{MS: First mention of a ``binary classifier''!
 We classify the examples, sure, but you did not say it yet.}
-is to relax the non-differentiable accuracy $\iverson{s(\PrecBetter, \PrecWorse) < 0}$
-to a differentiable proxy
-such as the logistic loss
-$L = - \log \sigmoid s(\PrecBetter, \PrecWorse)$.
+\begin{align*}
+L(P, \PrecBetter, \PrecWorse)
+&= - \log \sigmoid C_2(\PrecBetter, \PrecWorse)
+%&= - \log \sigmoid (C(\PrecBetter) - C(\PrecWorse)) \\
+%&= - \log \sigmoid \sum_{i=1}^n i (c(\PrecBetter(i)) - c(\PrecWorse(i)))
+\end{align*}
 \todo{MS: neni tu ted spatne zniminko? Nebo spis uz v definici score? Cekal bych, ze pro positivni examply (coz jsou u nas vsechny)
 bude chit $s$ kladne.}
+
+Note that the classifier cannot simply train $C_2$ to output a negative number on all pairs of precedences,
+because $C_2$ is a difference of two precedence costs.
+By training on the example $(P, \PrecBetter, \PrecWorse)$,
+we are effectively pushing $C(\PrecBetter)$ down and $C(\PrecWorse)$ up.
+
+Also note that it is possible to use a differentiable classification loss other than the logistic loss.
+\todo{FB: Consider leaving this detail out.}
+
+\subsubsection{Normalization}
+
+\todo[inline]{FB: "We normalize against various signature sizes and various numbers of examples per problem."}
 
 \subsection{Notes}
 
