@@ -21,6 +21,63 @@
 % State why the main idea is important
 % State your thesis/claim
 
+Modern saturation-based Automatic Theorem Provers (ATPs) such as E \cite{SCV:CADE-2019}, SPASS \cite{DBLP:conf/cade/WeidenbachDFKSW09} 
+or {\sc Vampire}~\cite{DBLP:conf/cav/KovacsV13}
+employ the superposition calculus \cite{DBLP:journals/logcom/BachmairG94,DBLP:books/el/RV01/NieuwenhuisR01} as their underlying inference system.
+Integrating flavours of resolution \cite{DBLP:books/el/RV01/BachmairG01}, paramodulation \cite{Robinson1983}, and 
+the unfailing completion \cite{Bachmair89completionwithout}, superposition is a powerful calculus with 
+a native support for equational reasoning. The calculus is parametrized by a simplification ordering on terms % and literals,
+and uses it to constrain the applicability of inferences, with a significant impact on performance.
+
+Both of the two main classes of simplification orderings used in practice,
+the \acrlong*{kbo} \cite{Knuth1983}
+and the \acrlong*{lpo} \cite{Kamin1980},
+are specified with the help of a 
+\emph{symbol precedence}, an ordering on the signature symbols. %.\footnote{KBO is further parameterized by symbol weights.}
+% but our reference implementation in Vampire~\cite{DBLP:conf/cav/KovacsV13} 
+% uses for efficiency reasons only weights equal to one \cite{DBLP:conf/cade/KovacsMV11} and so we do not consider this parameter here.}
+While the superposition calculus is refutationally complete for any simplification ordering \cite{DBLP:journals/logcom/BachmairG94},
+the choice of the precedence has a significant impact on how long it takes to solve a given problem.
+
+Certain orderings help to make superposition a decision procedure on certain fragments of first-order logic 
+(see, e.g., \cite{DBLP:conf/lics/GanzingerN99,DBLP:conf/cade/HustadtKS05}).
+It is also well known that giving the highest precedence to the predicate symbols introduced as names 
+during the Tseitin transformation % of the input formula 
+\cite{Tseitin1983} can immediately make saturation produce the exponential 
+set of clauses that the transformation is designed to avoid \cite{Reger2016}.
+%
+However, the precise way by which the choice of a precedence 
+influences the follow-up proof search on a general problem is extremely hard to predict. % indirect
+
+% neslo by rict na tvrdo, ze je to takovy ten mytus o tom, ze se uzivatel zamysli a zvoli si tu skvelou precedenci pro svuj problem?
+
+Several general-purpose precedence generating schemes are available to ATP users,
+such as the successful \texttt{invfreq} scheme in E \cite{E-manual}, which orders the symbols 
+by the number of occurrences in the input problem. However, experiments with random precedences
+indicate that the existing schemes often fail to come close to the optimum precedence \cite{RegerSuda2017},
+suggesting room for further improvements.
+
+In this work, 
+
+\newpage
+
+
+%\todo{MS: idea maybe to work out more in the introduction: 
+%We could stress how the impact or the choice of a precedence is \emph{indirect}, 
+%(as it's already obvious from the explanation here)
+%all the more interesting one can learn from observing just this indirect impact 
+%which precendences are good and which are bad!}
+
+
+% Two aspects: 
+% -selection of \emph{maximals} 
+% -rewriting from \emph{large to small}
+
+
+% CITE us: co tehdy, co ted!
+
+
+
 Choosing the next inference to apply is arguably the most important decision point in the state-of-the-art
 \todo{FB: Add "saturation-based"?}
 \glspl{atp} for \gls{fol}.

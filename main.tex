@@ -41,19 +41,16 @@ pdfkeywords={saturation-based theorem proving, simplification ordering, symbol p
 
 \input{introduction}
 
-\section{Preliminaries}
+%\section{Preliminaries}
+%\input{preliminaries}
 
-\input{preliminaries}
+%\section{Architecture}
+%\label{sec:architecture}
+%\input{architecture}
 
-\section{Architecture}
-\label{sec:architecture}
-
-\input{architecture}
-
-\section{Experimental evaluation}
-\label{sec:evaluation}
-
-\input{evaluation}
+%\section{Experimental evaluation}
+%\label{sec:evaluation}
+%\input{evaluation}
 
 \section{Related work}
 
@@ -117,6 +114,8 @@ no.~SGS20/215/OHK3/3T/37.
 
 \appendix
 
+\iffalse
+
 \section{Graph structure}
 
 \begin{itemize}
@@ -139,6 +138,7 @@ which is either a \ntype{term} node or a \ntype{variable} node.
 \item Each \ntype{term} node is connected to one \ntype{function} node that represents the function symbol being applied by this term.
 \item For each variable, there is an edge connecting the \ntype{clause} node of the clause that binds the variable to the \ntype{variable} node that represents the variable.
 \end{itemize}
+\fi
 
 \section{Loss derivative}
 
@@ -163,5 +163,6 @@ potrebovat obsirnejsi vysvetleni.}
 % Source: https://docs.google.com/spreadsheets/d/1GujYNEtETpC3jk4iyENLjptv8mDmI5f1ZEhbmwtqnPM/edit#gid=394425425&fvid=659935521
 % Experiment: VML-715
 \end{figure}
+
 
 \end{document}
