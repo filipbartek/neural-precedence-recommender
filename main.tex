@@ -136,6 +136,19 @@ which is either a \ntype{term} node or a \ntype{variable} node.
 \item For each variable, there is an edge connecting the \ntype{clause} node of the clause that binds the variable to the \ntype{variable} node that represents the variable.
 \end{itemize}
 
+\section{Loss derivative}
+
+The loss is differentiable with respect to the symbol costs:
+\begin{align*}
+\frac{\partial \loss}{\partial c_i}
+&= -\sigmoid(-C(\Better{\PrecBetter}{\PrecWorse}{P})) \cdot k(n) \cdot (\inv{\PrecWorse}_i - \inv{\PrecBetter}_i) \\
+&= (p(\Better{\PrecBetter}{\PrecWorse}{P}) - 1) \cdot k(n) \cdot (\inv{\PrecWorse}_i - \inv{\PrecBetter}_i)
+\end{align*}
+
+This means that it is possible to backpropagate the loss gradient into the symbol cost model. \todo{MS: tohle bude tezky,
+ale ackoliv ML people by tohle uz asi chapali, ATP crowd spis bude
+potrebovat obsirnejsi vysvetleni.}
+
 \section{Experiment details}
 
 \begin{figure}[h]
