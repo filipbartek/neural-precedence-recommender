@@ -519,6 +519,8 @@ Also note that it is possible to use a differentiable classification loss other 
 
 \todo[inline]{FB: "We normalize against various signature sizes and various numbers of examples per problem."}
 
+\iffalse
+
 \subsection{Notes}
 
 We need to train $c$ in a way that ensures that $C$ is minimized by a good precedence.
@@ -670,9 +672,6 @@ Let $\signature{P}$ be the signature of $P$, that is a list of all non-logical s
 that appear in the problem.
 Let $n = \card{\signature{P}}$.
 A symbol precedence $\Prec \in \Perm{n}$ for problem $P$ is a permutation of the symbols of $P$.
-
-\newcommand{\Solver}{S}
-\newcommand{\SolverRun}[2]{\Solver(#1, #2)}
 
 Let $\Solver$ be an \gls{atp} with a fixed computation environment, configuration and time limit.
 The computation of $\Solver$ is assumed to be parameterized by symbol precedence.
@@ -1018,3 +1017,5 @@ the loss is as follows:
 $$
 Loss(\pi_0, \pi_1) = -\log(\sigmoid(\CostPrecPair(\pi_0, \pi_1)))
 $$
+
+\fi
