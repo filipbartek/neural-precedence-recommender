@@ -502,6 +502,8 @@ psat ``housenka'' a vyslo by to pro nej na stejno.}
 &= - \log \sigmoid Z_n \sum_{i=1}^n i (c(\PrecWorse(i)) - c(\PrecBetter(i))) \\
 &= - \log \sigmoid Z_n \sum_{i=1}^n c(i) (\inv{\PrecWorse}(i) - \inv{\PrecBetter}(i))
 \end{align*}
+% FB: Note: I have included the full expansion to make it visible how the loss depends on $c$.
+% To a skilled NN practitioner, it should now be obvious that the loss is differentiable w.r.t. $c$.
 
 Note that the classifier cannot simply train $S$ to output a positive number on all pairs of precedences
 because $S$ is defined as a difference of two precedence costs.
