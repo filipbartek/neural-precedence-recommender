@@ -61,6 +61,8 @@ MS: my sami (PAAR paper) jsem si related workem. Budem se vuci tomu muset vymezi
 Jinak me ale nic moc bezprostredniho nenepada a nevim tedy, jestli se tedy primo
 nutit do sekce s timto nazvem!
 
+\todo[inline]{Related problem: Ranking. See Mohri etc.}
+
 \section{Conclusion}
 
 \subsection{Future work}
@@ -87,6 +89,8 @@ In our experiments, too much attention is spent on uninteresting examples.
 We learn to order pairs of non-optimal precedences.
 However, if the recommender ordered a non-optimal pair wrong, it could still produce the optimum precedence correctly.
 Besides, we train from pairs of successful runs that only differ in number of iterations.
+
+\todo[inline]{Idea for next project: Optimize precedence directly in a RL fashion: Generate precedence and evaluate with Vampire. If it is the best precedence seen so far, loss is 0 and gradient is 0. Otherwise ground truth is the best precedence seen so far on this problem and we use "differentiable ranking" to backpropagate. Possibly with some exploration, e.g. random swaps of pairs of symbols.}
 
 \section*{Acknowledgments}
 % > Acknowledgements should generally be placed in an unnumbered subsection at the end of the paper.
