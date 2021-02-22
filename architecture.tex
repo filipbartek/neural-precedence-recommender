@@ -113,20 +113,20 @@ that are likely to yield a successful proof in as few iterations of the saturati
 
 The recommender consists of modules that perform specific subtasks,
 each of which is described in detail in one of the following sections (see also \cref{fig:architecture}):
-\begin{enumerate}
-\item Graphifier converts the input \gls{cnf} problem into a problem graph.
-\item \Gls{gcn} converts a problem graph into symbol embeddings.
+\begin{itemize}
+\item \Cref{sec:graphifier}: Graphifier converts the input \gls{cnf} problem into a problem graph.
+\item \Cref{sec:gcn}: \Gls{gcn} converts a problem graph into symbol embeddings.
 \todo{MS: Kdyz embeddingy nebudou v preliminaries, je asi OK ctenare, ktery by o nich neslysel, zde trochu vydesit.
 Ale v te prislusne podsekci tim zas zacit.}
-\item An output function \cite{Zhou2018} converts the symbol embeddings into a vector of symbol costs.
+\item \Cref{sec:output}: An output function \cite{Zhou2018} converts the symbol embeddings into a vector of symbol costs.
 \todo{MS: ``output function \cite{Zhou2018}'' my nic nerika, mel bych to znat?\\
 FB: Zhou2018 je review GNNs. Output function je termin, ktery se tam pouziva. Ta citace je nejspis tady nepotrebna.}
-\item Ranking converts the symbol costs into a symbol precedence.
+\item \Cref{sec:ranking}: Ranking converts the symbol costs into a symbol precedence.
 It is only used in generating mode.
 \todo{FB: Define ranking.}
-\item Loss function converts the symbol costs and a pair of precedences into a loss value.
+\item \Cref{sec:training}: Loss function converts the symbol costs and a pair of precedences into a loss value.
 It is only used in training mode.
-\end{enumerate}
+\end{itemize}
 \todo{MS: tohle zatim chapu jako predbezny nastrel. Leda by uz pred tim bylo vysvetleno:
 embedding, \gls{gcn}/convolution layers, ... \\
 FB: Staci predestrit, ze detaily vysvetlim pozdeji? MS: asi jo :)}
@@ -473,6 +473,7 @@ so we want equalities to be generally small.}
 \todo[inline]{FB: Mention that the common heuristics fit this scheme.}
 
 \subsection{Training}
+\label{sec:training}
 
 In \cref{sec:graphifier,sec:gcn,sec:output,sec:ranking} we described the structure of a recommender system that generates a precedence for an arbitrary input problem.
 The efficacy of the recommender depends on the quality of the underlying symbol cost function.
