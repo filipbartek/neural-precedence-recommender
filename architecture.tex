@@ -490,13 +490,13 @@ Each training example has the form $(P, \PrecBetter, \PrecWorse)$,
 where $P = (\Sigma, \mathit{Cl})$ is a problem
 and $\PrecBetter, \PrecWorse$ are precedences over $\Sigma$
 such that the prover using $\PrecBetter$ solves $P$ in fewer iterations of the saturation loop than with $\PrecWorse$,
-denoted as $\Better{\PrecBetter}{\PrecWorse}$.\todo{MS: Could we have $\PrecBetter \prec_P\PrecWorse$?}
+denoted as $\Better{\PrecBetter}{\PrecWorse}{P}$.
 \todo{FB: Is this sufficient?}
 \todo{FB: Describe the distribution of problems and precedences.}
 
 \subsubsection{Loss function}
 
-Let $(P, \PrecBetter, \PrecWorse)$ be a training example ($\Better{\PrecBetter}{\PrecWorse}$).
+Let $(P, \PrecBetter, \PrecWorse)$ be a training example ($\Better{\PrecBetter}{\PrecWorse}{P}$).
 The precedence cost classifies this example correctly if $C(\PrecBetter) < C(\PrecWorse)$,
 or alternatively $C_2(\PrecBetter, \PrecWorse) = C(\PrecBetter) - C(\PrecWorse) < 0$.
 We approach this problem as an instance of binary classification with the logistic loss \cite{Mohri2018}:
@@ -527,7 +527,7 @@ Also note that it is possible to use a differentiable classification loss other 
 
 We need to train $c$ in a way that ensures that $C$ is minimized by a good precedence.
 On pairs,
-$C(\pi)$ should be smaller than $C(\rho)$ iff $\Better{\pi}{\rho}$.
+$C(\pi)$ should be smaller than $C(\rho)$ iff $\Better{\pi}{\rho}{P}$.
 
 % What if we trained the binary classifier on vector:
 % C(\pi), C(\rho), C(\pi)^2, C(\rho)^2 (kernel trick?)
@@ -536,14 +536,14 @@ Let $P = (\Sigma, \mathit{Cl})$ be a problem.
 Let $\PrecBetter, \PrecWorse$ be two precedences over $\Sigma$.
 % that are comparable according to AST.
 Let $y = 1$ if $\PrecBetter$ is better than $\PrecWorse$,
-denoted as $\Better{\PrecBetter}{\PrecWorse}$,
+denoted as $\Better{\PrecBetter}{\PrecWorse}{P}$,
 and $y = 0$ otherwise.
 
 The examples that the recommender will be trained on have the form
 $(P, \PrecBetter, \PrecWorse)$, where $P = (\Sigma, \mathit{Cl})$ is a \gls{cnf} problem, and $\PrecBetter, \PrecWorse$ are precedences over $\Sigma$
 where $\PrecBetter$ yields a faster proof search than $\PrecWorse$,
 \todo{FB: Rephrase?}
-denoted as $\Better{\PrecBetter}{\PrecWorse}$.
+denoted as $\Better{\PrecBetter}{\PrecWorse}{P}$.
 
 Given an example $x$,
 a binary classifier predicts the probability of event $1$,
@@ -571,7 +571,7 @@ and let $\PrecBetter, \PrecWorse$ be two precedences over $\Sigma$.
 We run an \gls{atp} on $P$ with the two precedences.
 If the run with $\PrecBetter$ finds the proof successfully and uses less saturation loop iterations than the run with $\PrecWorse$,
 we can be certain that $\PrecBetter$ is a better precedence for $P$ than $\PrecWorse$,
-denoted as $\Better{\PrecBetter}{\PrecWorse}$.
+denoted as $\Better{\PrecBetter}{\PrecWorse}{P}$.
 
 A binary classifier predicts the probability of complementary events $0$ and $1$,
 denoted as $p(0)$ and $p(1)$ respectively.
@@ -589,12 +589,12 @@ The examples that the recommender will be trained on have the form
 $(P, \PrecBetter, \PrecWorse)$, where $P = (\Sigma, \mathit{Cl})$ is a \gls{cnf} problem, and $\PrecBetter, \PrecWorse$ are precedences over $\Sigma$
 where $\PrecBetter$ yields a faster proof search than $\PrecWorse$,
 \todo{FB: Rephrase?}
-denoted as $\Better{\PrecBetter}{\PrecWorse}$.
+denoted as $\Better{\PrecBetter}{\PrecWorse}{P}$.
 
 We train a binary classifier that decides,
 for a pair of precedences $\PrecBetter, \PrecWorse$,
-whether $\Better{\PrecBetter}{\PrecWorse}$.
-Since all the training examples are oriented so that $\Better{\PrecBetter}{\PrecWorse}$,
+whether $\Better{\PrecBetter}{\PrecWorse}{P}$.
+Since all the training examples are oriented so that $\Better{\PrecBetter}{\PrecWorse}{P}$,
 the classification target value for all the samples is $1$.
 \todo{FB: Somebody might think that this is a problem because the classifier can simply learn to always say "1". The structure of the classifier ($C(x_1) - C(x_2)$) prevents that. Consider explaining.}
 Thus the binary crossentropy loss can be expressed as a simple expression:
@@ -842,7 +842,7 @@ C(\Prec | P) = \frac{2}{n(n+1)} \sum_{i=1}^n c_0 \cdot i = c_0
 $$
 
 Let $\PrecBetter, \PrecWorse \in \Perm{n}$ be two symbol precedences over $P$.
-Let $\PrecBetter$ yield a faster proof search on $P$ than $\PrecWorse$, denoted as $\Better{\PrecBetter}{\PrecWorse}$.
+Let $\PrecBetter$ yield a faster proof search on $P$ than $\PrecWorse$, denoted as $\Better{\PrecBetter}{\PrecWorse}{P}$.
 The precedence cost model can be extended to predict the probability that $\PrecBetter$ is better than $\PrecWorse$:
 \todo{Fix this. Ensure the polarity is sound.}
 \todo{MS: zatim chybi vysvetleni $\sigmoid$.}
@@ -851,7 +851,7 @@ je ten, ze bez dalsiho vysvetlovani to vypada, ze si myslime, ze
 kdyz pomoci $\sigmoid$ splacnem v podstate libovolne hodnoty do
 intervalu $(0,1)$, zecne to automaticky fungovat jako pravdepodobnost.}
 \begin{align*}
-p(\Better{\PrecBetter}{\PrecWorse} | P)
+p(\Better{\PrecBetter}{\PrecWorse}{P})
 &= \sigmoid \SquareBracket{C(\PrecWorse | P) - C(\PrecBetter | P)} \\
 %&= \sigmoid \SquareBracket{k(n) \sum_{i=1}^n c_i \cdot (\inv{\PrecWorse}_i - \inv{\PrecBetter}_i)} \\
 &= \sigmoid \SquareBracket{k(n) \DotProd{c(P)}{\inv{\PrecWorse} - \inv{\PrecBetter}}}
@@ -861,14 +861,14 @@ and that the value of $p$ can be increased by increasing $C(\PrecWorse | P)$ or 
 
 We consider the difference $C(\PrecWorse | P) - C(\PrecBetter | P)$
 to be the "logit"\todo{MS: Logit je taky tezky pojem, urcite ne automaticky znamy u ATP people.} score of the pair of precedences $\PrecBetter, \PrecWorse$,
-and denote it by $C(\Better{\PrecBetter}{\PrecWorse} | P)$.
+and denote it by $C(\Better{\PrecBetter}{\PrecWorse}{P})$.
 
 We define the loss of $c$ on the training sample $(\PrecBetter, \PrecWorse, P)$ as binary cross-entropy
-with ground truth $\Better{\PrecBetter}{\PrecWorse}$:
+with ground truth $\Better{\PrecBetter}{\PrecWorse}{P}$:
 
 \begin{align*}
 L(\PrecBetter, \PrecWorse, P)
-&= - \log p(\Better{\PrecBetter}{\PrecWorse} | P) \\
+&= - \log p(\Better{\PrecBetter}{\PrecWorse}{P}) \\
 &= - \log \sigmoid \SquareBracket{k(n) \DotProd{c(P)}{\inv{\PrecWorse} - \inv{\PrecBetter}}} \\
 &= - \log \sigmoid \SquareBracket{k(n) \sum_{i=1}^n c_i \cdot (\inv{\PrecWorse}_i - \inv{\PrecBetter}_i)}
 \end{align*}
@@ -876,8 +876,8 @@ L(\PrecBetter, \PrecWorse, P)
 The loss is differentiable with respect to the symbol costs:
 \begin{align*}
 \frac{\partial L}{\partial c_i}
-&= -\sigmoid(-C(\Better{\PrecBetter}{\PrecWorse} | P)) \cdot k(n) \cdot (\inv{\PrecWorse}_i - \inv{\PrecBetter}_i) \\
-&= (p(\Better{\PrecBetter}{\PrecWorse} | P) - 1) \cdot k(n) \cdot (\inv{\PrecWorse}_i - \inv{\PrecBetter}_i)
+&= -\sigmoid(-C(\Better{\PrecBetter}{\PrecWorse}{P})) \cdot k(n) \cdot (\inv{\PrecWorse}_i - \inv{\PrecBetter}_i) \\
+&= (p(\Better{\PrecBetter}{\PrecWorse}{P}) - 1) \cdot k(n) \cdot (\inv{\PrecWorse}_i - \inv{\PrecBetter}_i)
 \end{align*}
 
 This means that it is possible to backpropagate the loss gradient into the symbol cost model. \todo{MS: tohle bude tezky,

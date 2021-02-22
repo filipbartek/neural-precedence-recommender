@@ -126,7 +126,7 @@ will not be able to rely on any specificities that would come from fixing functi
 
 The two executions are compared in terms of performance:
 predicate precedence $\PrecBetter$ is recognized as better than predicate precedence $\PrecWorse$,
-denoted as $\Better{\PrecBetter}{\PrecWorse}$,
+denoted as $\Better{\PrecBetter}{\PrecWorse}{P}$,
 if the proof search finishes successfully with $\PrecBetter$ ($\SolverRun{P}{\Prec} = \top$)
 and if the number of iterations of the saturation loop with $\PrecBetter$ is smaller than with $\PrecWorse$.
 \todo{FB: Use notation for saturation loop iterations if the notation was established earlier. 
