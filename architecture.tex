@@ -358,21 +358,20 @@ a popisujes to pak dal.}
 \subsection{Output layer: From symbol embeddings to symbol costs}
 \label{sec:output}
 
-The symbol cost of each symbol is computed by passing the symbol's embedding through a dense layer with a single output unit.
-No activation function is applied so that the output values can span the whole $\re$.
-\todo{MS: provided the input embeddings can...}
+The symbol cost of each symbol is computed by passing the symbol's embedding through a fully-connected layer
+with a single output unit.
+No activation function is applied on the output values.
+\todo{FB: Explain why.}
 
-Note that it is possible to use a more complex projection module,
-e.g., a feed-forward network with one or more hidden layers.
-\todo{FB: Ensure the term is defined.}
+It is possible to use a more complex output layer,
+e.g., a feedforward network with one or more hidden layers.
 Our experiments showed no significant improvement when a hidden layer was added,
 likely because the underlying \gls{gcn} learns a sufficiently complex transformation.
 
-For input problem $P$
-with signature $\Sigma = (s_1, \ldots, s_n)$,
-we denote the cost of the $i$-th symbol as $c(i)$.
-\todo{FB: Consider using $c(s_i)$.}
-\todo{FB: Consider making the background problem explicit by using $c(i|P)$ or $C(i,P)$.}
+Let $\theta$ denote the vector of all the parameters of the \gls{gcn} and the output layer.
+Given an input problem $P$ with signature $\Sigma = (s_1, \ldots, s_n)$,
+we denote the cost of symbol $s_i$ as $c_{\theta,P}(i)$,
+or simply $c(i)$ in case the parameters $\theta$ and the problem $P$ are fixed in the context.
 
 \subsection{Ranking: From symbol costs to precedence}
 \label{sec:ranking}
