@@ -22,7 +22,7 @@
 % State your thesis/claim
 
 Modern saturation-based Automatic Theorem Provers (ATPs) such as E \cite{SCV:CADE-2019}, SPASS \cite{DBLP:conf/cade/WeidenbachDFKSW09} 
-or {\sc Vampire}~\cite{DBLP:conf/cav/KovacsV13}
+or \Vampire{} \cite{DBLP:conf/cav/KovacsV13}
 employ the superposition calculus \cite{DBLP:journals/logcom/BachmairG94,DBLP:books/el/RV01/NieuwenhuisR01} as their underlying inference system.
 Integrating flavours of resolution \cite{DBLP:books/el/RV01/BachmairG01}, paramodulation \cite{Robinson1983}, and 
 the unfailing completion \cite{Bachmair89completionwithout}, superposition is a powerful calculus with 
@@ -34,7 +34,7 @@ the \acrlong*{kbo} \cite{Knuth1983}
 and the \acrlong*{lpo} \cite{Kamin1980},
 are specified with the help of a 
 \emph{symbol precedence}, an ordering on the signature symbols. %.\footnote{KBO is further parameterized by symbol weights.}
-% but our reference implementation in Vampire~\cite{DBLP:conf/cav/KovacsV13} 
+% but our reference implementation in \Vampire{}~\cite{DBLP:conf/cav/KovacsV13} 
 % uses for efficiency reasons only weights equal to one \cite{DBLP:conf/cade/KovacsMV11} and so we do not consider this parameter here.}
 While the superposition calculus is refutationally complete for any simplification ordering \cite{DBLP:journals/logcom/BachmairG94},
 the choice of the precedence has a significant impact on how long it takes to solve a given problem.
@@ -107,14 +107,14 @@ the general task of
 finding a symbol precedence that guides the proof search efficiently on an arbitrary problem
 remains to be intriguing.
 This paper explores the possibility of tackling this task by training a neural network
-on the results of running the \gls{atp} Vampire \cite{10.1007/978-3-642-39799-8_1} with randomly sampled precedences.
+on the results of running the \gls{atp} \Vampire{} \cite{10.1007/978-3-642-39799-8_1} with randomly sampled precedences.
 \todo{Ensure that the first paragraph fits on the first page.}
 
 \todo[author=Filip,inline]{Consider an alternative approach: Start with an example problem, rewrite in two ways, describe how do state-of-the-art provers differentiate between these two ways (by symbol precedence), ...}
 
 \todo[inline,author=FB]{Try to use the first page for something more flashy than exposure of saturation-based automated proving. Ideas: catchy puzzle-like example, abstract description of the crucial challenge etc.}
 
-Modern \gls{fol} \glspl{atp}, such as Vampire, E or SPASS,
+Modern \gls{fol} \glspl{atp}, such as \Vampire{}, E or SPASS,
 solve \gls{fol} problems by iteratively applying the inference rules of superposition calculus.
 Literal selection and equation orienting are employed to limit the ... while preserving the refutation completeness.
 Both literal selection and equation orienting are determined by \gls{sot}.
@@ -136,7 +136,7 @@ constitutes a proof that the premises entail the conjecture.
 \todo[author=Martin]{prvni odstavec uvodu bych pro CADE publikum vynechal a zacal rovnou s druhym}
 
 The state-of-the-art \gls{fol} \glspl{atp},
-such as \vampire{} \cite{10.1007/978-3-642-39799-8_1} and E \cite{10.1007/978-3-030-29436-6_29},
+such as \Vampire{} \cite{10.1007/978-3-642-39799-8_1} and E \cite{10.1007/978-3-030-29436-6_29},
 are saturation-based and
 infer new provable clauses by applying the rules of the \definiendum{superposition calculus}.
 \todo[author=Filip]{Cite some source that explains superposition calculus.}
@@ -182,7 +182,7 @@ that optimize some non-differentiable quantitative criterion.
 \iffalse % AWR draft
 
 The performance of the state-of-the-art \acrfullpl{atp} is severely limited by some of the design decisions that constitute the provers' architecture.
-For example, the \frequency{} symbol precedence heuristic of the \acrfull{fol} \acrshort{atp} \vampire{} is easily outperformed by the best of 10 random precedences.\cite{}
+For example, the \frequency{} symbol precedence heuristic of the \acrfull{fol} \acrshort{atp} \Vampire{} is easily outperformed by the best of 10 random precedences.\cite{}
 The gap in performance suggests that a more elaborate precedence heuristic with a superior performance exists.
 % what is precedence heuristic?
 % Thesis statement
