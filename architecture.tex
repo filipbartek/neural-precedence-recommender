@@ -341,6 +341,7 @@ $$
 h_d^{(l+1)} =
 \sum_{r \in \mathcal{R}} \sigma \Parentheses{\sum_{s \in \mathcal{N}_d^r} \frac{1}{c_{s,d}} (W_r^{(l)} h_s^{(l)} + b_r^{(l)})}
 $$
+
 \todo{FB: Include LayerNorm and Residual if we end up using them.}
 %$$
 %h_i^{(l+1)} =
@@ -386,8 +387,7 @@ We extend the notion of cost from symbols to precedences
 by summing up the symbol costs
 weighted by their positions in the given precedence $\pi$:
 $$
-C(\pi) = Z_n \sum_{i=1}^n i \cdot c(\pi(i))
-% We call the normalization factor Z_n to follow convention from Foundations of Machine Learning, p. 122.
+C(\pi) = Z_n \sum_{i=1}^n i \cdot c(\pi(i))% We call the normalization factor Z_n to follow convention from Foundations of Machine Learning, p. 122.
 $$
 $Z_n = \frac{2}{n(n+1)}$ is a normalization factor
 that ensures the commensurability of precedence costs across signature sizes.
@@ -401,6 +401,7 @@ independent of the signature size $n$:
 &= \frac{2}{n(n+1)} \frac{n(n+1)}{2} \mathbb{E}_i [c(i)] \\
 &= \mathbb{E}_i [c(i)]
 \end{align*}
+
 \todo[inline]{FB: Consider accessing elements $\pi$ as vector elements $\pi_i$ instead of $\pi(i)$. Keep in mind that $\inv{\pi}$ must be updated as well. The motivation for using $\pi(i)$ is that $\inv{\pi}(i)$ looks clearer than $\inv{\pi}_i$. How about using $(\inv{\pi})_i$? We may also omit the inversion completely.}
 
 \subsubsection{Cost minimization by sorting}

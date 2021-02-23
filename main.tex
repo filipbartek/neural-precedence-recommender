@@ -29,6 +29,26 @@ pdfkeywords={saturation-based theorem proving, simplification ordering, symbol p
 
 \usepackage{cleveref}
 
+% Some mild shrinkage:
+
+% for Section and subsection headings:
+%% Save the class definition of \subparagraph
+\let\llncssubparagraph\subparagraph
+%% Provide a definition to \subparagraph to keep titlesec happy
+\let\subparagraph\paragraph
+%% Load titlesec
+\usepackage{titlesec}
+%% Revert \subparagraph to the llncs definition
+\let\subparagraph\llncssubparagraph
+\titlespacing*{\subsection}
+  {0pt}{0.9\baselineskip}{0.8\baselineskip}
+
+% For figures
+% https://tex.stackexchange.com/questions/60477/remove-space-after-figure-and-before-text
+\setlength{\textfloatsep}{0.7\baselineskip plus 0.2\baselineskip minus 0.2\baselineskip} % between a float at the top and text
+\setlength{\floatsep}{0.3\baselineskip plus 0.2\baselineskip minus 0.2\baselineskip} % between two floats at the top
+\setlength{\intextsep}{0.7\baselineskip plus 0.2\baselineskip minus 0.2\baselineskip} % between a float in text and text
+
 \begin{document}
 
 \maketitle
