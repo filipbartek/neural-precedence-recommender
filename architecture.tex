@@ -36,105 +36,105 @@ The goal of the training is to find parameter values such that the recommender p
 that are likely to yield a successful proof in as few iterations of the saturation loop as possible.
 
 The recommender consists of modules that perform specific subtasks,
-each of which is described in detail in one of the following sections (see also \cref{fig:architecture}):
-\begin{itemize}
-\item \Cref{sec:graphifier}: Graphifier converts the input \gls{cnf} problem into a problem graph.
-\item \Cref{sec:gcn}: \Gls{gcn} converts a problem graph into symbol embeddings.
-\todo{MS: Kdyz embeddingy nebudou v preliminaries, je asi OK ctenare, ktery by o nich neslysel, zde trochu vydesit.
-Ale v te prislusne podsekci tim zas zacit.}
-\item \Cref{sec:output}: An output function \cite{Zhou2018} converts the symbol embeddings into a vector of symbol costs.
-\todo{MS: ``output function \cite{Zhou2018}'' my nic nerika, mel bych to znat?\\
-FB: Zhou2018 je review GNNs. Output function je termin, ktery se tam pouziva. Ta citace je nejspis tady nepotrebna.}
-\item \Cref{sec:ranking}: Sorting converts the symbol costs into a symbol precedence.
-It is only used in generating mode.
-\item \Cref{sec:training}: Loss function converts the symbol costs and a pair of precedences into a loss value.
-It is only used in training mode.
-\end{itemize}
-\todo{MS: tohle zatim chapu jako predbezny nastrel. Leda by uz pred tim bylo vysvetleno:
-embedding, \gls{gcn}/convolution layers, ... \\
-FB: Staci predestrit, ze detaily vysvetlim pozdeji? MS: asi jo :)}
+each of which is described in detail in one of the following sections.
+%\begin{itemize}
+%\item \Cref{sec:graphifier}: Graphifier converts the input \gls{cnf} problem into a problem graph.
+%\item \Cref{sec:gcn}: \Gls{gcn} converts a problem graph into symbol embeddings.
+%\todo{MS: Kdyz embeddingy nebudou v preliminaries, je asi OK ctenare, ktery by o nich neslysel, zde trochu vydesit.
+%Ale v te prislusne podsekci tim zas zacit.}
+%\item \Cref{sec:output}: An output function \cite{Zhou2018} converts the symbol embeddings into a vector of symbol costs.
+%\todo{MS: ``output function \cite{Zhou2018}'' my nic nerika, mel bych to znat?\\
+%FB: Zhou2018 je review GNNs. Output function je termin, ktery se tam pouziva. Ta citace je nejspis tady nepotrebna.}
+%\item \Cref{sec:ranking}: Sorting converts the symbol costs into a symbol precedence.
+%It is only used in generating mode.
+%\item \Cref{sec:training}: Loss function converts the symbol costs and a pair of precedences into a loss value.
+%It is only used in training mode.
+%\end{itemize}
+%\todo{MS: tohle zatim chapu jako predbezny nastrel. Leda by uz pred tim bylo vysvetleno:
+%embedding, \gls{gcn}/convolution layers, ... \\
+%FB: Staci predestrit, ze detaily vysvetlim pozdeji? MS: asi jo :)}
 
-\begin{figure}[h]
-\caption{Recommender architecture overview.
-When recommending a precedence, the input is problem $P$ and the output is precedence $\pi^*$.
-When training on an example, the input is problem $P$ and precedences $\pi$ and $\rho$,
-and the output is the loss value.}
-\label{fig:architecture}
-\centering
-\digraph[scale=0.4]{ArchitectureOverview}{
-graph [splines=ortho,ranksep=0.2];
-node [shape=box, fontsize=20];
-edge [fontsize=20];
-
-Problem [label="CNF problem P"];
-Graphifier [style=rounded, label="Graphifier"];
-g [label="Graph"];
-GCN [style=rounded, label="GCN"];
-SymbolEmbedding [label="Symbol embeddings"];
-SymbolCostModel [style=rounded, label="Projection"];
-SymbolCost [label="Symbol costs"];
-Sort [style=rounded, label="Sort"];
-Precedence [label=<Output precedence &pi;*>];
-
-Problem -> Graphifier -> g -> GCN -> SymbolEmbedding -> SymbolCostModel -> SymbolCost -> Sort -> Precedence;
-
-pi [label=<Precedence &pi;>];
-rho [label=<Precedence &rho;>];
-LossFunction [style=rounded, label="Loss function"];
-Loss [label="Loss value"];
-
-pi -> LossFunction;
-rho -> LossFunction;
-SymbolCost -> LossFunction;
-LossFunction -> Loss;
-}
-
-\iffalse
-
-\usetikzlibrary{shapes}
-\tikzstyle{object} = [rectangle, draw]
-\tikzstyle{input} = [ellipse, draw]
-\tikzstyle{output} = [ellipse, draw]
-
-\begin{tikzpicture}[node distance = 0.5 and 1, ->]
-% https://tex.stackexchange.com/a/332796/202639
-
-\node (problem) [input] {\gls{cnf} problem $P$};
-\node (symbol embeddings) [object] [below=of problem] {Symbol embeddings};
-\node (symbol costs) [object] [below=of symbol embeddings] {Symbol costs};
-\node (symbol precedence) [output] [below=of symbol costs] {Symbol precedence};
-
-\draw (problem) to node [left] {GCN} (symbol embeddings);
-\draw (symbol embeddings) to node [left] {MLP} (symbol costs);
-\draw (symbol costs) to node [left] {Order symbols by their costs} (symbol precedence);
-
-\node (PrecBetter) [input] [right=of problem] {Precedence $\PrecBetter$};
-\node (PrecBetterInv) [object] [below=of PrecBetter] {$\inv{\PrecBetter}$};
-\draw (PrecBetter) to node [right] {Invert} (PrecBetterInv);
-
-\node (PrecWorse) [input] [right=of PrecBetter] {Precedence $\PrecWorse$};
-\node (PrecWorseInv) [object] [below=of PrecWorse] {$\inv{\PrecWorse}$};
-\draw (PrecWorse) to node [right] {Invert} (PrecWorseInv);
-
-\node (PrecDiff) [object] [right=2 of symbol costs] {$\inv{\PrecWorse} - \inv{\PrecBetter}$};
-\node (PrecDiffNormalized) [object] [below=of PrecDiff] {Normalized};
-\node (PrecPairCost) [object] [below=of PrecDiffNormalized] {Precedence pair cost};
-\node (loss) [output] [below=of PrecPairCost] {Loss};
-
-\draw (PrecBetterInv) to (PrecDiff);
-\draw (PrecWorseInv) to (PrecDiff);
-\draw (PrecDiff) to node [right] {Normalize} (PrecDiffNormalized);
-\draw (PrecDiffNormalized) to (PrecPairCost);
-\draw (PrecPairCost) to (loss);
-
-\draw (symbol costs) to (PrecPairCost);
-
-\end{tikzpicture}
-
-\fi
-
-\end{figure}
-\todo{FB: Improve the diagram. Consider using tikz. See the disabled tikz figure in the source file.}
+%\begin{figure}[h]
+%\caption{Recommender architecture overview.
+%When recommending a precedence, the input is problem $P$ and the output is precedence $\pi^*$.
+%When training on an example, the input is problem $P$ and precedences $\pi$ and $\rho$,
+%and the output is the loss value.}
+%\label{fig:architecture}
+%\centering
+%\digraph[scale=0.4]{ArchitectureOverview}{
+%graph [splines=ortho,ranksep=0.2];
+%node [shape=box, fontsize=20];
+%edge [fontsize=20];
+%
+%Problem [label="CNF problem P"];
+%Graphifier [style=rounded, label="Graphifier"];
+%g [label="Graph"];
+%GCN [style=rounded, label="GCN"];
+%SymbolEmbedding [label="Symbol embeddings"];
+%SymbolCostModel [style=rounded, label="Projection"];
+%SymbolCost [label="Symbol costs"];
+%Sort [style=rounded, label="Sort"];
+%Precedence [label=<Output precedence &pi;*>];
+%
+%Problem -> Graphifier -> g -> GCN -> SymbolEmbedding -> SymbolCostModel -> SymbolCost -> Sort -> Precedence;
+%
+%pi [label=<Precedence &pi;>];
+%rho [label=<Precedence &rho;>];
+%LossFunction [style=rounded, label="Loss function"];
+%Loss [label="Loss value"];
+%
+%pi -> LossFunction;
+%rho -> LossFunction;
+%SymbolCost -> LossFunction;
+%LossFunction -> Loss;
+%}
+%
+%\iffalse
+%
+%\usetikzlibrary{shapes}
+%\tikzstyle{object} = [rectangle, draw]
+%\tikzstyle{input} = [ellipse, draw]
+%\tikzstyle{output} = [ellipse, draw]
+%
+%\begin{tikzpicture}[node distance = 0.5 and 1, ->]
+%% https://tex.stackexchange.com/a/332796/202639
+%
+%\node (problem) [input] {\gls{cnf} problem $P$};
+%\node (symbol embeddings) [object] [below=of problem] {Symbol embeddings};
+%\node (symbol costs) [object] [below=of symbol embeddings] {Symbol costs};
+%\node (symbol precedence) [output] [below=of symbol costs] {Symbol precedence};
+%
+%\draw (problem) to node [left] {GCN} (symbol embeddings);
+%\draw (symbol embeddings) to node [left] {MLP} (symbol costs);
+%\draw (symbol costs) to node [left] {Order symbols by their costs} (symbol precedence);
+%
+%\node (PrecBetter) [input] [right=of problem] {Precedence $\PrecBetter$};
+%\node (PrecBetterInv) [object] [below=of PrecBetter] {$\inv{\PrecBetter}$};
+%\draw (PrecBetter) to node [right] {Invert} (PrecBetterInv);
+%
+%\node (PrecWorse) [input] [right=of PrecBetter] {Precedence $\PrecWorse$};
+%\node (PrecWorseInv) [object] [below=of PrecWorse] {$\inv{\PrecWorse}$};
+%\draw (PrecWorse) to node [right] {Invert} (PrecWorseInv);
+%
+%\node (PrecDiff) [object] [right=2 of symbol costs] {$\inv{\PrecWorse} - \inv{\PrecBetter}$};
+%\node (PrecDiffNormalized) [object] [below=of PrecDiff] {Normalized};
+%\node (PrecPairCost) [object] [below=of PrecDiffNormalized] {Precedence pair cost};
+%\node (loss) [output] [below=of PrecPairCost] {Loss};
+%
+%\draw (PrecBetterInv) to (PrecDiff);
+%\draw (PrecWorseInv) to (PrecDiff);
+%\draw (PrecDiff) to node [right] {Normalize} (PrecDiffNormalized);
+%\draw (PrecDiffNormalized) to (PrecPairCost);
+%\draw (PrecPairCost) to (loss);
+%
+%\draw (symbol costs) to (PrecPairCost);
+%
+%\end{tikzpicture}
+%
+%\fi
+%
+%\end{figure}
+%\todo{FB: Improve the diagram. Consider using tikz. See the disabled tikz figure in the source file.}
 
 \subsection{From \gls{cnf} to graphs}
 \label{sec:graphifier}
@@ -155,7 +155,7 @@ The edges represent the (oriented) relations between the elements,
 for example the incidence relation between a clause and one of its (literals') atoms,
 or the relation between an atom and its predicate symbol.
 $\mathcal{R}$ denotes the set of all relations in the graph.
-\Cref{fig:CnfSchema} shows the types of nodes and edges used in our graph representation.
+%\Cref{fig:CnfSchema} shows the types of nodes and edges used in our graph representation.
 \Cref{fig:GcnExample} shows an example of a graph representation of a simple problem.
 
 \newcommand{\ntype}[1]{\texttt{#1}}
@@ -163,48 +163,48 @@ $\mathcal{R}$ denotes the set of all relations in the graph.
 \newcommand{\epos}{\etype{pos}}
 \newcommand{\eneg}{\etype{neg}}
 
-\begin{figure}[h]
-\caption{CNF network schema}
-\label{fig:CnfSchema}
-\centering
-\tikzstyle{token} = [rectangle, draw]
-
-\begin{tikzpicture}[node distance = 1 and 2, ->]
-% https://tex.stackexchange.com/a/332796/202639
-
-% Node and edge types:
-% https://docs.google.com/spreadsheets/d/1PCPHEgk6vLxpdpcvB_PGoLx7p4DID6WtvVWy2mDuv4A/edit?usp=sharing
-
-\node (formula) [token] {\ntype{problem}};
-% TODO: Consider removing the Formula nodes.
-\node (clause) [token, below=of formula] {\ntype{clause}};
-\node (atom) [token, below left=of clause] {\ntype{atom}};
-\node (equality) [token, below right=of clause] {\ntype{equality}};
-\node (predicate) [token, left=of atom] {\ntype{predicate}};
-\node (argument) [token, below=of atom] {\ntype{argument}};
-\node (term) [token, below=of argument] {\ntype{term}};
-\node (function) [token, left=of term] {\ntype{function}};
-\node (variable) [token, right=of term] {\ntype{variable}};
-
-\draw (formula) to node [right] {\etype{contains}} (clause);
-\draw (clause) to [bend right] node [above] {\epos{}} (atom);
-\draw (clause) to [bend left] node [below] {\eneg{}} (atom);
-\draw (clause) to [bend left] node [above] {\epos{}} (equality);
-\draw (clause) to [bend right] node [below] {\eneg{}} (equality);
-\draw (clause) to node [above] {\etype{binds}} (variable);
-\draw (atom) to node [above] {\etype{atom\_applies}} (predicate);
-\draw (atom) to node [left] {\etype{atom\_has}} (argument);
-\draw (equality) to node {\etype{equalizes}} (term);
-\draw (equality) to node {\etype{equalizes}} (variable);
-\draw (argument) to [bend right] node [left] {\etype{is}} (term);
-\draw (argument) to [loop left] node [left] {\etype{precedes}} (argument);
-\draw (argument) to node [below] {\etype{is}} (variable);
-\draw (term) to node [above] {\etype{term\_applies}} (function);
-\draw (term) to [bend right] node [right] {\etype{term\_has}} (argument);
-
-\end{tikzpicture}
-\end{figure}
-\todo{FB: Clean up the diagram.}
+%\begin{figure}[h]
+%\caption{CNF network schema}
+%\label{fig:CnfSchema}
+%\centering
+%\tikzstyle{token} = [rectangle, draw]
+%
+%\begin{tikzpicture}[node distance = 1 and 2, ->]
+%% https://tex.stackexchange.com/a/332796/202639
+%
+%% Node and edge types:
+%% https://docs.google.com/spreadsheets/d/1PCPHEgk6vLxpdpcvB_PGoLx7p4DID6WtvVWy2mDuv4A/edit?usp=sharing
+%
+%\node (formula) [token] {\ntype{problem}};
+%% TODO: Consider removing the Formula nodes.
+%\node (clause) [token, below=of formula] {\ntype{clause}};
+%\node (atom) [token, below left=of clause] {\ntype{atom}};
+%\node (equality) [token, below right=of clause] {\ntype{equality}};
+%\node (predicate) [token, left=of atom] {\ntype{predicate}};
+%\node (argument) [token, below=of atom] {\ntype{argument}};
+%\node (term) [token, below=of argument] {\ntype{term}};
+%\node (function) [token, left=of term] {\ntype{function}};
+%\node (variable) [token, right=of term] {\ntype{variable}};
+%
+%\draw (formula) to node [right] {\etype{contains}} (clause);
+%\draw (clause) to [bend right] node [above] {\epos{}} (atom);
+%\draw (clause) to [bend left] node [below] {\eneg{}} (atom);
+%\draw (clause) to [bend left] node [above] {\epos{}} (equality);
+%\draw (clause) to [bend right] node [below] {\eneg{}} (equality);
+%\draw (clause) to node [above] {\etype{binds}} (variable);
+%\draw (atom) to node [above] {\etype{atom\_applies}} (predicate);
+%\draw (atom) to node [left] {\etype{atom\_has}} (argument);
+%\draw (equality) to node {\etype{equalizes}} (term);
+%\draw (equality) to node {\etype{equalizes}} (variable);
+%\draw (argument) to [bend right] node [left] {\etype{is}} (term);
+%\draw (argument) to [loop left] node [left] {\etype{precedes}} (argument);
+%\draw (argument) to node [below] {\etype{is}} (variable);
+%\draw (term) to node [above] {\etype{term\_applies}} (function);
+%\draw (term) to [bend right] node [right] {\etype{term\_has}} (argument);
+%
+%\end{tikzpicture}
+%\end{figure}
+%\todo{FB: Clean up the diagram.}
 
 \begin{figure}[h]
 \caption{Graph representation of the \gls{cnf} formula $a=b \wedge f(a,b) \neq f(b,b)$.}

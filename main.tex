@@ -99,37 +99,35 @@ Finally, higher training data efficiency could be achieved by considering all pa
 in one training batch.
 \todo{FB: Confusing?}
 
-A more detailed analysis of the training process might yield insights into how the performance generalizes
-from the training set to the validation set
-and from proxy metrics, such as the loss and the accuracy, to the final solver performance.
-Ultimately, this might reveal modifications that make the training more efficient and the final recommender more performant.
-
-The training examples take the form of pairs of precedences,
-where one of the precedences is preferable over the other.
-In this work, the amount by which the quality of the precedences differs is ignored.
-Taking the exact or estimated numbers of saturation loop iterations into account
-might help the recommender to prioritize the more significant gains.
-
-Applying techniques of reinforcement learning to focus the training data on the cases that yield high performance gains
-could further improve the recommender performance.
-
-We restricted our experiments to problems whose graph representation does not exceed \num{100000} nodes.
-Evaluating the recommender on larger problems would be an interesting test of generalization.
-Training on larger problems may be facilitated by employing a lossy graphification.
-
-We performed all experiments with a fixed \gls{atp} \Vampire{} and a fixed configuration
-we consider to be a reasonable baseline.
-Introducing other prover configurations (namely other \glspl{sot})
-or other provers could make the resulting recommender more robust
-and possibly help extract more general knowledge about the structure of good symbol precedences.
-
-Finally, the approach outlined in \cref{sec:architecture}
-could be adjusted to solve tasks on \gls{fol} formulas other than recommending symbol precedences,
-such as premise selection of given clause selection.
-On the other hand, we could try to solve other tasks that involve generating permutations of arbitrary length.
-\todo{FB: TSP? Probably not because it is too combinatorial.}
-
-%KBO is a also parametrized by weights (along with the precedence). Could we learn those as well? (Jointly?)
+%A more detailed analysis of the training process might yield insights into how the performance generalizes
+%from the training set to the validation set
+%and from proxy metrics, such as the loss and the accuracy, to the final solver performance.
+%Ultimately, this might reveal modifications that make the training more efficient and the final recommender more performant.
+%
+%The training examples take the form of pairs of precedences,
+%where one of the precedences is preferable over the other.
+%In this work, the amount by which the quality of the precedences differs is ignored.
+%Taking the exact or estimated numbers of saturation loop iterations into account
+%might help the recommender to prioritize the more significant gains.
+%
+%Applying techniques of reinforcement learning to focus the training data on the cases that yield high performance gains
+%could further improve the recommender performance.
+%
+%We restricted our experiments to problems whose graph representation does not exceed \num{100000} nodes.
+%Evaluating the recommender on larger problems would be an interesting test of generalization.
+%Training on larger problems may be facilitated by employing a lossy graphification.
+%
+%We performed all experiments with a fixed \gls{atp} \Vampire{} and a fixed configuration
+%we consider to be a reasonable baseline.
+%Introducing other prover configurations (namely other \glspl{sot})
+%or other provers could make the resulting recommender more robust
+%and possibly help extract more general knowledge about the structure of good symbol precedences.
+%
+%Finally, the approach outlined in \cref{sec:architecture}
+%could be adjusted to solve tasks on \gls{fol} formulas other than recommending symbol precedences,
+%such as premise selection of given clause selection.
+%On the other hand, we could try to solve other tasks that involve generating permutations of arbitrary length.
+%\todo{FB: TSP? Probably not because it is too combinatorial.}
 
 \section*{Acknowledgments}
 % > Acknowledgements should generally be placed in an unnumbered subsection at the end of the paper.
