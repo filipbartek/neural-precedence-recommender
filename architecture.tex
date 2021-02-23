@@ -293,8 +293,6 @@ which is a stack of \emph{graph convolutional layers}.
 Each layer consists of a collection of differentiable modules---one module per edge type.
 The computation of the \gls{gcn} starts with assigning each node an initial embedding
 and then iteratively updates the embeddings by passing them through the convolutional layers.
-\todo{FB: Ensure terms are clear (preferably defined): embedding, vector, trainable vector, feature vector.
-MS: (convolutional, layers, ...)}
 
 The initial embedding $h_a^{(0)}$ of a node $a$ is a concatenation of two vectors:
 a \emph{feature vector} specific for that node (typically empty)

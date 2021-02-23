@@ -209,7 +209,6 @@ A predicate symbol cost model is trained by gradient backpropagation
 on the precedence pair classification task
 \todo{FB: Reference a section. MS: Ano!}
 using the examples generated from the problems in $\ProblemsTrain$.
-\todo{Add references to the sections that describe the architecture.}
 To avoid redundant computations, all examples generated from a problem are processed in the same training batch.
 Thus, each training batch contains up to \num{128} problems and all the examples generated from these problems.
 The symbol cost model is trained using the Adam optimizer \cite{Kingma2014}.
@@ -221,8 +220,6 @@ and is halved each time the train loss stagnates for 10 consecutive epochs.
 Each of the training examples of problem $P$ contributes to the training with the weight $\frac{1}{s_P}$,
 where $s_P$ is the number of examples of problem $P$ in the training set,
 so that each problem contributes to the training to the same degree irrespective of the relative numbers of examples.
-\todo{FB: Shall we remind that the examples are further normalized by $k(n)$ to make even across signature lengths?}
-\todo{MS: asi dobry, pokud to bude jasne receny nejaky predchozi sekci.}
 
 \subsubsection{Metrics}
 To analyze the training process,
@@ -393,9 +390,6 @@ Frequency &
 \end{tabular}
 \end{table*}
 \todo{FB: Add links to Neptune runs?}
-
-\todo{FB: Add discussion.}
-\todo{FB: Evaluate on problems larger than 100k nodes.}
 
 The results show that the \gls{gcn}-based model outperforms the \texttt{frequency} heuristic by a significant margin.
 Since the predicate precedence recommender was trained against randomly distributed function precedences,
