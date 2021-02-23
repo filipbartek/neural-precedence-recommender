@@ -172,13 +172,16 @@ the least explored problem was tried 19 times, and the most exploited problem wa
 
 \subsubsection{Split}
 
-The problems in $\ProblemsTptp$ are split roughly in half to form the train set and the validation set.
-Both training and validation sets are restricted to problems whose graph representation consists of at most \num{100000} nodes
+The \num{17053} problems in $\ProblemsTptp$ are first split roughly in half to form the training set and the validation set.
+Next, both training and validation sets are restricted
+to problems whose graph representation consists of at most \num{100000} nodes
 to limit the memory requirements of the training.
-The train set is further restricted to problems that correspond to at least one training example.
-In total there are \num{7648} problems in the validation set $\ProblemsVal$
-and \num{2571} problems in the train set $\ProblemsTrain$.
-\todo{MS: A kdyz pouzivas validation set behem uceni, ma taky mensi podmnozinu s limitem \num{100000} nodes?}
+Approximately \SI{90}{\percent} of the problems fit into this limit
+%a total of \num{15282} out of the \num{17053} (approximately \SI{90}{\percent}) problems satisfy this requirement.
+and there are \num{7648} problems in the resulting validation set $\ProblemsVal$.
+The training set $\ProblemsTrain$ is further restricted to problems that correspond to at least one training example,
+leaving \num{2571} problems when training predicate precedence recommender,
+and \num{1953} problems when training function precedence recommender.
 \todo{FB: Unify the terminology: validation, or train set?
 MS: Co by znamenalo unify? Nebo myslis test set?}
 % /home/filip/projects/vampire-ml/vampire-ml/outputs/2021-02-11/16-27-02/results.csv
@@ -186,7 +189,7 @@ MS: Co by znamenalo unify? Nebo myslis test set?}
 % train: 8527
 % val: 8526
 % with_questions: 5349
-% graphified (not all attempted): 10219
+% graphified: 15282
 % train&with_questions: 2647
 % train&with_questions&graphified: 2571
 % val&graphified: 7648
