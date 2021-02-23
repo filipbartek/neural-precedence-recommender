@@ -1,5 +1,7 @@
 % !TEX root = main.tex
 
+\todo[inline]{FB: Scan through this section and make sure we use "we" form and past tense consistently.}
+
 To demonstrate the capacity of the trainable precedence recommender described in \cref{sec:architecture},
 we performed a series of experiments.
 In this section, we describe the design and configuration of the experiments,
@@ -20,6 +22,7 @@ the CPU Intel Xeon Gold 6140 (72 cores @ \SI{2.30}{GHz}),
 \SI{383}{GiB} RAM,
 the OS Ubuntu 20.04 and
 the Linux kernel 5.4.0-40-generic.
+\todo{FB: Add version of Python and notable packages, namely DGL and TensorFlow.}
 
 % From the paper Reliable benchmarking [BenchExec]:
 % – CPU model and size of RAM,
@@ -161,6 +164,7 @@ allowing up to \num{2000} parallel solver executions.
 \todo{Explain in detail?}
 
 The sampling runs until a target number of examples is generated---\num{1000000} predicate precedence examples and \num{800000} function precedence examples.
+\todo{FB: Prevent confusion of dash for minus.}
 % sftp://cluster.ciirc.cvut.cz/home/bartefil/git/vampire-ml/out/20210108-generate-predicate/questions_generated
 For example, while generating \num{1000000} examples for the predicate precedence dataset,
 the least explored problem was tried 19 times, and the most exploited problem was tried 504 times.
