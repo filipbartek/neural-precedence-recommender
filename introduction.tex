@@ -39,13 +39,12 @@ are specified with the help of a
 While the superposition calculus is refutationally complete for any simplification ordering \cite{DBLP:journals/logcom/BachmairG94},
 the choice of the precedence has a significant impact on how long it takes to solve a given problem.
 
-Certain orderings help to make superposition a decision procedure on certain fragments of first-order logic 
-(see, e.g., \cite{DBLP:conf/lics/GanzingerN99,DBLP:conf/cade/HustadtKS05}).
-It is also well known that giving the highest precedence to the predicate symbols introduced as names 
+It is well known that giving the highest precedence to the predicate symbols introduced as names 
 during the Tseitin transformation % of the input formula 
 \cite{Tseitin1983} can immediately make saturation produce the exponential 
 set of clauses that the transformation is designed to avoid \cite{Reger2016}.
-%
+Also, certain orderings help to make superposition a decision procedure on certain fragments of first-order logic 
+(see, e.g., \cite{DBLP:conf/lics/GanzingerN99,DBLP:conf/cade/HustadtKS05}).
 However, the precise way by which the choice of a precedence 
 influences the follow-up proof search on a general problem is extremely hard to predict. % indirect
 
@@ -57,9 +56,30 @@ by the number of occurrences in the input problem. However, experiments with ran
 indicate that the existing schemes often fail to come close to the optimum precedence \cite{RegerSuda2017},
 suggesting room for further improvements.
 
-In this work, 
+In this work, we propose a machine learning system that learns to predict for an ATP
+whether one precedence is going to lead to a faster proof search on a given problem than another.
+Given a previously unseen problem, it can then be asked to recommend the best possible precedence for an ATP to run with.
+Relying only on the logical structure of the problems, % for the learning, 
+the system generalizes the knowledge about favourable precedences across problems with different signatures.
 
-\newpage
+Our recommender uses a graph convolutional neural network \cite{kipf2017semisupervised}
+to represent the problem structure. It learns from the ATP performance on selected problems
+and \emph{pairs of randomly sampled} precedences. This information is then used to train
+a \emph{symbol cost model}, which realizes the recommendation by simply sorting 
+the problem's symbols according the obtained costs. 
+
+This work strictly improves on our previous experiments with linear regression models and simple hand-crafted symbol features \cite{DBLP:conf/cade/Bartek020}
+and is, to the best of our knowledge, a first method able to propose good symbol precedences automatically 
+using a non-linear transformation of the input problem structure.
+
+
+The rest of this paper is organized as follows. \ldots
+% explicit contributions (mixed with ``as follows'')?
+
+\todo{Asi bych znovu (po abstraktu) nerikal, kolik nam vyjde. Spis jen ze sekce ta a ta je to tom, ze se tam evaluu s vampirem na TPTP. }
+When coupled with the ATP Vampire and trained on problems from the TPTP library,
+the recommender improves on the state-of-the art general-purpose precedence generating scheme
+\texttt{invfreq} by more than \SI{4}{\percent}.
 
 
 %\todo{MS: idea maybe to work out more in the introduction: 
@@ -68,15 +88,12 @@ In this work,
 %all the more interesting one can learn from observing just this indirect impact 
 %which precendences are good and which are bad!}
 
-
 % Two aspects: 
 % -selection of \emph{maximals} 
 % -rewriting from \emph{large to small}
 
 
-% CITE us: co tehdy, co ted!
-
-
+\iffalse
 
 Choosing the next inference to apply is arguably the most important decision point in the state-of-the-art
 \todo{FB: Add "saturation-based"?}
@@ -179,7 +196,7 @@ that optimize a quantitative criterion.
 \todo{FB: Give examples of such tasks. How about constructive TSP?}
 \end{itemize}
 
-\iffalse % AWR draft
+% \iffalse % AWR draft
 
 The performance of the state-of-the-art \acrfullpl{atp} is severely limited by some of the design decisions that constitute the provers' architecture.
 For example, the \frequency{} symbol precedence heuristic of the \acrfull{fol} \acrshort{atp} \Vampire{} is easily outperformed by the best of 10 random precedences.\cite{}
