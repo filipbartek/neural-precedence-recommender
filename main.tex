@@ -89,15 +89,13 @@ the main task it is evaluated on is the generation of useful precedences.
 
 \todo[inline]{Related problem: Ranking. See Mohri etc.}
 
-\section{Conclusion}
+\section{Conclusion and future work}
 \label{sec:conclusion}
 
 We have described a system that extracts useful symbol precedences from the graph representations of \gls{cnf} problems.
 Comparison against a conventional symbol precedence heuristic shows that using a \gls{gcn}
 to consider the whole structure of the input problem is beneficial.
 \todo{FB: Should we boast that the reduction of ranking to training of differentiable element scores is innovative?}
-
-\subsection{Future work}
 
 An analysis of the trained recommender could reveal new insights into how the symbol precedence influences the proof search,
 and how a symbol precedence should be chosen in the context of a problem so that it is likely to lead to an efficient proof search.
