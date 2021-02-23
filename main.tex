@@ -58,14 +58,14 @@ pdfkeywords={saturation-based theorem proving, simplification ordering, symbol p
 
 Our previous text \cite{DBLP:conf/cade/Bartek020} marked the initial investigation of applying techniques of \gls{ml}
 to generating good symbol precedences.
-The neural recommender uses a \gls{gnn} to model symbol costs,
+The neural recommender presented here uses a \gls{gnn} to model symbol costs,
 while \cite{DBLP:conf/cade/Bartek020} used a linear combination of symbol features readily available in the \gls{atp} \Vampire{}.
 The \gls{gnn}-based approach yields more performant precedences at the cost of longer training and preprocessing time.
 
-\cite{Olsak2019} and \cite{Rawson2020} propose similar \gls{gnn} architectures to solve tasks on \gls{fol} problems.
+In \cite{Olsak2019} and \cite{Rawson2020}, the authors propose similar \gls{gnn} architectures to solve tasks on \gls{fol} problems.
 They use the \glspl{gnn} to solve classification tasks such as premise selection.
 While our system is trained on a proxy classification task,
-the main task it is evaluated against is generating useful precedences.
+the main task it is evaluated on is the generation of useful precedences.
 
 \todo[inline]{Related problem: Ranking. See Mohri etc.}
 
