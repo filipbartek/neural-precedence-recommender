@@ -97,21 +97,34 @@ Recall the two views:
 
 \todo[inline,author=FB]{Define terminology.}
 
-\subsection{Neural networks}
+\subsection{\Acrlongpl{nn}}
 
-A \emph{feed-forward neural network} is a directed acyclic graph
-of differentiable \emph{modules} that operate on numeric vectors.
-The common modules include multiplication by a matrix, and nonlinearity such as ReLU or sigmoid.\footnote{
-These are, respectively, $f(x) = \max\{0,x\}$ and $g(x) = 1/(1+e^{-x}$). }
-Some of the modules are parameterized by trainable parameters or hyperparameters.
-In a typical usage, the neural network is trained by \emph{gradient descent}.
-In this setting, the trained network outputs a single numeric value called \emph{loss}.
-Since the network is differentiable,
-a gradient of the loss is computed with respect to all the trainable parameters of the network.
-The gradients are typically computed by \emph{backpropagation}.
-The values of the parameters are then updated by taking a small step in the direction that minimizes the loss.
-\todo{MS: pridat najakou citaci. Treba? \cite{DBLP:books/daglib/0040158}}
+A \emph{feedforward \acrlong{ann}} \cite{DBLP:books/daglib/0040158} is a \acrlong{dag} of \emph{modules}.
+Each module is an operation that consumes a numeric (input) \emph{vector} and outputs a numeric vector.
+Each of the components of the output vector is called a \emph{unit} of the module.
+The output of each module is differentiable with respect to the input.
 
-\todo{Define sigmoid, gradient descent, loss.}
-\todo{Maybe we don't need to make GCN a preliminary; we can define it later instead.}
-\todo[inline,author=FB]{GCN? Backprop?, gradient descent, loss, gradient, epoch}
+The common modules include
+the \emph{fully connected layer}, which performs an affine transformation,
+and non-linear \emph{activation functions} such as the \emph{\gls{relu}} or \emph{sigmoid}.\footnote{
+These are, respectively, $f(x) = \max\{0,x\}$ and $g(x) = \frac{1}{1+e^{-x}}$.}
+A fully connected layer with a single unit is called the \emph{linear unit}.
+
+Some of the modules are parameterized by numeric \emph{parameters}.
+For example, the fully connected layer that transforms the input $x$ by the affine transformation $Wx + b$
+is parameterized by the weight matrix $W$ and the bias vector $b$.
+If the output of a module is differentiable with respect to a parameter,
+that parameter is considered \emph{trainable}.
+
+In a typical use case, the \acrlong{nn} is trained by \emph{gradient descent} on a \emph{training set} of \emph{examples}.
+% Note: In case of GCN, the example is actually a set of edge matrices.
+In such setting, the network outputs a single numeric value called \emph{loss} when evaluated on a \emph{batch} of examples.
+The loss of a batch is typically computed as a weighted sum of the losses of the individual examples.
+Since each of the modules is differentiable with respect to its inputs and trainable parameters,
+the gradient of the loss in the trainable parameters
+\todo{FB: Is this terminology correct?}
+can be computed using the chain rule \cite{DBLP:books/daglib/0040158}.
+The trainable parameters are then updated by taking a small step
+against the gradient---in the direction that is expected to make the loss value smaller.
+An \emph{epoch} is a sequence of iterations that updates the trainable parameters
+using each example in the training set exactly once.
