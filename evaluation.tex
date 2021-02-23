@@ -72,7 +72,7 @@ and to compare terms.
 The input problems are assumed to be specified in the \gls{cnf} or the \gls{fof} fragment
 of the \acrshort{tptp} language \cite{Sutcliffe2017}.
 % http://www.tptp.org/TPTP/SyntaxBNF.html
-\todo{FB: Mention TPTP version. Consider joining with section Problem set below.}
+\todo{FB: Consider joining with section Problem set below.}
 \Gls{fof} problems are first converted into equisatisfiable \gls{cnf} problems by \Vampire{}.
 New symbols may be introduced during preprocessing,
 namely due to the Tseitin transformation and Skolemization.
@@ -134,6 +134,7 @@ The two executions are compared in terms of performance:
 predicate precedence $\PrecBetter$ is recognized as better than predicate precedence $\PrecWorse$,
 denoted as $\Better{\PrecBetter}{\PrecWorse}{P}$,
 if the proof search finishes successfully with $\PrecBetter$ ($\SolverRun{P}{\Prec} = \top$)
+\todo{FB: Alias: We use $S$ for both solver and score of precedence pair.}
 and if the number of iterations of the saturation loop with $\PrecBetter$ is smaller than with $\PrecWorse$.
 \todo{FB: Use notation for saturation loop iterations if the notation was established earlier. 
 If failure is denoted by $\infty$, we can simply use $<$.}
@@ -159,6 +160,7 @@ In each iteration, the generator samples the problem $P$ that maximizes
 $$
 \frac{s_P}{n_P} + \sqrt{\frac{2 \ln n}{n_P}}
 $$
+\todo{FB: Shrink into text to save space.}
 where $n = \sum_{P \in \ProblemsTptp} n_P$ is the total number of tries on all problems.
 The parallelizing relaxation means that the $s_P$ values are only updated once in \num{1000} iterations,
 allowing up to \num{2000} parallel solver executions.
@@ -242,8 +244,8 @@ After the training finished,
 we performed a final evaluation of the most promising intermediate trained model on the whole $\ProblemsVal$.
 The model that manifested the best estimated solver performance on a sample of \num{1000} validation problems
 was chosen as the most promising.
-\todo{FB: Watch out: This way we may overfit on the 1000 problems used for sample solver performance evaluation. We should leave out these 1000 problems from the final evaluation.}
-\todo{MS: taky me to ted napadlo! Uplne oficialni metodika byva split na train,valid,test. 
+\todo[inline]{FB: Watch out: This way we may overfit on the 1000 problems used for sample solver performance evaluation. We should leave out these 1000 problems from the final evaluation.}
+\todo[inline]{MS: taky me to ted napadlo! Uplne oficialni metodika byva split na train,valid,test. 
 Kdy se trenuje na train, hyperparametry (vcetne early stopping) se ladi vuci valid 
 a pak se vyhodnocuje na test. Nekdy se pak valid rika devel a test se rika holdout.}
 
