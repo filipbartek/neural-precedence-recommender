@@ -34,7 +34,9 @@ The goal of the training is to find parameter values such that the recommender p
 that are likely to yield a successful proof in as few iterations of the saturation loop as possible.
 
 The recommender consists of modules that perform specific subtasks,
-each of which is described in detail in one of the following sections (see also \cref{fig:architecture}):
+each of which is described in detail in one of the following
+\iftoggle{LONG}{
+sections (see also \cref{fig:architecture}):
 \begin{itemize}
 \item \Cref{sec:graphifier}: A graph constructor converts the input \gls{cnf} problem into a problem graph.
 \item \Cref{sec:gcn}: \Gls{gcn} converts a problem graph into symbol embeddings.
@@ -44,6 +46,9 @@ It is only used in generating mode.
 \item \Cref{sec:training}: Loss function converts the symbol costs and a pair of precedences into a loss value.
 It is only used in training mode.
 \end{itemize}
+}{
+sections (see also \cref{fig:architecture}).
+}
 
 \begin{figure}[h]
 \caption{Recommender architecture overview.

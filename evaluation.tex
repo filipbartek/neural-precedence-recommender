@@ -221,6 +221,7 @@ Each of the training examples of problem $P$ contributes to the training with th
 where $s_P$ is the number of examples of problem $P$ in the training set,
 so that each problem contributes to the training to the same degree irrespective of the relative numbers of examples.
 
+\iftoggle{LONG}{
 \subsubsection{Metrics}
 To analyze the training process,
 we tracked the dynamics of three metrics on $\ProblemsTrain$ and $\ProblemsVal$:
@@ -234,6 +235,7 @@ Similarly, we are interested in generalization from training set to validation s
 \todo{MS: kdyz se to tady tak pekne pripravi, asi ctenar ceka, ze se to pozdeji 
 nejak zuzitkuje. Pokud se rozhnodnem loss/accuracy/ATP zavislost dal nerozebirat,
 asi je tu navic i tento odstavec, nebo aspon jeho cast.}
+}
 
 \subsubsection{Termination}
 We run the training until the validation accuracy stopped increasing for 100 consecutive epochs.
@@ -400,6 +402,7 @@ We have verified that the simple linear predicate precedence heuristic
 trained in \cite{DBLP:conf/cade/Bartek020} outperforms the \texttt{frequency} heuristic.
 Moreover, we have confirmed the conjecture that using a \gls{gnn} may yield an even better performance \cite{DBLP:conf/cade/Bartek020}.
 
+\iftoggle{LONG}{
 In the process of training,
 we tracked three metrics on the training and validation sets:
 loss, accuracy, and solver performance on a sample of 1000 problems.
@@ -411,6 +414,7 @@ with validation loss entering a plateau around epoch 100.
 The solver performance approximately followed the dynamics of the accuracy on the respective problem set.
 % Predicate: https://ui.neptune.ai/filipbartek/vampire-ml/e/VML-540/charts
 % Function: https://ui.neptune.ai/filipbartek/vampire-ml/e/VML-672/charts
+}
 
 \todo[inline]{FB: Discuss the phenomenon of increasing validation loss and accuracy.}
 %A possible explanation of the discrepancy between the improving validation accuracy and deteriorating validation loss
