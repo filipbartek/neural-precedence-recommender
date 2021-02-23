@@ -42,6 +42,7 @@ pdfkeywords={saturation-based theorem proving, simplification ordering, symbol p
 \input{introduction}
 
 \section{Preliminaries}
+\label{sec:preliminaries}
 \input{preliminaries}
 
 \section{Architecture}
@@ -53,49 +54,82 @@ pdfkeywords={saturation-based theorem proving, simplification ordering, symbol p
 \input{evaluation}
 
 \section{Related work}
+\label{sec:related}
 
-MS: my sami (PAAR paper) jsem si related workem. Budem se vuci tomu muset vymezit.
-Jinak me ale nic moc bezprostredniho nenepada a nevim tedy, jestli se tedy primo
-nutit do sekce s timto nazvem!
+Our previous text \cite{DBLP:conf/cade/Bartek020} marked the initial investigation of applying techniques of \gls{ml}
+to generating good symbol precedences.
+The neural recommender uses a \gls{gnn} to model symbol costs,
+while \cite{DBLP:conf/cade/Bartek020} used a linear combination of symbol features readily available in the \gls{atp} \Vampire{}.
+The \gls{gnn}-based approach yields more performant precedences at the cost of longer training and preprocessing time.
+
+\cite{Olsak2019} and \cite{Rawson2020} propose similar \gls{gnn} architectures to solve tasks on \gls{fol} problems.
+They use the \glspl{gnn} to solve classification tasks such as premise selection.
+While our system is trained on a proxy classification task,
+the main task it is evaluated against is generating useful precedences.
 
 \todo[inline]{Related problem: Ranking. See Mohri etc.}
 
 \section{Conclusion}
+\label{sec:conclusion}
+
+We have described a system that extracts useful symbol precedences from the graph representations of \gls{cnf} problems.
+Comparison against a conventional symbol precedence heuristic shows that using a \gls{gcn}
+to consider the whole structure of the input problem is beneficial.
+\todo{FB: Should we boast that the reduction of ranking to training of differentiable element scores is innovative?}
 
 \subsection{Future work}
 
-Generalization from trail acc to val acc may be improved.
+An analysis of the trained recommender could reveal new insights into how the symbol precedence influences the proof search,
+and how a symbol precedence should be chosen in the context of a problem so that it is likely to lead to an efficient proof search.
+This might lead to a design of a new precedence heuristic
+that focuses relies on aspects of input problems
+that have been overlooked so far in the context of generating symbol precedences.
 
-Highest val accuracy does not transfer to highest ATP success rate. Generalization to ATP is sub-par.
+While using the \gls{kbo} as our simplification ordering scheme of choice,
+we restricted ourselves to generating the symbol precedences,
+leaving the symbol weights fixed to the constant 1 (the default behavior of \Vampire{}).
+Learning to recommend the symbol weights in addition to the symbol precedences would be interesting.
+\todo{FB: Be more fancy in wording.}
 
-Larger graphs
+Training both the predicate and the function precedence using a single \gls{gcn} would yield a recommender
+that only needs one pass through a \gls{gcn} to generate both predicate and function precedences for a problem.
+Moreover, the model would have the possibility to exploit the properties of the function precedence
+when generating the predicate precedence, and vice versa.
+Finally, higher training data efficiency could be achieved by considering all pairs of measured executions on a problem
+in one training batch.
+\todo{FB: Confusing?}
 
-Joint model (trained jointly on predicate and function precedences)
+A more detailed analysis of the training process might yield insights into how the performance generalizes
+from the training set to the validation set
+and from proxy metrics, such as the loss and the accuracy, to the final solver performance.
+Ultimately, this might reveal modifications that make the training more efficient and the final recommender more performant.
 
-Differentiate questions due to satiterations from questions due to success and failure
+The training examples take the form of pairs of precedences,
+where one of the precedences is preferable over the other.
+In this work, the amount by which the quality of the precedences differs is ignored.
+Taking the exact or estimated numbers of saturation loop iterations into account
+might help the recommender to prioritize the more significant gains.
 
-MS: Is there a knowledge transfer possible between related setups when we in vampire change
-options (seemingly?) orthogonal to precedence (saturation algorithm, additional inference rules / reductions, AVATAR on/off,
-clause selection strategies, etc.)?
+Applying techniques of reinforcement learning to focus the training data on the cases that yield high performance gains
+could further improve the recommender performance.
 
-KBO is a also parametrized by weights (along with the precedence). Could we learn those as well? (Jointly?)
+We restricted our experiments to problems whose graph representation does not exceed \num{100000} nodes.
+Evaluating the recommender on larger problems would be an interesting test of generalization.
+Training on larger problems may be facilitated by employing a lossy graphification.
 
-Reinforcement learning will allow using a trained recommender to generate data from harder problems.
+We performed all experiments with a fixed \gls{atp} \Vampire{} and a fixed configuration
+we consider to be a reasonable baseline.
+Introducing other prover configurations (namely other \glspl{sot})
+or other provers could make the resulting recommender more robust
+and possibly help extract more general knowledge about the structure of good symbol precedences.
 
-In our experiments, too much attention is spent on uninteresting examples.
-We learn to order pairs of non-optimal precedences.
-However, if the recommender ordered a non-optimal pair wrong, it could still produce the optimum precedence correctly.
-Besides, we train from pairs of successful runs that only differ in number of iterations.
+Finally, the approach outlined in \cref{sec:architecture}
+could be adjusted to solve tasks on \gls{fol} formulas other than recommending symbol precedences,
+such as premise selection of given clause selection.
+On the other hand, we could try to solve other tasks that involve generating permutations of arbitrary length.
+\todo{FB: TSP? Probably not because it is too combinatorial.}
 
-\todo[inline]{Idea for next project: Optimize precedence directly in a RL fashion: Generate precedence and evaluate with Vampire. If it is the best precedence seen so far, loss is 0 and gradient is 0. Otherwise ground truth is the best precedence seen so far on this problem and we use "differentiable ranking" to backpropagate. Possibly with some exploration, e.g. random swaps of pairs of symbols.}
-
-Thorough analysis of the model: how does it work? how does it generalize?
-
-Besides tackling the particular task of generating symbol precedences,
-the approach described in \cref{sec:architecture} may be of a more general interest
-for a researcher trying to apply statistical learning to produce arbitrarily long permutations
-that optimize some non-differentiable quantitative criterion.
-\todo{FB: Give examples of such tasks. How about constructive TSP?}
+%KBO is a also parametrized by weights (along with the precedence). Could we learn those as well? (Jointly?)
 
 \section*{Acknowledgments}
 % > Acknowledgements should generally be placed in an unnumbered subsection at the end of the paper.

@@ -24,9 +24,9 @@
 Modern saturation-based Automatic Theorem Provers (ATPs) such as E \cite{SCV:CADE-2019}, SPASS \cite{DBLP:conf/cade/WeidenbachDFKSW09} 
 or \Vampire{} \cite{DBLP:conf/cav/KovacsV13}
 employ the superposition calculus \cite{DBLP:journals/logcom/BachmairG94,DBLP:books/el/RV01/NieuwenhuisR01} as their underlying inference system.
-Integrating flavours of resolution \cite{DBLP:books/el/RV01/BachmairG01}, paramodulation \cite{Robinson1983}, and 
+Integrating flavors of resolution \cite{DBLP:books/el/RV01/BachmairG01}, paramodulation \cite{Robinson1983}, and 
 the unfailing completion \cite{Bachmair89completionwithout}, superposition is a powerful calculus with 
-a native support for equational reasoning. The calculus is parametrized by a simplification ordering on terms % and literals,
+a native support for equational reasoning. The calculus is parameterized by a simplification ordering on terms % and literals,
 and uses it to constrain the applicability of inferences, with a significant impact on performance.
 
 Both of the two main classes of simplification orderings used in practice,
@@ -60,11 +60,11 @@ In this work, we propose a machine learning system that learns to predict for an
 whether one precedence is going to lead to a faster proof search on a given problem than another.
 Given a previously unseen problem, it can then be asked to recommend the best possible precedence for an ATP to run with.
 Relying only on the logical structure of the problems, % for the learning, 
-the system generalizes the knowledge about favourable precedences across problems with different signatures.
+the system generalizes the knowledge about favorable precedences across problems with different signatures.
 
 Our recommender uses a graph convolutional neural network \cite{kipf2017semisupervised}
 to represent the problem structure. It learns from the ATP performance on selected problems
-and \emph{pairs of randomly sampled} precedences. This information is then used to train
+and pairs of randomly sampled precedences. This information is then used to train
 a \emph{symbol cost model}, which realizes the recommendation by simply sorting 
 the problem's symbols according the obtained costs. 
 
@@ -72,15 +72,13 @@ This work strictly improves on our previous experiments with linear regression m
 and is, to the best of our knowledge, a first method able to propose good symbol precedences automatically 
 using a non-linear transformation of the input problem structure.
 
-
-The rest of this paper is organized as follows. \ldots
-% explicit contributions (mixed with ``as follows'')?
-
-\todo{Asi bych znovu (po abstraktu) nerikal, kolik nam vyjde. Spis jen ze sekce ta a ta je to tom, ze se tam evaluu s vampirem na TPTP. }
-When coupled with the ATP Vampire and trained on problems from the TPTP library,
-the recommender improves on the state-of-the art general-purpose precedence generating scheme
-\texttt{invfreq} by more than \SI{4}{\percent}.
-
+The rest of this paper is organized as follows.
+\Cref{sec:preliminaries} exposes the basic terminology used throughout the remaining sections.
+\Cref{sec:architecture} proposes a structure of the precedence recommender that can be trained on pairs of symbol precedences.
+\Cref{sec:evaluation} summarizes and discusses experiments performed
+using an implementation of the precedence recommender.
+\Cref{sec:related} compares the system proposed in this work with notable related works.
+\Cref{sec:conclusion} concludes the investigation and outlines possible directions for future research.
 
 %\todo{MS: idea maybe to work out more in the introduction: 
 %We could stress how the impact or the choice of a precedence is \emph{indirect}, 
