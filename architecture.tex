@@ -387,14 +387,14 @@ $Z_n = \frac{2}{n(n+1)}$ is a normalization factor
 that ensures the commensurability of precedence costs across signature sizes.
 More precisely, normalizing by $Z_n$ makes the expected value of the precedence cost
 independent of the signature size $n$:
-\begin{align*}
+\begin{multline*}
 \mathbb{E}_\pi [C(\pi)]
-&= \mathbb{E}_\pi \SquareBracket{Z_n \sum_{i=1}^n i \cdot c(\pi(i))} \\
-&= Z_n \sum_{i=1}^n i \cdot \mathbb{E}_{\pi, i} [c(\pi(i))] \\
-&= Z_n \Parentheses{\sum_{i=1}^n i} \mathbb{E}_i [c(i)] \\
-&= \frac{2}{n(n+1)} \frac{n(n+1)}{2} \mathbb{E}_i [c(i)] \\
-&= \mathbb{E}_i [c(i)]
-\end{align*}
+= \mathbb{E}_\pi \SquareBracket{Z_n \sum_{i=1}^n i \cdot c(\pi(i))}
+= Z_n \sum_{i=1}^n i \cdot \mathbb{E}_{\pi, i} [c(\pi(i))] \\
+= Z_n \Parentheses{\sum_{i=1}^n i} \mathbb{E}_i [c(i)]
+= \frac{2}{n(n+1)} \frac{n(n+1)}{2} \mathbb{E}_i [c(i)]
+= \mathbb{E}_i [c(i)]
+\end{multline*}
 
 \todo[inline]{FB: Consider accessing elements $\pi$ as vector elements $\pi_i$ instead of $\pi(i)$. Keep in mind that $\inv{\pi}$ must be updated as well. The motivation for using $\pi(i)$ is that $\inv{\pi}(i)$ looks clearer than $\inv{\pi}_i$. How about using $(\inv{\pi})_i$? We may also omit the inversion completely.}
 

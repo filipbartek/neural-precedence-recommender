@@ -15,14 +15,11 @@ are available at the following URL:
 
 \subsubsection{System}
 
-All the experiments were run on a computer with the following specification:
-
-\begin{itemize}
-\item CPU: Intel Xeon Gold 6140 (72 cores @ \SI{2.30}{GHz})
-\item RAM: \SI{383}{GiB}
-\item OS: Ubuntu 20.04
-\item Kernel: 5.4.0-40-generic
-\end{itemize}
+All the experiments were run on a computer with
+the CPU Intel Xeon Gold 6140 (72 cores @ \SI{2.30}{GHz}),
+\SI{383}{GiB} RAM,
+the OS Ubuntu 20.04 and
+the Linux kernel 5.4.0-40-generic.
 
 % From the paper Reliable benchmarking [BenchExec]:
 % – CPU model and size of RAM,
@@ -67,18 +64,41 @@ and to compare terms.
 % Notable implicit options:
 % --term_ordering kbo
 
-\subsubsection{Input problems}
+\subsection{Dataset preparation}
+
+The training data consists of examples of the form $(P, \PrecBetter, \PrecWorse)$,
+where $P$ is a \gls{cnf} problem and $\PrecBetter, \PrecWorse$ are precedences of symbols of problem $P$
+such that out of the two precedences, $\PrecBetter$ yields a proof in fewer iterations of the saturation loop (see \cref{sec:saturation}).
+\todo{FB: Justify saturation loop iterations as a proxy for success. MS: Ano, ale driv nez zde!}
+
+Since the \gls{tkbo} never compares a predicate symbol with a function symbol,
+\todo{FB: Consider referencing an earlier section that explains KBO or TKBO.}
+two separate precedences can be considered for each problem:
+a predicate precedence and a function precedence.
+We trained a predicate precedence recommender separately from a function precedence recommender
+to simplify the training process and to isolate the effects of the predicate and function precedences.
+This section describes how the training data for training a \emph{predicate} precedence recommender was generated.
+Training data for training a function precedence recommender was generated analogously.
+
+\subsubsection{Base problem set}
 
 The input problems are assumed to be specified in the \gls{cnf} or the \gls{fof} fragment
 of the \acrshort{tptp} language \cite{Sutcliffe2017}.
 % http://www.tptp.org/TPTP/SyntaxBNF.html
 \todo{FB: Consider joining with section Problem set below.}
 \Gls{fof} problems are first converted into equisatisfiable \gls{cnf} problems by \Vampire{}.
-New symbols may be introduced during preprocessing,
-namely due to the Tseitin transformation and Skolemization.
-We denote the preprocessed \gls{cnf} problem as $P = (\Sigma, \mathit{Cl})$,
-where $\Sigma$ denotes the list of all predicate and function symbols of the problem,
-and $\mathit{Cl}$ denotes a set of clauses over $\Sigma$ that constitute the problem.
+%New symbols may be introduced during preprocessing,
+%namely due to the Tseitin transformation and Skolemization.
+%We denote the preprocessed \gls{cnf} problem as $P = (\Sigma, \mathit{Cl})$,
+%where $\Sigma$ denotes the list of all predicate and function symbols of the problem,
+%and $\mathit{Cl}$ denotes a set of clauses over $\Sigma$ that constitute the problem.
+
+The problem library \acrshort{tptp}~v7.4.0 \cite{10.1007/978-3-030-29436-6_29}
+was used as the source of problems for training and evaluation of the recommender,
+offering a total of \num{17053} \gls{fol} problems.
+We denote the set of all the problems available for training and evaluation as $\ProblemsTptp$.
+
+\subsubsection{Node feature extraction}
 
 In addition to the signature and the structure of the problem,
 some metadata is extracted from the input problem to allow training a more efficient recommender.
@@ -96,30 +116,6 @@ and whether the symbol appears in a conjecture clause.
 This metadata is used to construct the initial embeddings of the respective nodes
 in the graph representation of the problem (see \cref{sec:gcn}).
 \todo{FB: Consider simplifying the paragraph by removing overlap with \cref{sec:gcn}.}
-
-\subsection{Training data}
-
-The training data consists of examples of the form $(P, \PrecBetter, \PrecWorse)$,
-where $P$ is a \gls{cnf} problem and $\PrecBetter, \PrecWorse$ are precedences of symbols of problem $P$
-such that out of the two precedences, $\PrecBetter$ yields a proof in fewer iterations of the saturation loop (see \cref{sec:saturation}).
-\todo{FB: Justify saturation loop iterations as a proxy for success. MS: Ano, ale driv nez zde!}
-
-Since the \gls{tkbo} never compares a predicate symbol with a function symbol,
-\todo{FB: Consider referencing an earlier section that explains KBO or TKBO.}
-two separate precedences can be considered for each problem:
-a predicate precedence and a function precedence.
-We trained a predicate precedence recommender separately from a function precedence recommender
-to simplify the training process and to isolate the effects of the predicate and function precedences.
-This section describes how the training data for training a \emph{predicate} precedence recommender was generated.
-Training data for training a function precedence recommender was generated analogously.
-
-\subsubsection{Problem set}
-\todo[inline]{MS: mozna bych dal propagoval cinny rod a minuly cas ...}
-The examples are generated by sampling the \gls{fol} part of the problem library \gls{tptp} v7.4.0 \cite{10.1007/978-3-030-29436-6_29}.
-A total of \num{17053} problems formulated in \gls{fof} and \gls{cnf} are sampled.
-The problems formulated in \gls{fof} are converted to \gls{cnf} by \Vampire{}.
-% vampire --mode clausify
-Let $\ProblemsTptp$ denote the set of all \num{17053} \gls{cnf} problems available for training and evaluation.
 
 \subsubsection{Sampling}
 
@@ -157,9 +153,7 @@ and the number of examples generated from that problem $s_P$.
 The ratio of $s_P$ to $n_P$ corresponds to the average reward of problem $P$ observed so far.
 The problems are sampled using the allocation strategy \acrshort{ucb1} \cite{Auer2002} with a parallelizing relaxation.
 In each iteration, the generator samples the problem $P$ that maximizes
-$$
-\frac{s_P}{n_P} + \sqrt{\frac{2 \ln n}{n_P}}
-$$
+$\frac{s_P}{n_P} + \sqrt{\frac{2 \ln n}{n_P}}$,
 \todo{FB: Shrink into text to save space.}
 where $n = \sum_{P \in \ProblemsTptp} n_P$ is the total number of tries on all problems.
 The parallelizing relaxation means that the $s_P$ values are only updated once in \num{1000} iterations,
@@ -216,13 +210,13 @@ Learning rate starts at \num{1.28e-3}
 and is halved each time the train loss stagnates for 10 consecutive epochs.
 % tf.keras.callbacks.ReduceLROnPlateau(monitor='loss', factor=0.5, patience=10)
 
-\subsubsection{Sample weighting}
+%\subsubsection{Sample weighting}
 Each of the training examples of problem $P$ contributes to the training with the weight $\frac{1}{s_P}$,
 where $s_P$ is the number of examples of problem $P$ in the training set,
 so that each problem contributes to the training to the same degree irrespective of the relative numbers of examples.
 
 \iftoggle{LONG}{
-\subsubsection{Metrics}
+%\subsubsection{Metrics}
 To analyze the training process,
 we tracked the dynamics of three metrics on $\ProblemsTrain$ and $\ProblemsVal$:
 loss, accuracy and solver performance.
@@ -237,7 +231,7 @@ nejak zuzitkuje. Pokud se rozhnodnem loss/accuracy/ATP zavislost dal nerozebirat
 asi je tu navic i tento odstavec, nebo aspon jeho cast.}
 }
 
-\subsubsection{Termination}
+%\subsubsection{Termination}
 We run the training until the validation accuracy stopped increasing for 100 consecutive epochs.
 
 \subsection{Final evaluation}
