@@ -267,9 +267,6 @@ then predicts symbol costs using the \gls{gcn} model
 and finally orders the symbols by their costs to produce the precedence.
 To simplify the experiment, the time limit is only imposed on the \Vampire{} run
 and excludes the time taken by the recommender to generate the precedence.
-\todo{MS: and if we don't, this would be the perfect place to summarize
-how long the just described procedure took on an average problem,
-or how it (roughly) scales with the graph/cnf/tptp\_file size.}
 When run with 2 threads,
 the preprocessing of a single problem
 takes at most at most \num[round-mode=places,round-precision=2]{1.262744486} seconds
