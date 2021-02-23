@@ -2,6 +2,13 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[english]{babel}
+
+\usepackage{etoolbox}
+
+\newtoggle{SHRINK}
+\toggletrue{LONG}
+%\togglefalse{SHRINK}
+
 \usepackage[binary-units=true,detect-weight=true]{siunitx}
 
 % How to write a paper:
@@ -29,6 +36,7 @@ pdfkeywords={saturation-based theorem proving, simplification ordering, symbol p
 
 \usepackage{cleveref}
 
+\iftoggle{SHRINK}{
 % Some mild shrinkage:
 
 % for Section and subsection headings:
@@ -42,6 +50,7 @@ pdfkeywords={saturation-based theorem proving, simplification ordering, symbol p
 \let\subparagraph\llncssubparagraph
 \titlespacing*{\subsection}
   {0pt}{0.9\baselineskip}{0.8\baselineskip}
+}
 
 % For figures
 % https://tex.stackexchange.com/questions/60477/remove-space-after-figure-and-before-text
