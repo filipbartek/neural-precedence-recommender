@@ -46,9 +46,8 @@ Ale v te prislusne podsekci tim zas zacit.}
 \item \Cref{sec:output}: An output function \cite{Zhou2018} converts the symbol embeddings into a vector of symbol costs.
 \todo{MS: ``output function \cite{Zhou2018}'' my nic nerika, mel bych to znat?\\
 FB: Zhou2018 je review GNNs. Output function je termin, ktery se tam pouziva. Ta citace je nejspis tady nepotrebna.}
-\item \Cref{sec:ranking}: Ranking converts the symbol costs into a symbol precedence.
+\item \Cref{sec:ranking}: Sorting converts the symbol costs into a symbol precedence.
 It is only used in generating mode.
-\todo{FB: Define ranking.}
 \item \Cref{sec:training}: Loss function converts the symbol costs and a pair of precedences into a loss value.
 It is only used in training mode.
 \end{itemize}
@@ -379,10 +378,8 @@ In the rest of this text,
 we refer to the predicted cost of $s_i$ simply as $c(i)$
 because the problem $P$ and the parameters $\theta$ are fixed in each respective context.
 
-\subsection{Ranking: From symbol costs to precedence}
+\subsection{Sorting: From symbol costs to precedence}
 \label{sec:ranking}
-
-\todo[inline]{FB: Define ranking and argsort.}
 
 We extend the notion of cost from symbols to precedences
 by summing up the symbol costs
@@ -407,16 +404,16 @@ independent of the signature size $n$:
 \todo[inline]{FB: Consider accessing elements $\pi$ as vector elements $\pi_i$ instead of $\pi(i)$. Keep in mind that $\inv{\pi}$ must be updated as well. The motivation for using $\pi(i)$ is that $\inv{\pi}(i)$ looks clearer than $\inv{\pi}_i$. How about using $(\inv{\pi})_i$? We may also omit the inversion completely.}
 
 \begin{lemma}
-Precedence cost $C$ is minimized by the precedence that ranks the symbols by their costs in non-increasing order:
-% FB: The ranking terminology is from Fast Differentiable [...] Ranking.
+Precedence cost $C$ is minimized by the precedence that sorts the symbols by their costs in non-increasing order:
 $$
 \argmin_\pi C(\pi) \in \argsort^- (c(1), \ldots, c(n))
 $$
+where $\argsort^-(x)$ is the set of all permutations $\rho$ that sort vector $x$ in non-increasing order ($x_{\rho(1)} \geq x_{\rho(2)} \geq \ldots \geq x_{\rho(n)}$).
 \end{lemma}
 
 \begin{proof}
 We prove the lemma by contradiction.
-Let $\pi$ minimize $C$ and let $\pi$ not rank the costs in non-increasing order.
+Let $\pi$ minimize $C$ and let $\pi$ not sort the costs in non-increasing order.
 Then there exist $k < l$ such that $c(\pi(k)) < c(\pi(l))$.
 Let $\bar{\pi}$ be a precedence obtained from $\pi$ by swapping the elements $k$ and $l$.
 Then we obtain
@@ -437,8 +434,7 @@ Thus, $C(\bar{\pi}) < C(\pi)$, which is contradicts the assumption that $\pi$ mi
 
 Once the symbol costs are known,
 producing a precedence that minimizes the precedence cost is cheap
-because ranking is a fast operation.\todo{MS: can we not say ``sorting''? Also slightly earlier.\\
-FB: This terminology is from the "Fast differentiable ranking" paper. Sorting rearranges the input vector. Ranking is argsort.}
+because sorting is a fast operation.
 
 Note that a precedence that minimizes $C$
 orders the symbols with the lowest cost as the last, prioritizing them for early inferences.
@@ -454,7 +450,7 @@ so we want equalities to be generally small.}
 In \cref{sec:graphifier,sec:gcn,sec:output,sec:ranking} we described the structure of a recommender system that generates a precedence for an arbitrary input problem.
 The efficacy of the recommender depends on the quality of the underlying symbol cost function.
 In theory, the symbol cost function can assign the costs so that
-ranking the symbols by their costs yields an optimum precedence.
+sorting the symbols by their costs yields an optimum precedence.
 Furthermore, all the information necessary to determine the optimum precedence is present in the graph representation of the input problem
 thanks to the lossless property of the graph encoding mentioned before.
 \todo{MS: Hlavne tady ale jakoby chybi druha pulky ty vety. Neco jako ``In practice, however, ...'' Nemyslis?} 
