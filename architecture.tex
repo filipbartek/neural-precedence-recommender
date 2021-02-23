@@ -3,7 +3,6 @@
 \todo{Advantage of using pairs of precedences: we need to solve classification rather than regression.}
 \todo{Intuice: snazime se nastavit costy tak, aby co nejvic dvojic dopadlo spravne.}
 \todo{Some pairs of precedences are not informative. We hope that the non-systematic examples will cancel each other out.}
-\todo{Compare our GCN to Michael, Mirek etc.}
 
 \subsection{System overview}
 
@@ -27,8 +26,7 @@ on the results of \gls{atp} executions on various problems with random precedenc
 Since the recommender contains a neural network,
 it is parameterized by weight tensors
 whose values can be trained by gradient descent.
-\todo{Ensure we have defined ``gradient descent''.}
-\todo{MS: chapu ucel (a vidim, ze dalsi veta navazuje na ``parameters'', ale je to kostrbate.
+\todo[inline]{MS: chapu ucel (a vidim, ze dalsi veta navazuje na ``parameters'', ale je to kostrbate.
 Recommender = system, chapu jako program. Programy vetsinou neparametrizujeme tenzorama a gradient descent zije na jine urovni,
 nez aby parametrizovane programy primo ucil. Uceni je spis nejaka technologie, kterou recommender pouziva, aby ... ``produces precedences
 that are likely to yield a successful proof''.  }
@@ -40,17 +38,12 @@ each of which is described in detail in one of the following sections (see also 
 \begin{itemize}
 \item \Cref{sec:graphifier}: A graph constructor converts the input \gls{cnf} problem into a problem graph.
 \item \Cref{sec:gcn}: \Gls{gcn} converts a problem graph into symbol embeddings.
-\todo{MS: Kdyz embeddingy nebudou v preliminaries, je asi OK ctenare, ktery by o nich neslysel, zde trochu vydesit.
-Ale v te prislusne podsekci tim zas zacit.}
 \item \Cref{sec:output}: An output function converts the symbol embeddings into a vector of symbol costs.
 \item \Cref{sec:ranking}: Sorting converts the symbol costs into a symbol precedence.
 It is only used in generating mode.
 \item \Cref{sec:training}: Loss function converts the symbol costs and a pair of precedences into a loss value.
 It is only used in training mode.
 \end{itemize}
-\todo{MS: tohle zatim chapu jako predbezny nastrel. Leda by uz pred tim bylo vysvetleno:
-embedding, \gls{gcn}/convolution layers, ... \\
-FB: Staci predestrit, ze detaily vysvetlim pozdeji? MS: asi jo :)}
 
 \begin{figure}[h]
 \caption{Recommender architecture overview.
@@ -356,6 +349,7 @@ tak neni treba vsechno vysvetlit do detailu. Zajimavejsi tu
 potom je az to, jak se problem $P$ ``otiskne'' v topologii grafu. 
 To uz originalni je (a soutezi to s representacemi jako ta Mirkova)
 a popisujes to pak dal.}
+\todo{Compare our GCN to Michael, Mirek etc.}
 
 \subsection{Output layer: From symbol embeddings to symbol costs}
 \label{sec:output}
