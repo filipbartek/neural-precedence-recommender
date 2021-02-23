@@ -38,7 +38,7 @@ that are likely to yield a successful proof in as few iterations of the saturati
 The recommender consists of modules that perform specific subtasks,
 each of which is described in detail in one of the following sections (see also \cref{fig:architecture}):
 \begin{itemize}
-\item \Cref{sec:graphifier}: Graphifier converts the input \gls{cnf} problem into a problem graph.
+\item \Cref{sec:graphifier}: A graph constructor converts the input \gls{cnf} problem into a problem graph.
 \item \Cref{sec:gcn}: \Gls{gcn} converts a problem graph into symbol embeddings.
 \todo{MS: Kdyz embeddingy nebudou v preliminaries, je asi OK ctenare, ktery by o nich neslysel, zde trochu vydesit.
 Ale v te prislusne podsekci tim zas zacit.}
@@ -67,7 +67,7 @@ node [shape=box, fontsize=20];
 edge [fontsize=20];
 
 Problem [label="CNF problem P"];
-Graphifier [style=rounded, label="Graphifier"];
+Graphifier [style=rounded, label="Graph constructor"];
 g [label="Graph"];
 GCN [style=rounded, label="GCN"];
 SymbolEmbedding [label="Symbol embeddings"];
