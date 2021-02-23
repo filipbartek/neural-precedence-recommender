@@ -43,20 +43,11 @@ The resulting new clauses are added to the unprocessed set.
 
 \subsection{Superposition calculus}
 
-The superposition calculus is of special interest
-because it is used in the most successful \gls{fol} \glspl{atp}.
+The \emph{superposition calculus} is of special interest
+because it is used in the most successful contemporary \gls{fol} \glspl{atp}.
+The inferences of superposition calculus are constrained by a \emph{\gls{sot}}.
 
-The inference rules of superposition calculus are constrained by a \gls{sot}.
-
-\todo[inline,author=FB]{Mention: Vampire, superposition calculus, inference rules (resolution, superposition), simplification ordering on terms, KBO, symbol precedence. How does the STO influence the rules? Mention transfinite KBO (lcm predicate), which is only relevant to literal selection. Cite Voronkov: transfinite KBO (see section Notes on implementation). We use TKBO to increase the impact of predicate precedence. Vampire sets all KBO weights to 1.}
-
-\subsubsection{\Gls{sot}}
-
-An ordering on terms is called a \emph{simplification ordering} if it satisfies the following conditions:
-
-...
-
-influences the proof search in \Vampire{} on two levels.
+The \gls{sot} influences the superposition calculus in two ways.
 First, the inferences on each clause are limited
 to the selected literals.
 \todo{Cite Bachmair Ganzinger or Handbook of AR, chapter 2. For literal selection. Inspiration: Selecting the selection.}
@@ -72,30 +63,11 @@ In each of these two roles,
 the simplification ordering may impact the direction and,
 in effect, the length of the proof search.
 
-\subsubsection{\Acrfull{kbo}}
-
-% Example: It seems that a classical example for KBO an orienting equations is group theory axioms.
-
-
-
-
-Recall the two views:
-\begin{enumerate}
-\item
-	One is the view of complete literal selections (we influence which literals are maximal)
-
-\item
-	The other is that of the term rewriting world
-
-\end{enumerate}
-(The full landscape also contains LPO).
-
-
-
-
-\subsubsection{Symbol precedences}
-
-\todo[inline,author=FB]{Define terminology.}
+The \emph{\acrfull{kbo}}, a commonly used simplification ordering scheme,
+is parameterized by symbol weights and a \emph{symbol precedence},
+a permutation of the non-logical symbols of the input problem.
+In this work we focus on finding a symbol precedence achieves a good performance when plugged into the \gls{kbo},
+leaving all the symbol weights at the default value 1 as set by the \gls{atp} \Vampire{}.
 
 \subsection{\Acrlongpl{nn}}
 
