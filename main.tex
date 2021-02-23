@@ -104,64 +104,7 @@ the main task it is evaluated on is the generation of useful precedences.
 
 \section{Conclusion and future work}
 \label{sec:conclusion}
-
-We have described a system that extracts useful symbol precedences from the graph representations of \gls{cnf} problems.
-Comparison against a conventional symbol precedence heuristic shows that using a \gls{gcn}
-to consider the whole structure of the input problem is beneficial.
-\todo{FB: Should we boast that the reduction of ranking to training of differentiable element scores is innovative?}
-
-A manual analysis of the trained recommender could produce new insights into how the choice of the symbol precedence influences the proof search,
-which could in turn help designing new efficient precedence generating schemes.
-Indeed, a trained cost model summarizes the observed behaviours of the ATP on the random precedences
-and is able to discover patterns in them (as we know implicitly from its accuracy) 
-despite their seemingly chaotic behaviour as perceived by a human observer.
-The challenge is to extract these pattern to a human-understandable form.
-
-\gls{kbo}, that we choose in our experiments, is in addition to a symbol precedences
-also determined by symbol \emph{weights} (we kept these fixed to the default value 1 in this work).
-Learning to recommend also the symbol weights in addition to the precedences
-represents an interesting avenue for future research.
-
-The same applies to the idea of learning to recommend 
-both the predicate and the function precedences using a single \gls{gcn}.
-The joint learning, although more complex to design, could 
-additionally discover interdependencies
-between the effects of the function precedence and predicate precedence on the proof search,
-while the current setup implicitly assumes that the effects are independent.
-Finally, higher training data efficiency could be achieved by considering all pairs of measured executions on a problem
-in one training batch.
-
-\iftoggle{LONG}{
-A more detailed analysis of the training process might yield insights into how the performance generalizes
-from the training set to the validation set
-and from proxy metrics, such as the loss and the accuracy, to the final solver performance.
-Ultimately, this might reveal modifications that make the training more efficient and the final recommender more performant.
-
-The training examples take the form of pairs of precedences,
-where one of the precedences is preferable over the other.
-In this work, the amount by which the quality of the precedences differs is ignored.
-Taking the exact or estimated numbers of saturation loop iterations into account
-might help the recommender to prioritize the more significant gains.
-
-Applying techniques of reinforcement learning to focus the training data on the cases that yield high performance gains
-could further improve the recommender performance.
-
-We restricted our experiments to problems whose graph representation does not exceed \num{100000} nodes.
-Evaluating the recommender on larger problems would be an interesting test of generalization.
-Training on larger problems may be facilitated by employing a lossy graphification.
-
-We performed all experiments with a fixed \gls{atp} \Vampire{} and a fixed configuration
-we consider to be a reasonable baseline.
-Introducing other prover configurations (namely other \glspl{sot})
-or other provers could make the resulting recommender more robust
-and possibly help extract more general knowledge about the structure of good symbol precedences.
-
-Finally, the approach outlined in \cref{sec:architecture}
-could be adjusted to solve tasks on \gls{fol} formulas other than recommending symbol precedences,
-such as premise selection of given clause selection.
-On the other hand, we could try to solve other tasks that involve generating permutations of arbitrary length.
-\todo{FB: TSP? Probably not because it is too combinatorial.}
-}
+\input{conclusion}
 
 \section*{Acknowledgments}
 % > Acknowledgements should generally be placed in an unnumbered subsection at the end of the paper.
