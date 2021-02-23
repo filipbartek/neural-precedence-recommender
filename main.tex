@@ -110,30 +110,7 @@ Comparison against a conventional symbol precedence heuristic shows that using a
 to consider the whole structure of the input problem is beneficial.
 \todo{FB: Should we boast that the reduction of ranking to training of differentiable element scores is innovative?}
 
-An analysis of the trained recommender could reveal new insights into how the symbol precedence influences the proof search,
-and how a symbol precedence should be chosen in the context of a problem so that it is likely to lead to an efficient proof search.
-This might lead to a design of a new precedence heuristic
-that focuses relies on aspects of input problems
-that have been overlooked so far in the context of generating symbol precedences.
-
-While using the \gls{kbo} as our simplification ordering scheme of choice,
-we restricted ourselves to generating the symbol precedences,
-leaving the symbol weights fixed to the constant 1 (the default behavior of \Vampire{}).
-Learning to recommend the symbol weights in addition to the symbol precedences would be interesting.
-\todo{FB: Be more fancy in wording.}
-
-Training both the predicate and the function precedence using a single \gls{gcn} would yield a recommender
-that only needs one pass through a \gls{gcn} to generate both predicate and function precedences for a problem.
-Moreover, the model would have the possibility to exploit the properties of the function precedence
-when generating the predicate precedence, and vice versa.
-
-\subsection{Future work - Martins new version (the first three paragraphs)}
-
 A manual analysis of the trained recommender could produce new insights into how the choice of the symbol precedence influences the proof search,
-% and how a symbol precedence should be chosen in the context of a problem so that it is likely to lead to an efficient proof search.
-% This might lead to a design of a new precedence heuristic
-% that focuses relies on aspects of input problems
-% that have been overlooked so far in the context of generating symbol precedences.
 which could in turn help designing new efficient precedence generating schemes.
 Indeed, a trained cost model summarizes the observed behaviours of the ATP on the random precedences
 and is able to discover patterns in them (as we know implicitly from its accuracy) 
@@ -142,9 +119,6 @@ The challenge is to extract these pattern to a human-understandable form.
 
 \gls{kbo}, that we choose in our experiments, is in addition to a symbol precedences
 also determined by symbol \emph{weights} (we kept these fixed to the default value 1 in this work).
-% While using the \gls{kbo} as our simplification ordering scheme of choice,
-% we restricted ourselves to generating the symbol precedences,
-% leaving the symbol weights fixed to the constant 1 (the default behavior of \Vampire{}).
 Learning to recommend also the symbol weights in addition to the precedences
 represents an interesting avenue for future research.
 
@@ -156,13 +130,6 @@ between the effects of the function precedence and predicate precedence on the p
 while the current setup implicitly assumes that the effects are independent.
 Finally, higher training data efficiency could be achieved by considering all pairs of measured executions on a problem
 in one training batch.
-\todo{FB: Confusing?}
-% would yield a recommender
-% that only needs one pass through a \gls{gcn} to generate both predicate and function precedences for a problem.
-% Moreover, the model would have the possibility to exploit the properties of the function precedence
- %when generating the predicate precedence, and vice versa.
-
-\todo{MS: continue from here to the end. (Or will these be in the end left out)?}
 
 \iftoggle{LONG}{
 A more detailed analysis of the training process might yield insights into how the performance generalizes
