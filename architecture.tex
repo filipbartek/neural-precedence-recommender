@@ -156,6 +156,7 @@ Each such category of elements corresponds to one node type.
 The edges represent the (oriented) relations between the elements,
 for example the incidence relation between a clause and one of its (literals') atoms,
 or the relation between an atom and its predicate symbol.
+$\mathcal{R}$ denotes the set of all relations in the graph.
 \Cref{fig:CnfSchema} shows the types of nodes and edges used in our graph representation.
 \Cref{fig:GcnExample} shows an example of a graph representation of a simple problem.
 
@@ -257,7 +258,7 @@ The graph representation has the following properties:
 \item Lossless: The original problem can be faithfully reconstructed from the corresponding graph representation
 (up to logical equivalence).
 \item Signature agnostic: Renaming the symbols and variables in the input problem yields an isomorphic graph.
-\item For each relation $r$, its inverse $\inv{r}$ is also present in the graph,
+\item For each relation $r \in \mathcal{R}$, its inverse $\inv{r}$ is also present in the graph,
 typically represented by a different edge type.
 \todo{MS: tohle jsem nepochopil. Nemuzeme rict, ze (az na nejakou vyjimkou) jsou edges v obou smerech?\\
 FB: Chci vyjasnit, ze inverzni edge ma jiny edge type.}
@@ -271,7 +272,8 @@ This reflects the symmetry of equality.
 \todo{MS: Predpokladam ze dva ruzne ground literaly p(c) tam budou taky jen jendnou?\\
 FB: Literaly nemaji nody. Atomy maji nody a polarita literalu je zakodovana v typu hrany, ktery jej spojuje s klauzuli.
 MS: O to my, neslo. Slo o to, jestli se sdily ground termy mezi klauzulemi, ted uz dobry! :)}
-Redundant atoms and terms share a node representation \cite{}.
+Redundant atoms and terms share a node representation.
+\todo{FB: Cite some text about sub-expression sharing. Perhaps Rawson2020?}
 \todo{MS: Ale mezitim se to tu zmenilo a ja prestavam chapat, co je ``Redundant''.}
 Note that since each variable is bound by a clause,
 ground terms are shared across clauses,
@@ -291,20 +293,21 @@ FB: Zkusim to popsat, kdyz zbyde cas.}
 \subsection{\Gls{gcn}: From graphs to symbol embeddings}
 \label{sec:gcn}
 
-For each symbol in the problem,
+For each symbol in the input problem $P$,
 we seek to find a vector representation, i.e., an \emph{embedding},
 that captures the symbol's properties that are relevant
-for correctly ranking the symbol in the observed symbol precedences.
+for correctly ranking the symbol in the symbol precedences over $P$.
+
 The symbol embeddings are output by a \gls{rgcn} \cite{Schlichtkrull2017},
-which is a stack of graph convolutional layers.
+which is a stack of \emph{graph convolutional layers}.
 Each layer consists of a collection of differentiable modules---one module per edge type.
 The computation of the \gls{gcn} starts with assigning each node an initial embedding
-and then repeatedly updates the embeddings by passing them through convolutional layers.
+and then iteratively updates the embeddings by passing them through the convolutional layers.
 \todo{FB: Ensure terms are clear (preferably defined): embedding, vector, trainable vector, feature vector.
 MS: (convolutional, layers, ...)}
 
-The initial embedding is a concatenation of two vectors:
-a node feature vector (typically empty)
+The initial embedding $h_a^{(0)}$ of a node $a$ is a concatenation of two vectors:
+a \emph{feature vector} specific for that node (typically empty)
 and a trainable vector shared by all nodes of the same type.
 In our particular implementation,
 feature vectors are used in nodes that correspond to clauses and symbols.
@@ -319,21 +322,22 @@ updates the node embeddings by passing a message along each of the edges.
 For an edge of type $r \in \mathcal{R}$ going from source node $s$ to destination node $d$ at layer $l$,
 the message is composed by converting the embedding of the source node $h_s^{(l)}$
 using the module associated with the edge type $r$.
-In the simple case that the module is a dense layer with weight matrix $W_r^{(l)}$,
-\todo{MS: hnidopich nevi, co to znamena ``dense layer''}
-the message is $W_r^{(l)} h_s^{(l)}$.
+In the simple case that the module is a fully connected layer with weight matrix $W_r^{(l)}$ and bias vector $b_r^{(l)}$,
+the message is $W_r^{(l)} h_s^{(l)} + b_r^{(l)}$.
 % Notation is from Kipf: RGCN paper.
-Each message is then divided by a normalization constant
+Each message is then divided by the normalization constant
 $c_{s,d} = \sqrt{\card{\mathcal{N}_s^r}} \sqrt{\card{\mathcal{N}_d^r}}$ \cite{kipf2017semisupervised},
-where $\mathcal{N}_n^r$ is the set of neighbors of node $n$ under the relation $r$.
+where $\mathcal{N}_a^r$ is the set of neighbors of node $a$ under the relation $r$.
 \todo{FB: Mention that we mean both in- and out-neighbors?}
+
 Once all the messages are computed,
-they are aggregated by the destination nodes to form the new node embedding.
+they are aggregated at the destination nodes to form the new node embeddings.
 Each node $d$ aggregates all the incoming messages of a given edge type $r$ by summation,
 then passes the sum through an activation function $\sigma$ such as the \gls{relu},
 and finally aggregates the messages across the edge types by summation,
 yielding the new embedding $h_d^{(l+1)}$.
-The following formula captures the update of embedding of node $d$:
+
+The following formula captures the complete update of embedding of node $d$ by layer $l$:
 $$
 h_d^{(l+1)} =
 \sum_{r \in \mathcal{R}} \sigma \Parentheses{\sum_{s \in \mathcal{N}_d^r} \frac{1}{c_{s,d}} (W_r^{(l)} h_s^{(l)} + b_r^{(l)})}
@@ -357,21 +361,23 @@ a popisujes to pak dal.}
 
 \subsection{Output layer: From symbol embeddings to symbol costs}
 \label{sec:output}
+% Terminology: Deep Learning Book
 
-The symbol cost of each symbol is computed by passing the symbol's embedding through a fully-connected layer
-with a single output unit.
-No activation function is applied on the output values.
-\todo{FB: Explain why.}
+The symbol cost of each symbol is computed by passing the symbol's embedding through a linear output unit,
+which is an affine transformation with no activation function.
+\todo{FB: Is this clear at this point?}
 
-It is possible to use a more complex output layer,
+It is possible to use a more complex output layer in place of the linear unit,
 e.g., a feedforward network with one or more hidden layers.
 Our experiments showed no significant improvement when a hidden layer was added,
 likely because the underlying \gls{gcn} learns a sufficiently complex transformation.
 
-Let $\theta$ denote the vector of all the parameters of the \gls{gcn} and the output layer.
+Let $\theta$ denote the vector of all the parameters of the whole \acrlong{nn} consisting of the \gls{gcn} and the output unit.
 Given an input problem $P$ with signature $\Sigma = (s_1, \ldots, s_n)$,
-we denote the cost of symbol $s_i$ as $c_{\theta,P}(i)$,
-or simply $c(i)$ in case the parameters $\theta$ and the problem $P$ are fixed in the context.
+we denote the cost of symbol $s_i$ predicted by the \acrlong{nn} as $c(i, P; \theta)$.
+In the rest of this text,
+we refer to the predicted cost of $s_i$ simply as $c(i)$
+because the problem $P$ and the parameters $\theta$ are fixed in each respective context.
 
 \subsection{Ranking: From symbol costs to precedence}
 \label{sec:ranking}
@@ -514,6 +520,3 @@ The loss function is clearly differentiable with respect to the symbol costs,
 and the symbol cost function $c$ is differentiable with respect to its trainable parameters.
 This enables the use of gradient descent to find the values of the parameters of $c$
 that minimize the loss value.
-\todo{MS: tohle bude tezky,
-ale ackoliv ML people by tohle uz asi chapali, ATP crowd spis bude
-potrebovat obsirnejsi vysvetleni.}
