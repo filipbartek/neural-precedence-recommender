@@ -64,8 +64,8 @@ the system generalizes the knowledge about favorable precedences across problems
 
 Our recommender uses a graph convolutional neural network \cite{kipf2017semisupervised}
 to represent the problem structure. It learns from the ATP performance on selected problems
-and pairs of randomly sampled precedences. This information is then used to train
-a \emph{symbol cost model}, which realizes the recommendation by simply sorting 
+and pairs of randomly sampled precedences. This information is used to train
+a \emph{symbol cost model}, which then realizes the recommendation by simply sorting 
 the problem's symbols according the obtained costs. 
 
 This work strictly improves on our previous experiments with linear regression models and simple hand-crafted symbol features \cite{DBLP:conf/cade/Bartek020}
