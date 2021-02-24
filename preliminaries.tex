@@ -28,7 +28,10 @@ the proof search continues until
 the set of the inferred clauses is saturated with respect to the inference rules.
 In the common setting of time-restricted proof search, a time limit may end the process prematurely.
 
-The common saturation-based \glspl{atp} structure the proof search
+%The common saturation-based \glspl{atp} structure the proof search
+Since the space of the derivable clauses is typically very large,
+the efficacy of the prover depends on the order in which the inferences are applied.
+The common saturation-based \glspl{atp} order the inferences
 by maintaining two classes of the inferred clauses: processed and unprocessed \cite{10.1007/978-3-030-29436-6_29}.
 In each \emph{iteration of the saturation loop}, one clause (so-called \emph{given clause})
 is selected from the unprocessed set
@@ -38,7 +41,8 @@ The resulting new clauses are added to the unprocessed set.
 \todo{MS: Celkove hezky! Jen mi tu nejak chybi konec... A taky proc se to vsechno rika.
 V PAAR clanku, pokud si dobre vzpominam, bylo hlavnim cilem zavest znaceni pro
  ``pocet iteraci nez se najde dukaz''. aby se pak pouzilo dale\dots
-Nicmene ctu ted beginning->end, tak nevim, co chystas dale. }
+Nicmene ctu ted beginning->end, tak nevim, co chystas dale.\\
+FB: Doplnil jsem motivaci do prvni vety odstavce.}
 
 \todo[inline,author=FB]{Add terminology: $\bot$.}
 
@@ -81,7 +85,7 @@ in effect, the length of the proof search.
 The \emph{\acrfull{kbo}}, a commonly used simplification ordering scheme,
 is parameterized by symbol weights and a \emph{symbol precedence},
 a permutation of the non-logical symbols of the input problem.
-In this work we focus on finding a symbol precedence which 
+In this work we focus on the task of finding a symbol precedence which
 leads to a good performance of an ATP
 when plugged into the \gls{kbo},
 leaving all the symbol weights at the default 
@@ -92,8 +96,8 @@ value 1 as set by the \gls{atp} \Vampire{}.
 A \emph{feedforward \acrlong{ann}} \cite{DBLP:books/daglib/0040158} is a \acrlong{dag} of \emph{modules}.
 Each module is an operation that consumes a numeric (input) \emph{vector} and outputs a numeric vector.
 Each of the components of the output vector is called a \emph{unit} of the module.
-The output of each module is differentiable with respect to the input.
-\todo{MS: mozna bych byl opetrnejsi. Co ReLU a derivace v bode zlomu? ;)}
+The output of each module is differentiable with respect to the input almost everywhere.
+\todo{FB: Should we explain why "almost everywhere" suffices?}
 
 The common modules include
 the \emph{fully connected layer}, which performs an affine transformation,
@@ -119,5 +123,3 @@ The trainable parameters are then updated by taking a small step
 against the gradient---in the direction that is expected to make the loss value smaller.
 An \emph{epoch} is a sequence of iterations that updates the trainable parameters
 using each example in the training set exactly once.
-
-\todo{MS: Hezke! Ted uz v arichtekture muzes mavat pojmy o neuronkach a bude to tu uktovne! } 
