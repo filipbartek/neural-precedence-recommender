@@ -244,7 +244,8 @@ connecting the respective atom to the clause it occurs in.
 \item For every non-equality atom and term, the order of its arguments is captured by a sequence of \ntype{argument} nodes chained by edges \cite{Rawson2020}.
 \item The two operands of equality are not ordered.
 This reflects the symmetry of equality.
-\item \todo[inline]{MS: (Almost)} Perfect sub-expression sharing:
+\item Perfect sub-expression sharing:
+\todo[inline]{MS: (Almost)}
 \todo[inline]{MS: Predpokladam ze dva ruzne ground literaly p(c) tam budou taky jen jendnou?\\
 FB: Literaly nemaji nody. Atomy maji nody a polarita literalu je zakodovana v typu hrany, ktery jej spojuje s klauzuli.
 MS: O to my, neslo. Slo o to, jestli se sdily ground termy mezi klauzulemi, ted uz dobry! :)}
@@ -388,11 +389,11 @@ We proceed to train $C$ on the proxy task of ranking the precedences.
 We extend the notion of cost from symbols to precedences
 by taking the sum of the symbol costs
 weighted by their positions in the given precedence $\pi$:
+\todo[inline]{FB: Consider accessing elements $\pi$ as vector elements $\pi_i$ instead of $\pi(i)$. Keep in mind that $\inv{\pi}$ must be updated as well. The motivation for using $\pi(i)$ is that $\inv{\pi}(i)$ looks clearer than $\inv{\pi}_i$. How about using $(\inv{\pi})_i$? We may also omit the inversion completely.}
+\todo{FB: Consider using the terminology of RankNet: $C(\pi) = o_i$, $S(\pi, \rho) = o_{ij}$, $\loss = C_{ij}$}
 \begin{equation*} \label{eq:cost_model}
 C(\pi) = Z_n \sum_{i=1}^n i \cdot c(\pi(i))% We call the normalization factor Z_n to follow convention from Foundations of Machine Learning, p. 122.
 \end{equation*}
-\todo[inline]{FB: Consider accessing elements $\pi$ as vector elements $\pi_i$ instead of $\pi(i)$. Keep in mind that $\inv{\pi}$ must be updated as well. The motivation for using $\pi(i)$ is that $\inv{\pi}(i)$ looks clearer than $\inv{\pi}_i$. How about using $(\inv{\pi})_i$? We may also omit the inversion completely.}
-\todo{FB: Consider using the terminology of RankNet: $C(\pi) = o_i$, $S(\pi, \rho) = o_{ij}$, $\loss = C_{ij}$}
 $Z_n = \frac{2}{n(n+1)}$ is a normalization factor
 that ensures the commensurability of precedence costs across signature sizes.
 More precisely, normalizing by $Z_n$ makes the expected value of the precedence cost
@@ -433,9 +434,9 @@ Then we obtain
 &= (k-l) (c(\pi(l)) - c(\pi(k))) \\
 &< 0
 \end{align*}
-\todo{FB: Isn't the inclusion of $Z_n$ too confusing?}
 The final inequality is because $k-l < 0$ and $c(\pi(l)) - c(\pi(k)) > 0$.
 Clearly, $Z_n > 0$ for any $n \geq 0$.
+\todo{FB: Isn't the inclusion of $Z_n$ too confusing?}
 Thus, $C(\bar{\pi}) < C(\pi)$, which is contradicts the assumption that $\pi$ minimizes $C$.
 
 It is easy to see that all the precedences that sort the symbol costs in a non-increasing order
@@ -528,6 +529,7 @@ or alternatively $S(\PrecBetter, \PrecWorse) = C(\PrecWorse) - C(\PrecBetter) > 
 We approach this problem as an instance of binary classification with the logistic loss \cite{Mohri2018},
 % p. 128
 a loss function routinely used in classification tasks in \acrlong{ml}:
+\todo{FB: Consider exposing the form with inverse precedences to single out the $c$ values and expose the $c$ gradient better.}
 \begin{multline*}
 \loss(P, \PrecBetter, \PrecWorse)
 = - \log \sigmoid S(\PrecBetter, \PrecWorse)
@@ -537,7 +539,6 @@ a loss function routinely used in classification tasks in \acrlong{ml}:
 \end{multline*}
 % FB: Note: I have included the full expansion to make it visible how the loss depends on $c$.
 % To a skilled NN practitioner, it should now be obvious that the loss is differentiable w.r.t. $c$.
-\todo{FB: Consider exposing the form with inverse precedences to single out the $c$ values and expose the $c$ gradient better.}
 
 Note that the classifier cannot simply train $S$ to output a positive number on all pairs of precedences
 because $S$ is defined as a difference of two precedence costs.
