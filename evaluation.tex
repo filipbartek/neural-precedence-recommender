@@ -1,5 +1,8 @@
 % !TEX root = main.tex
 
+% Subsubsekce muzem "odresit" napriklad takto:
+\renewcommand{\subsubsection}{\paragraph}
+
 \todo[inline]{FB: Scan through this section and make sure we use "we" form and past tense consistently.}
 
 To demonstrate the capacity of the trainable precedence recommender described in \cref{sec:architecture},
@@ -202,7 +205,7 @@ We used a \gls{gcn} described in \cref{sec:gcn}
 with depth 4, message size 16, \gls{relu} activation function,
 skip connections \cite{Zhou2018}, and layer normalization \cite{Ba2016}.
 We tuned the hyperparameters by a small manual grid search.
-\todo[inline]{MS: zase pasivum. Tady to urcite bude chtit odkaz na sekci, kde se jasne definuje, co to znamena. Jinak recenzenti byvaji dost alergicti na hyperpametry, ktere se jen tak nahodi na nevysvetli. Minimalne nejaky komentar typu: treba, zkouseli jsme u ruzne dalsi hodnoty, ale dopadalo to podobne. Nebo, pozdeji rekeneme, co se deje, kdyz se tohle meni. Nebo: nemeli jsme cas zjistovat, co se deje, kdyz se to meni, tak berem rozumne hodnoty podle blabla.}
+\todo{MS: hezky!}
 
 \subsection{Training procedure}
 
@@ -264,8 +267,9 @@ and \Vampire{} was run using these precedences
 with a wall clock time limit of 10 seconds.
 % Note: We have mentioned the time limit above and here we repeat it for readers who only read Results.
 The results are averaged over 5 runs to reduce the effect of noise due to the wall clock time limit.
-As a baseline, the performance of \Vampire{} with the \texttt{frequency} precedence heuristic was evaluated
-with the same time limit.
+As a baseline, the performance of \Vampire{} with the \texttt{frequency} precedence heuristic\footnote{
+This is \Vampire{}'s analogue of the \texttt{invfreq} scheme in E \cite{E-manual}.}
+was evaluated with the same time limit.
 For comparison, the two trained recommenders are evaluated separately,
 with the predicate precedence recommender using the \texttt{frequency} heuristic to generate the function precedences, and vice versa.
 
@@ -289,6 +293,7 @@ by extrapolation from a sample of \num{1000} problems.
 3) to maximum prece zalezi na tom, kterych 1000 to bylo.}
 \todo{MS: Idea: kdyz je to linearni: co cas potrebny na recommending
 vztahnout k casu klauzifikace? Jako rict, ze to trva x-krat dyl nez jen klauzifikovat?}
+
 \Cref{tab:results} shows the results.
 
 \begin{table*}[h]
@@ -297,7 +302,7 @@ Results of the evaluation of symbol precedence heuristics based on various symbo
 on $\ProblemsVal$ ($\card{\ProblemsVal} = 7648$).
 Means and standard deviations over 5 runs are reported.
 The \gls{gcn} models are trained according to the description in \cref{sec:architecture,sec:evaluation}.
-The simple model is the final model from \cite{DBLP:conf/cade/Bartek020}.
+The model Simple is the final model from our previous work \cite{DBLP:conf/cade/Bartek020}.
 The models that use machine learning for the predicate precedence only
 use the \texttt{frequency} heuristic for the function precedence, and vice versa.
 The frequency models use the standard \texttt{frequency} heuristic implemented in \Vampire{}.
@@ -403,6 +408,7 @@ trained in \cite{DBLP:conf/cade/Bartek020} outperforms the \texttt{frequency} he
 Moreover, we have confirmed the conjecture that using a \gls{gnn} may yield an even better performance \cite{DBLP:conf/cade/Bartek020}.
 
 \iftoggle{LONG}{
+\todo[inline]{MS: kdyz bude misto, dal bych to driv. Souhlasim, ze kdyz se budu zahazovat, tak spolecne s odstavcem "Metrics" drive.}
 In the process of training,
 we tracked three metrics on the training and validation sets:
 loss, accuracy, and solver performance on a sample of 1000 problems.
