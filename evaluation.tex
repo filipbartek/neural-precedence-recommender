@@ -5,7 +5,7 @@
 
 \todo[inline]{FB: Scan through this section and make sure we use "we" form and past tense consistently.}
 
-To demonstrate the capacity of the trainable precedence recommender described in \cref{sec:architecture},
+To demonstrate the capacity of the trainable precedence recommender described in \cref{sec:architecture,sec:training},
 we performed a series of experiments.
 In this section, we describe the design and configuration of the experiments,
 and then compare the performance of several trained models to a number of baseline heuristics.
@@ -210,7 +210,7 @@ We tuned the hyperparameters by a small manual grid search.
 \subsection{Training procedure}
 
 A predicate symbol cost model is trained by gradient descent
-on the precedence pair classification task (described in \cref{sec:training})
+on the precedence pair classification task (described in \cref{sec:ranking})
 using the examples generated from the problems in $\ProblemsTrain$.
 To avoid redundant computations, all examples generated from a problem are processed in the same training batch.
 Thus, each training batch contains up to \num{128} problems and all the examples generated from these problems.
@@ -301,7 +301,7 @@ vztahnout k casu klauzifikace? Jako rict, ze to trva x-krat dyl nez jen klauzifi
 Results of the evaluation of symbol precedence heuristics based on various symbol cost models
 on $\ProblemsVal$ ($\card{\ProblemsVal} = 7648$).
 Means and standard deviations over 5 runs are reported.
-The \gls{gcn} models are trained according to the description in \cref{sec:architecture,sec:evaluation}.
+The \gls{gcn} models are trained according to the description in \cref{sec:architecture,sec:training,sec:evaluation}.
 The model Simple is the final model from our previous work \cite{DBLP:conf/cade/Bartek020}.
 The models that use machine learning for the predicate precedence only
 use the \texttt{frequency} heuristic for the function precedence, and vice versa.
