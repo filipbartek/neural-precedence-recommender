@@ -529,13 +529,13 @@ or alternatively $S(\PrecBetter, \PrecWorse) = C(\PrecWorse) - C(\PrecBetter) > 
 We approach this problem as an instance of binary classification with the logistic loss \cite{Mohri2018},
 % p. 128
 a loss function routinely used in classification tasks in \acrlong{ml}:
-\begin{align*}
+\begin{multline*}
 \loss(P, \PrecBetter, \PrecWorse)
-&= - \log \sigmoid S(\PrecBetter, \PrecWorse) \\
-&= - \log \sigmoid (C(\PrecWorse) - C(\PrecBetter)) \\
-&= - \log \sigmoid Z_n \sum_{i=1}^n i (c(\PrecWorse(i)) - c(\PrecBetter(i)))
-%&= - \log \sigmoid Z_n \sum_{i=1}^n c(i) (\inv{\PrecWorse}(i) - \inv{\PrecBetter}(i))
-\end{align*}
+= - \log \sigmoid S(\PrecBetter, \PrecWorse)
+= - \log \sigmoid (C(\PrecWorse) - C(\PrecBetter)) \\
+= - \log \sigmoid Z_n \sum_{i=1}^n i (c(\PrecWorse(i)) - c(\PrecBetter(i)))
+%= - \log \sigmoid Z_n \sum_{i=1}^n c(i) (\inv{\PrecWorse}(i) - \inv{\PrecBetter}(i))
+\end{multline*}
 % FB: Note: I have included the full expansion to make it visible how the loss depends on $c$.
 % To a skilled NN practitioner, it should now be obvious that the loss is differentiable w.r.t. $c$.
 \todo{FB: Consider exposing the form with inverse precedences to single out the $c$ values and expose the $c$ gradient better.}
