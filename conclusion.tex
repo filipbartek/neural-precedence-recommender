@@ -1,7 +1,8 @@
 We have described a system that extracts useful symbol precedences from the graph representations of \gls{cnf} problems.
 Comparison against a conventional symbol precedence heuristic shows that using a \gls{gcn}
 to consider the whole structure of the input problem is beneficial.
-\todo{FB: Should we boast that the reduction of ranking to training of differentiable element scores is innovative?}
+\todo{FB: Should we boast that the reduction of ranking to training 
+of differentiable element scores is innovative? MS: Yes! Ideally (also) earlier.}
 
 A manual analysis of the trained recommender could produce new insights into how the choice of the symbol precedence influences the proof search,
 which could in turn help designing new efficient precedence generating schemes.
@@ -23,6 +24,8 @@ between the effects of the function precedence and predicate precedence on the p
 while the current setup implicitly assumes that the effects are independent.
 Finally, higher training data efficiency could be achieved by considering all pairs of measured executions on a problem
 in one training batch.
+
+\todo{MS: ja bych asi delsi zaver nepsal, ani kdyz bude misto...}
 
 \iftoggle{LONG}{
 A more detailed analysis of the training process might yield insights into how the performance generalizes

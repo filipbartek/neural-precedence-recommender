@@ -11,6 +11,9 @@ a \gls{cnf} problem $P = (\Sigma, \mathit{Cl})$ as the input,
 and produces a precedence $\pi^*$ over the symbols $\Sigma$ as the output.
 For the recommender to be useful, it needs to produce a precedence
 that solves the input problem in a timely fashion.
+\todo{MS: Ja vim, ze uz je to nuda psat ty dlouhy a presny vety,
+ale ``timely fashion'' uz je mozna moc neformalni a
+a ``precedence does not solve a problem''.}
 
 The recommender described in this section
 first computes a cost value for each symbol of the input problem,
@@ -20,18 +23,21 @@ of finding a good symbol cost function.
 Note that the symbol precedence heuristics commonly used in the \glspl{atp}
 conform to this general scheme:
 they order the symbols by a numeric property, such as arity or number of occurrences.
+\todo{MS: super!}
 
 The architecture is designed so that the recommender can be trained
 on the results of \gls{atp} executions on various problems with random precedences.
 Since the recommender contains a neural network,
 it is parameterized by weight tensors
 whose values can be trained by gradient descent.
+\todo{MS: tady mi to ted (po neuralnim prelim) uz prijde asi dobry!}
 \todo[inline]{MS: chapu ucel (a vidim, ze dalsi veta navazuje na ``parameters'', ale je to kostrbate.
 Recommender = system, chapu jako program. Programy vetsinou neparametrizujeme tenzorama a gradient descent zije na jine urovni,
 nez aby parametrizovane programy primo ucil. Uceni je spis nejaka technologie, kterou recommender pouziva, aby ... ``produces precedences
 that are likely to yield a successful proof''.  }
 The goal of the training is to find parameter values such that the recommender produces precedences
 that are likely to yield a successful proof in as few iterations of the saturation loop as possible.
+\todo{MS: o dost lespi verze v podstate te samy vety z konce prvniho odstavnce "System overview"}
 
 The recommender consists of modules that perform specific subtasks,
 each of which is described in detail in one of the following
@@ -45,6 +51,8 @@ sections (see also \cref{fig:architecture}):
 It is only used in generating mode.
 \item \Cref{sec:training}: Loss function converts the symbol costs and a pair of precedences into a loss value.
 It is only used in training mode.
+\todo{MS: je to schalne, ze tam mas vsude ``converts''? V nekterych bodech by asi byla k dispozici prilehavejsi slova.
+Treba sorting converts uz zni trochu sroubovane. }
 \end{itemize}
 }{
 sections (see also \cref{fig:architecture}).
@@ -254,7 +262,7 @@ The graph representation has the following properties:
 (up to logical equivalence).
 \item Signature agnostic: Renaming the symbols and variables in the input problem yields an isomorphic graph.
 \item For each relation $r \in \mathcal{R}$, its inverse $\inv{r}$ is also present in the graph,
-typically represented by a different edge type.
+typically\todo{MS: jaka je vyjimka?} represented by a different edge type.
 \todo{MS: tohle jsem nepochopil. Nemuzeme rict, ze (az na nejakou vyjimkou) jsou edges v obou smerech?\\
 FB: Chci vyjasnit, ze inverzni edge ma jiny edge type.}
 \item A singleton node of type \ntype{problem} is connected to all the clauses of the problem.
@@ -263,26 +271,19 @@ connecting the respective atom to the clause it occurs in.
 \item For every non-equality atom and term, the order of its arguments is captured by a sequence of \ntype{argument} nodes chained by edges \cite{Rawson2020}.
 \item The two operands of equality are not ordered.
 This reflects the symmetry of equality.
-\item Perfect sub-expression sharing:
+\item \todo[inline]{MS: (Almost)} Perfect sub-expression sharing:
 \todo[inline]{MS: Predpokladam ze dva ruzne ground literaly p(c) tam budou taky jen jendnou?\\
 FB: Literaly nemaji nody. Atomy maji nody a polarita literalu je zakodovana v typu hrany, ktery jej spojuje s klauzuli.
 MS: O to my, neslo. Slo o to, jestli se sdily ground termy mezi klauzulemi, ted uz dobry! :)}
 Redundant atoms and terms share a node representation.
 \todo{FB: Cite some text about sub-expression sharing. Perhaps Rawson2020?}
-\todo{MS: Ale mezitim se to tu zmenilo a ja prestavam chapat, co je ``Redundant''.}
+\todo{MS: Ale mezitim se to tu zmenilo a ja prestavam chapat, co je ``Redundant''!}
 Note that since each variable is bound by a clause,
 ground terms are shared across clauses,
 but non-ground terms are only shared within the context of a clause.
 \todo{FB: Remove as of little interest?}
 \end{itemize}
 \todo{FB: Reference appendix if we describe the representation in more detail there.}
-\todo[inline]{MS: Filosoficka k ``can be represented''; mozna by se mohlo nekde objevit:
-Snazime se do struktury HIN ``otisknout'' celou strukturu CNF (jak jsem rikal,
-znamena to, ze zobrazeni je proste), abychom siti nevzali moznost ``vedet o problemu
-uplne vsechno'' (az na veci, na kterych nezalezi jako poradi literaly v klauzulich, etc).
-Ta filosoficka poznamka je o tom, ze pro dobre uceni tohle vlastne vubec nemusi byt treba,
-ze nejaky ``hrubsi otisk'' by mohl stacit tez (a byt treba mensi), ale my nevime, jak takovy zvolit.\\
-FB: Zkusim to popsat, kdyz zbyde cas.}
 \todo{FB: Mention other encodings that have been proposed by Mirek and Michael and compare ours to theirs.}
 
 \subsection{\Gls{gcn}: From graphs to symbol embeddings}
@@ -307,7 +308,7 @@ feature vectors are used in nodes that correspond to clauses and symbols.
 Each clause node has a feature vector with a one-hot encoding of the role of the clause,
 which can be either axiom, assumption, or negated conjecture \cite{TptpSyntax,Sutcliffe2017}.
 Each symbol node has a feature vector with two bits of data:
-whether the symbol was introduced into the problem during preprocessing,
+whether the symbol was introduced into the problem during preprocessing (most notably clausification),
 and whether the symbol appears in a conjecture clause.
 
 One pass through the convolutional layer
@@ -333,7 +334,7 @@ yielding the new embedding $h_d^{(l+1)}$.
 The following formula captures the complete update of embedding of node $d$ by layer $l$:
 $$
 h_d^{(l+1)} =
-\sum_{r \in \mathcal{R}} \sigma \Parentheses{\sum_{s \in \mathcal{N}_d^r} \frac{1}{c_{s,d}} (W_r^{(l)} h_s^{(l)} + b_r^{(l)})}
+\sum_{r \in \mathcal{R}} \sigma \Parentheses{\sum_{s \in \mathcal{N}_d^r} \frac{1}{c_{s,d}} (W_r^{(l)} h_s^{(l)} + b_r^{(l)})}.
 $$
 
 %$$
@@ -343,14 +344,6 @@ $$
 % Inspiration: https://ufal.mff.cuni.cz/~straka/courses/npfl114/1920/slides.pdf/npfl114-07.pdf - slide 27 - Transformer
 %\todo{FB: Mention inspiration: Transformer. See Straka's slides.}
 
-\todo[inline]{MS: neni uplne jiste, ze ``CADE people'' oceni presny zapis 
-strutury site, vcetne prvku jako $\mathrm{LayerNorm}$ ve vzorecku.
-Nerikam, ze bychom to meli uplne zatajit, ale popis, ktery je zde, spis
-patri do appendixu (ML paperu). Na te siti vlastne nic originalniho neni,
-tak neni treba vsechno vysvetlit do detailu. Zajimavejsi tu
-potom je az to, jak se problem $P$ ``otiskne'' v topologii grafu. 
-To uz originalni je (a soutezi to s representacemi jako ta Mirkova)
-a popisujes to pak dal.}
 \todo{Compare our GCN to Michael, Mirek etc.}
 
 \subsection{Output layer: From symbol embeddings to symbol costs}
@@ -359,7 +352,7 @@ a popisujes to pak dal.}
 
 The symbol cost of each symbol is computed by passing the symbol's embedding through a linear output unit,
 which is an affine transformation with no activation function.
-\todo{FB: Is this clear at this point?}
+\todo{FB: Is this clear at this point? MS: jj, ted uz jo!}
 
 It is possible to use a more complex output layer in place of the linear unit,
 e.g., a feedforward network with one or more hidden layers.
@@ -371,18 +364,40 @@ Given an input problem $P$ with signature $\Sigma = (s_1, \ldots, s_n)$,
 we denote the cost of symbol $s_i$ predicted by the \acrlong{nn} as $c(i, P; \theta)$.
 In the rest of this text,
 we refer to the predicted cost of $s_i$ simply as $c(i)$
-because the problem $P$ and the parameters $\theta$ are fixed in each respective context.
+because the problem $P$ and the parameters $\theta$ are fixed in each respective context.\todo{MS: I like.}
 
 \subsection{Sorting: From symbol costs to precedence}
 \label{sec:ranking}
 
-\subsubsection{Precedence cost}
+\todo[inline]{MS: Tady je asi hlavni ``dira'' ve vysvetlovani...
+Na to, abys vzal symbol costy a zavolal sort nepotrebujes definovat
+cost precedenci a neco o nem dokazovat.
+
+Nevim, jestli to nechces rict az pozdeji,
+nebot precedence cost opravdu potrebujem az pro uceni!
+
+Teda vlastne by mi nevadilo o tom mluvit zde, (az na to, ze rozcestnik drive rika
+``Sorting converts the symbol costs into a symbol precedence.
+It is only used in generating mode.'')
+
+ale to vyzneni, kde to vypada, ze to delame kvuli tomu sortu, je matouci.
+
+Predstavuju si odstavec, kde rikame, ze precedence cost je dulezity koncept,
+protoze ma jednak tu vlastnost, ze je minimalizovan sortenim
+ale druhak prirazuje cost i nesetridenym permutacim a tak ho muzem pouzit pri uceni.
+(Coz by splnoval i jiny vzorecek nez \eqref{eq:cost_model}), namely
+jina striktne monotonni funkce na pronasobeni nez to $i$ tam,
+ale berem proste tenhle, protoze neni jasne, proc by jiny mel byt lespi,
+a tenhle je nejjednodussi.)}
+
+\subsubsection{Precedence cost} \todo{MS: subsubsections jsou trochu e-e}
+
 We extend the notion of cost from symbols to precedences
 by taking the sum of the symbol costs
 weighted by their positions in the given precedence $\pi$:
-$$
+\begin{equation} \label{eq:cost_model}
 C(\pi) = Z_n \sum_{i=1}^n i \cdot c(\pi(i))% We call the normalization factor Z_n to follow convention from Foundations of Machine Learning, p. 122.
-$$
+\end{equation}
 $Z_n = \frac{2}{n(n+1)}$ is a normalization factor
 that ensures the commensurability of precedence costs across signature sizes.
 More precisely, normalizing by $Z_n$ makes the expected value of the precedence cost
@@ -398,7 +413,8 @@ independent of the signature size $n$:
 
 \todo[inline]{FB: Consider accessing elements $\pi$ as vector elements $\pi_i$ instead of $\pi(i)$. Keep in mind that $\inv{\pi}$ must be updated as well. The motivation for using $\pi(i)$ is that $\inv{\pi}(i)$ looks clearer than $\inv{\pi}_i$. How about using $(\inv{\pi})_i$? We may also omit the inversion completely.}
 
-\subsubsection{Cost minimization by sorting}
+\subsubsection{Cost minimization by sorting} \todo{MS: subsubsections jsou trochu e-e}
+\todo{MS: tady spis chybi rict, proc to lema vybev potrebujem.}
 \begin{lemma}
 Precedence cost $C$ is minimized by the precedence that sorts the symbols by their costs in non-increasing order:
 $$
