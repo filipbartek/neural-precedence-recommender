@@ -222,21 +222,21 @@ Each of the training examples of problem $P$ contributes to the training with th
 where $s_P$ is the number of examples of problem $P$ in the training set,
 so that each problem contributes to the training to the same degree irrespective of the relative numbers of examples.
 
-\iftoggle{LONG}{
-%\subsubsection{Metrics}
-To analyze the training process,
-we tracked the dynamics of three metrics on $\ProblemsTrain$ and $\ProblemsVal$:
-loss, accuracy and solver performance.
-The solver performance was estimated once per 10 training epochs by running \Vampire{}
-on \num{1000} problems of the respective problem set
-and counting the number of problems successfully solved within the time limit.
-Since the accuracy is a proxy measure of solver performance and the loss is a proxy measure of the accuracy,
-we are interested in generalization from loss to accuracy and from both loss and accuracy to solver performance.
-Similarly, we are interested in generalization from training set to validation set.
-\todo{MS: kdyz se to tady tak pekne pripravi, asi ctenar ceka, ze se to pozdeji 
-nejak zuzitkuje. Pokud se rozhnodnem loss/accuracy/ATP zavislost dal nerozebirat,
-asi je tu navic i tento odstavec, nebo aspon jeho cast.}
-}
+%\iftoggle{LONG}{
+%%\subsubsection{Metrics}
+%To analyze the training process,
+%we tracked the dynamics of three metrics on $\ProblemsTrain$ and $\ProblemsVal$:
+%loss, accuracy and solver performance.
+%The solver performance was estimated once per 10 training epochs by running \Vampire{}
+%on \num{1000} problems of the respective problem set
+%and counting the number of problems successfully solved within the time limit.
+%Since the accuracy is a proxy measure of solver performance and the loss is a proxy measure of the accuracy,
+%we are interested in generalization from loss to accuracy and from both loss and accuracy to solver performance.
+%Similarly, we are interested in generalization from training set to validation set.
+%\todo{MS: kdyz se to tady tak pekne pripravi, asi ctenar ceka, ze se to pozdeji 
+%nejak zuzitkuje. Pokud se rozhnodnem loss/accuracy/ATP zavislost dal nerozebirat,
+%asi je tu navic i tento odstavec, nebo aspon jeho cast.}
+%}
 
 %\subsubsection{Termination}
 We run the training until the validation accuracy stopped increasing for 100 consecutive epochs.
