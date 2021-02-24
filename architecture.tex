@@ -377,10 +377,10 @@ Our approach to defining an appropriate symbol cost function is based on statist
 from executions of an \gls{atp} on a set of problems with random precedences.
 
 To train a useful symbol cost function $c$,
-we define a precedence cost function $C$ on top of $c$
-in a way that ensures that minimizing $C$ corresponds to sorting the symbols by $c$,
-so that finding the precedence that minimizes $C$ can be done efficiently and precisely.
-Then we proceed to train $C$ on the proxy task of ranking the precedences.
+we define a precedence cost function $C$ using the symbol cost function $c$
+in a manner than ensures that minimizing $C$ corresponds to sorting the symbols by $c$.
+Finding the precedence that minimizes $C$ can then be done efficiently and precisely.
+We proceed to train $C$ on the proxy task of ranking the precedences.
 
 % We have:
 % Data allows us to tell whether pi < rho.
