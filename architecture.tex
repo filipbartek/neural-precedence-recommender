@@ -4,26 +4,19 @@ The precedence recommender is a system that takes
 a \gls{cnf} problem $P = (\Sigma, \mathit{Cl})$ as the input,
 and produces a precedence $\pi^*$ over the symbols $\Sigma$ as the output.
 For the recommender to be useful, it needs to produce a precedence
-that, when presented to an \gls{atp} along with the problem $P$,
-yields a proof in few iterations of the saturation loop.
+that is likely to yield a proof in as few iterations of the saturation loop as possible.
 
 The recommender described in this section
-first computes a cost value for each symbol of the input problem,
+first uses a neural network to compute a cost value for each symbol of the input problem,
 and then orders the symbols by their costs in a non-increasing order.
 In this manner, the task of finding good precedences is reduced to the task
-of finding a good symbol cost function.
-Note that the symbol precedence heuristics commonly used in the \glspl{atp}
-conform to this general scheme:
-they order the symbols by a numeric property, such as arity or number of occurrences.
-
-The architecture is designed so that the recommender can be trained
-on the results of \gls{atp} executions on various problems with random precedences.
-Since the recommender contains a neural network,
-it is parameterized by weight tensors
-whose values can be trained by gradient descent.
-The goal of the training is to find parameter values such that the recommender produces precedences
-that are likely to yield a proof in as few iterations of the saturation loop as possible.
-\todo{MS: o dost lespi verze v podstate te samy vety z konce prvniho odstavnce "System overview"}
+of training a good symbol cost function,
+as discussed in \cref{sec:training}.
+%The architecture is designed so that the recommender can be trained
+%on the results of \gls{atp} executions on various problems with random precedences.
+%Since the recommender contains a neural network,
+%it is parameterized by weight tensors
+%whose values can be trained by gradient descent.
 
 The recommender consists of modules that perform specific subtasks,
 each of which is described in detail in one of the following
