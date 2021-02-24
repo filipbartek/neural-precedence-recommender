@@ -4,7 +4,7 @@
 \todo{Intuice: snazime se nastavit costy tak, aby co nejvic dvojic dopadlo spravne.}
 \todo{Some pairs of precedences are not informative. We hope that the non-systematic examples will cancel each other out.}
 
-\subsection{System overview}
+\subsection{System overview} \todo{MS: tuhle subsekci by slo zrusit a usetriti misto. Rozcestnik je beztak neco ``meta''.}
 
 The precedence recommender is a system that takes
 a \gls{cnf} problem $P = (\Sigma, \mathit{Cl})$ as the input,
@@ -409,7 +409,7 @@ independent of the signature size $n$:
 = Z_n \Parentheses{\sum_{i=1}^n i} \mathbb{E}_i [c(i)]
 = \frac{2}{n(n+1)} \frac{n(n+1)}{2} \mathbb{E}_i [c(i)]
 = \mathbb{E}_i [c(i)]
-\end{multline*}
+\end{multline*} \todo{MS: jeste jsem zapomnel napsat, ze tenhle vzorecek je hezky!}
 
 \todo[inline]{FB: Consider accessing elements $\pi$ as vector elements $\pi_i$ instead of $\pi(i)$. Keep in mind that $\inv{\pi}$ must be updated as well. The motivation for using $\pi(i)$ is that $\inv{\pi}(i)$ looks clearer than $\inv{\pi}_i$. How about using $(\inv{\pi})_i$? We may also omit the inversion completely.}
 
@@ -473,13 +473,29 @@ Our ultimate goal is to train the precedence cost function $C$ so that it is min
 measuring the quality of a precedence by the number of iterations of the saturation loop taken to solve the problem.
 Since the number of possible precedences grows with the factorial of the signature size,
 it is not feasible to determine the best precedence conclusively on most practical problems.
+\todo{MS: libi se mi, ze tu je tenhle vysvetlujici odstavec!}
 Instead of learning to classify one or more precedences on each problem as the best,
+\todo{MS: To by asi stejne nepomohlo. Protoze jak pak ty dobre hledat pro novy problem?}
+\todo{MS: ale dalo by se znimit, ze v PAAR paperu jsme na to zkusili jit \emph{regresi} (as opposed to classification),
+tj predikovat primo nejakou real-valued kvalitu kazde konkretni precedence.}
 we train the system to decide which of a pair of arbitrary precedences is better.
 We do this by training $C$ so that better precedences are assigned lower costs.
 The motivation for learning to order pairs of precedences
 is that it may allow the system to generalize to precedences that are better than any of those seen during training.
 \todo{FB: We should test this hypothesis by training on one problem in isolation.}
 \todo{FB: Argue better.}
+\todo[inline]{MS: ta druha myslenka, o ktere jsem mluvil pred obedem, se deje nekde v tomhle odstavci.
+Jasne je, ze chceme vypichnout uceni ze dvojic precedenci jako jeden z klicovych napadu. Trochu min jasne je, proc by teda dvojice mely byt dobre.
+Ja mel pocit, ze kdyz jsme se vloni snazili na tenhle problem napasovat regresi, 
+pusobilo ``neprirozene'' vnucovat modelu konkretni cisla z vampiru. Jasne, nejak to resila normalizace
+(a muselo se davat pozor aby cisla davala smysl nejen napric problemy (jeden resi vsechno rychle, jiny obcas neresi -- penalizace)
+ale i kvuli ruznym velikostem signatury. Coz teda tady mame porad.) ale porad tam bylo to, ze nejak z vnejsku
+modelu narizujeme, na ktere hodnoty ma cilit.
+My tady ale vime, ze nam na konkretnich hodnotach sybol costu nezalezi, 
+a ze ani nemusi byt rozumne porovnavatelne mezi problemy,
+jediny, co je dulezity, je, aby setridena permutace byla ta (to the best of model's knowledge) nejlepsi.
+Takze ja bych shrnul, ze s dvojicema obchazime nutnost stanovovat konkretni target values pro regresi (``problem volby spolecnych jednotek velicin''?)
+a zaroven rafinovane menime ulohu z regresivni na classifikacni. }
 
 \subsubsection{Training data}
 
@@ -503,11 +519,8 @@ We approach this problem as an instance of binary classification with the logist
 a loss function routinely used in classification tasks in \acrlong{ml}:
 \todo[inline]{MS: First mention of a ``binary classifier''!
 We classify the examples, sure, but you did not say it yet.\\
-FB: Is it ok to mention binary classification for the first time here if we cite \cite{Mohri2018} immediately?}
-\todo[inline]{MS: [...] pisem
-``binary'' a ``classification'' a neni tu jasny, co je ``binary''
-a co jsou ``classes''. Z pohledu ctenare, ktery o tom zatim neslysel, se misto ``binary classficiation model'' mohlo
-psat ``housenka'' a vyslo by to pro nej na stejno.}
+FB: Is it ok to mention binary classification for the first time here if we cite \cite{Mohri2018} immediately?
+MS: I think so!}
 \begin{align*}
 \loss(P, \PrecBetter, \PrecWorse)
 &= - \log \sigmoid S(\PrecBetter, \PrecWorse) \\
@@ -521,10 +534,10 @@ psat ``housenka'' a vyslo by to pro nej na stejno.}
 Note that the classifier cannot simply train $S$ to output a positive number on all pairs of precedences
 because $S$ is defined as a difference of two precedence costs.
 Intuitively, by training on the example $(P, \PrecBetter, \PrecWorse)$
-we are pushing $C(\PrecBetter)$ down and $C(\PrecWorse)$ up.
+we are pushing $C(\PrecBetter)$ down and $C(\PrecWorse)$ up.\todo{MS: super, tohle mi takhle nejak nahlas nikdy nedoslo :)}
 
 The loss function is clearly differentiable with respect to the symbol costs,
-\todo{Shall we include the derivative?}
+\todo{Shall we include the derivative? MS: Spis ne.}
 and the symbol cost function $c$ is differentiable with respect to its trainable parameters.
 This enables the use of gradient descent to find the values of the parameters of $c$
-that minimize the loss value.
+that minimize the loss value. 
