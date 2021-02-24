@@ -37,6 +37,8 @@ In each \emph{iteration of the saturation loop}, one clause (so-called \emph{giv
 is selected from the unprocessed set
 and all the inferences between the given clause and the processed clauses are performed.
 The resulting new clauses are added to the unprocessed set.
+Finishing the proof in as few iterations of the saturation loop as possible is important
+because the number of inferred clauses typically grows exponentially during the proof search.
 
 \todo{MS: Celkove hezky! Jen mi tu nejak chybi konec... A taky proc se to vsechno rika.
 V PAAR clanku, pokud si dobre vzpominam, bylo hlavnim cilem zavest znaceni pro
