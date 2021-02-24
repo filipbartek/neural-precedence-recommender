@@ -202,8 +202,7 @@ and \num{1953} problems when training function precedence recommender.
 We used a \gls{gcn} described in \cref{sec:gcn}
 with depth 4, message size 16, \gls{relu} activation function,
 skip connections \cite{Zhou2018}, and layer normalization \cite{Ba2016}.
-We tuned the hyperparameters by a small manual grid search.
-\todo{MS: hezky!}
+We tuned the hyperparameters by a small manual exploration.
 
 \subsection{Training procedure}
 
@@ -303,7 +302,7 @@ The \gls{gcn} models are trained according to the description in \cref{sec:archi
 The model Simple is the final model from our previous work \cite{DBLP:conf/cade/Bartek020}.
 The models that use \acrlong{ml} for the predicate precedence only
 use the \texttt{frequency} heuristic for the function precedence, and vice versa.
-The frequency models use the standard \texttt{frequency} heuristic implemented in \Vampire{}.
+The frequency model uses the standard \texttt{frequency} heuristic implemented in \Vampire{}.
 }
 \label{tab:results}
 \centering

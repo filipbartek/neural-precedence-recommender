@@ -21,7 +21,7 @@
 % State why the main idea is important
 % State your thesis/claim
 
-Modern saturation-based Automatic Theorem Provers (ATPs) such as E \cite{SCV:CADE-2019}, SPASS \cite{DBLP:conf/cade/WeidenbachDFKSW09} 
+Modern saturation-based Automatic Theorem Provers (ATPs) such as E \cite{SCV:CADE-2019}, SPASS \cite{DBLP:conf/cade/WeidenbachDFKSW09},
 or \Vampire{} \cite{DBLP:conf/cav/KovacsV13}
 employ the superposition calculus \cite{DBLP:journals/logcom/BachmairG94,DBLP:books/el/RV01/NieuwenhuisR01} as their underlying inference system.
 Integrating flavors of resolution \cite{DBLP:books/el/RV01/BachmairG01}, paramodulation \cite{Robinson1983}, and 
@@ -62,7 +62,7 @@ Given a previously unseen problem, it can then be asked to recommend the best po
 Relying only on the logical structure of the problems, % for the learning, 
 the system generalizes the knowledge about favorable precedences across problems with different signatures.
 
-Our recommender uses a graph convolutional neural network \cite{kipf2017semisupervised}
+Our recommender uses a relational graph convolutional neural network \cite{Schlichtkrull2017}
 to represent the problem structure. It learns from the ATP performance on selected problems
 and pairs of randomly sampled precedences. This information is used to train
 a \emph{symbol cost model}, which then realizes the recommendation by simply sorting 
