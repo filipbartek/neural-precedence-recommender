@@ -24,7 +24,7 @@ sections (see also \cref{fig:architecture}):
 \begin{itemize}
 \item \Cref{sec:graphifier}: The graph constructor transforms the input \gls{cnf} problem into a problem graph.
 \item \Cref{sec:gcn}: The \gls{gcn} computes symbol embeddings from the problem graph.
-\item \Cref{sec:output}: The output function extracts symbol costs from the symbol embeddings.
+\item \Cref{sec:output}: The output layer extracts symbol costs from the symbol embeddings.
 \item \Cref{sec:sorting}: The final symbol precedence is obtained by sorting the symbols by their costs.
 \end{itemize}
 }{
@@ -124,7 +124,7 @@ LossFunction -> Loss [style=bold];
 \end{figure}
 \todo{FB: Improve the diagram. Consider using tikz. See the disabled tikz figure in the source file.}
 
-\subsection{From \gls{cnf} to graphs}
+\subsection{Graph consutructor: From \gls{cnf} to graphs}
 \label{sec:graphifier}
 
 As the first step of the recommender processing pipeline,
@@ -315,12 +315,12 @@ connecting the respective atom to the clause it occurs in.
 \item For every non-equality atom and term, the order of its arguments is captured by a sequence of \ntype{argument} nodes chained by edges \cite{Rawson2020}.
 \item The two operands of equality are not ordered.
 This reflects the symmetry of equality.
-\item Perfect sub-expression sharing:
+\item Sub-expression sharing \cite{Chvalovsky2019,Olsak2019,Rawson2020}:
 \todo[inline]{MS: (Almost)}
 \todo[inline]{MS: Predpokladam ze dva ruzne ground literaly p(c) tam budou taky jen jendnou?\\
 FB: Literaly nemaji nody. Atomy maji nody a polarita literalu je zakodovana v typu hrany, ktery jej spojuje s klauzuli.
 MS: O to my, neslo. Slo o to, jestli se sdily ground termy mezi klauzulemi, ted uz dobry! :)}
-Redundant atoms and terms share a node representation.
+Identical atoms and terms share a node representation.
 \todo{FB: Cite some text about sub-expression sharing. Perhaps Rawson2020?}
 \todo{MS: Ale mezitim se to tu zmenilo a ja prestavam chapat, co je ``Redundant''!}
 Note that since each variable is bound by a clause,
@@ -410,7 +410,7 @@ In the rest of this text,
 we refer to the predicted cost of $s_i$ simply as $c(i)$
 because the problem $P$ and the parameters $\theta$ are fixed in each respective context.
 
-\subsection{Sorting: From symbol costs to precedence}
+\subsection{Sort: From symbol costs to precedence}
 \label{sec:sorting}
 
 The symbol precedence heuristics commonly used in the \glspl{atp} sort the symbols by some numeric property
@@ -619,4 +619,6 @@ we are pushing $C(\PrecBetter)$ down and $C(\PrecWorse)$ up.
 The loss function is clearly differentiable with respect to the symbol costs,
 and the symbol cost function $c$ is differentiable with respect to its trainable parameters.
 This enables the use of gradient descent to find the values of the parameters of $c$
-that minimize the loss value. 
+that minimize the loss value.
+
+\Cref{fig:architecture} shows how the loss function is linked with the recommender.
