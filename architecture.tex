@@ -541,6 +541,7 @@ seems possible, but it is not clear which precedences should be a priori
 labeled as positive and which as negative, to give a guarantee
 that a precedence minimizing the precedence cost (i.e. the one obtained by sorting)
 would be among the best in any good sense.
+\todo{FB: I think we could ensure that the precedence that minimizes $C$ is relatively good, for example the best of the observed. I hope that ranking generalizes better to unseen precedences, but I am not sure whether it does and I haven't done an experiment to confirm that.}
 % such as learning to detect the precedences that yield a successful proof search within the allocated time.
 
 We cast the task as an instance of score-based ranking problem \cite{Mohri2018,Burges2005}
