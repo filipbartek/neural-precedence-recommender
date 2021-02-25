@@ -36,6 +36,7 @@ Example papers with this style:
 ### References
 
 Source: [Guidelines for Authors](ftp://ftp.springernature.com/cs-proceeding/svproc/guidelines/Springer_Guidelines_for_Authors_of_Proceedings_CS.pdf)
+linked from [Information for Authors](https://www.springer.com/gp/computer-science/lncs/conference-proceedings-guidelines)
 
 > LaTeX users should avoid self-defined environments and use the bibliographic style MathPhySci for computer science proceedings.
 > It is not possible to have hyperlinks in references.
