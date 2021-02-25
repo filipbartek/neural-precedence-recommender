@@ -444,7 +444,7 @@ from executions of an \gls{atp} on a set of problems with random precedences.
 To train a useful symbol cost function $c$,
 we define a precedence cost function $C$ using the symbol cost function $c$
 in a manner than ensures that minimizing $C$ corresponds to sorting the symbols by $c$.
-Finding the precedence that minimizes $C$ can then be done efficiently and precisely.
+Finding a precedence that minimizes $C$ can then be done efficiently and precisely.
 We proceed to train $C$ on the proxy task of ranking the precedences.\todo{MS: Super!}
 % We have:
 % Data allows us to tell whether pi < rho.
@@ -537,9 +537,9 @@ Approaching this task directly, as a regression problem,
 runs into the difficulty of establishing sensible target cost values for the precedences in the training dataset,
 especially when a wide variety of input problems is covered.
 Approaching the task as binary classification of precedences
-seems possible, but it is not clear which precedences should be a priory
+seems possible, but it is not clear which precedences should be a priori
 labeled as positive and which as negative, to give a guarantee
-that a precedence minizing the precedence cost (i.e. the one obtained by sorting)
+that a precedence minimizing the precedence cost (i.e. the one obtained by sorting)
 would be among the best in any good sense.
 % such as learning to detect the precedences that yield a successful proof search within the allocated time.
 
