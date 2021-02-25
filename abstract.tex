@@ -4,10 +4,10 @@ The state-of-the-art superposition-based theorem provers for \acrlong{fol}
 rely on \glspl{sot} to constrain the applicability of inference rules,
 which in turn shapes the ensuing search space.
 The popular Knuth-Bendix simplification ordering is parameterized by 
-a \emph{symbol precedence}---a permutation of the predicate and function symbols
+\emph{symbol precedence}---a permutation of the predicate and function symbols
 of the input problem's signature.
-Thus, the choice of a precedence has an indirect yet often substantial impact
-on the amount of work required to successfully complete a proof search.
+Thus, the choice of precedence has an indirect yet often substantial impact
+on the amount of work required to complete a proof search successfully.
 
 This paper describes and evaluates a symbol precedence recommender,
 a \acrlong{ml} system that estimates the best possible precedence
