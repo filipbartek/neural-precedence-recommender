@@ -36,7 +36,7 @@ sections (see also \cref{fig:architecture}).
 When recommending a precedence, the input is problem $P$ and the output is precedence $\pi^*$.
 When training, the input is problem $P$ and precedences $\pi$ and $\rho$,
 and the output is the loss value.
-The edges along which the loss gradient is backpropagated and the trainable modules are shown bold.}
+The trainable modules and the edges along which the loss gradient is propagated are emphasized by bold lines.}
 \label{fig:architecture}
 \centering
 \digraph[scale=0.5]{ArchitectureOverview}{
@@ -621,4 +621,4 @@ and the symbol cost function $c$ is differentiable with respect to its trainable
 This enables the use of gradient descent to find the values of the parameters of $c$
 that minimize the loss value.
 
-\Cref{fig:architecture} shows how the loss function is linked with the recommender.
+\Cref{fig:architecture} shows how the loss function is plugged into the recommender for the training.
