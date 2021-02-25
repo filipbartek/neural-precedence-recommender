@@ -162,8 +162,8 @@ The parallelizing relaxation means that the $s_P$ values are only updated once i
 allowing up to \num{2000} parallel solver executions.
 \todo{Explain in detail?}
 
-The sampling runs until a target number of examples is generated---\num{1000000} predicate precedence examples and \num{800000} function precedence examples.
-\todo{FB: Prevent confusion of dash for minus.}
+The sampling runs until \num{1000000} examples are generated when training a predicate precedence recommender,
+or \num{800000} examples in case of function precedence recommender.
 % sftp://cluster.ciirc.cvut.cz/home/bartefil/git/vampire-ml/out/20210108-generate-predicate/questions_generated
 For example, while generating \num{1000000} examples for the predicate precedence dataset,
 the least explored problem was tried 19 times, and the most exploited problem was tried 504 times.
