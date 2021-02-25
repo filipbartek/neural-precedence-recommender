@@ -536,9 +536,14 @@ measuring the quality of a precedence by the number of iterations of the saturat
 Approaching this task directly, as a regression problem,
 runs into the difficulty of establishing sensible target cost values for the precedences in the training dataset,
 especially when a wide variety of input problems is covered.
-Approaching the task as binary classification of precedences offers some promising options,
-such as learning to detect the precedences that yield a successful proof search within the allocated time.
-However, we cast the task as an instance of score-based ranking problem \cite{Mohri2018,Burges2005}
+Approaching the task as binary classification of precedences
+seems possible, but it is not clear which precedences should be a priory
+labeled as positive and which as negative, to give a guarantee
+that a precedence minizing the precedence cost (i.e. the one obtained by sorting)
+would be among the best in any good sense.
+% such as learning to detect the precedences that yield a successful proof search within the allocated time.
+
+We cast the task as an instance of score-based ranking problem \cite{Mohri2018,Burges2005}
 % Mohri2018: p. 239, chapter 10 Ranking
 by training a classifier to decide which of a \emph{pair} of precedences is better, based on their costs.
 We train the classifier in a way that ensures that better precedences are assigned lower costs.
