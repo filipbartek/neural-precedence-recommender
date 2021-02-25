@@ -7,7 +7,7 @@ A \emph{\acrfull{fol} problem} consists of a set of axiom formulas and a conject
 In a \emph{refutation-based} \emph{\acrfull{atp}},
 proving that the axioms entail the conjecture
 is reduced to proving that the axioms together with the negated conjecture entail a \emph{contradiction}.
-The most popular \gls{fol} \glspl{atp}, such as \Vampire{} \cite{10.1007/978-3-642-39799-8_1}, E \cite{10.1007/978-3-030-29436-6_29}, or SPASS \cite{DBLP:conf/cade/WeidenbachDFKSW09},
+The most popular \gls{fol} \glspl{atp}, such as \Vampire{} \cite{10.1007/978-3-642-39799-8_1}, E \cite{Schulz2019}, or SPASS \cite{DBLP:conf/cade/WeidenbachDFKSW09},
 start the proof search by converting the input \gls{fol} formulas to an equisatisfiable representation in 
 % \emph{quantifier-free first-order 
 \emph{\acrfull{cnf}} \cite{DBLP:books/el/RV01/NonnengartW01,Harrison2009}.
@@ -31,7 +31,7 @@ In the common setting of time-restricted proof search, a time limit may end the 
 Since the space of the derivable clauses is typically very large,
 the efficacy of the prover depends on the order in which the inferences are applied.
 The common saturation-based \glspl{atp} order the inferences
-by maintaining two classes of the inferred clauses: processed and unprocessed \cite{10.1007/978-3-030-29436-6_29}.
+by maintaining two classes of the inferred clauses: processed and unprocessed \cite{Schulz2019}.
 In each \emph{iteration of the saturation loop}, one clause (so-called \emph{given clause})
 is selected from the unprocessed set
 and all the inferences between the given clause and the processed clauses are performed.
