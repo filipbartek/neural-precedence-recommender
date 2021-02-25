@@ -155,6 +155,42 @@ $\mathcal{R}$ denotes the set of all relations in the graph.
 \caption{\gls{cnf} graph schema}
 \label{fig:CnfSchema}
 \centering
+
+\digraph[scale=0.5]{CnfSchema}{
+graph [ranksep=0.3];
+node [fontsize=14, shape=box, height=0, width=0];
+edge [fontsize=14];
+
+problem;
+clause;
+%{ rank = same;
+predicate;
+atom;
+equality;
+%}
+argument;
+term;
+function;
+variable;
+
+problem -> clause [label=< contains >];
+clause -> atom:nw [label=< pos >];
+clause -> atom:ne [label=< neg >];
+clause -> equality:nw [label=< pos >];
+clause -> equality:ne [label=< neg >];
+clause -> variable [label=< binds >];
+atom -> predicate [label=< atom_applies>];
+atom -> argument [label=< atom_has >];
+equality -> term [label=< equalizes >];
+equality -> variable [label=< equalizes >];
+argument -> argument [label=< precedes >];
+argument -> term [label=< is >];
+argument -> variable [label=< is >];
+term -> argument [label=< term_has >];
+term -> function [label=< term_applies >];
+}
+
+\iffalse
 \tikzstyle{token} = [rectangle, draw]
 
 \begin{tikzpicture}[node distance = 1 and 2, ->]
@@ -191,6 +227,8 @@ $\mathcal{R}$ denotes the set of all relations in the graph.
 \draw (term) to [bend right] node [right] {\etype{term\_has}} (argument);
 
 \end{tikzpicture}
+\fi
+
 \end{figure}
 \todo{FB: Clean up the diagram.}
 
