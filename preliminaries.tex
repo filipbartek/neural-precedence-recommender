@@ -119,7 +119,7 @@ The loss of a batch is typically computed as a weighted sum of the losses of the
 Since each of the modules is differentiable with respect to its inputs and trainable parameters,
 the gradient of the loss in the trainable parameters
 \todo{FB: Is this terminology correct?}
-can be computed using the chain rule \cite{DBLP:books/daglib/0040158}.
+can be computed using the \emph{back-propagation} algorithm \cite{DBLP:books/daglib/0040158}.
 The trainable parameters are then updated by taking a small step
 against the gradient---in the direction that is expected to make the loss value smaller.
 An \emph{epoch} is a sequence of iterations that updates the trainable parameters
