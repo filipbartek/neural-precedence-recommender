@@ -419,10 +419,10 @@ such as the number of occurrences in the input problem, or the symbol arity.
 In our precedence recommender,
 we use a \gls{gcn}-based symbol cost model $c$ in place of the simple symbol property,
 and generate a precedence by sorting the symbols by their predicted costs.
-The advantages of this scheme are that
-sorting is a fast operation,
-and that it allows training the underlying symbol costs by gradient descent,
-as \cref{sec:training} explains in detail.
+An advantage of this scheme is that sorting is a fast operation.
+
+Moreover, as we show in \cref{sec:training}, it is possible
+to train the underlying symbol costs by gradient descent.
 
 %Note that a precedence that minimizes $C$
 %orders the symbols with the lowest cost as the last, prioritizing them for early inferences.
@@ -434,7 +434,8 @@ In \cref{sec:architecture} we described the structure of a recommender system th
 The efficacy of the recommender depends on the quality of the underlying symbol cost function $c$.
 In theory, the symbol cost function can assign the costs so that
 sorting the symbols by their costs yields an optimum precedence.
-Furthermore, all the information necessary to determine the optimum precedence is present in the graph representation of the input problem
+This is because, at least in principle, all the information necessary 
+to determine the optimum precedence is present in the graph representation of the input problem
 thanks to the lossless property of the graph encoding.
 \todo{MS: Hlavne tady ale jakoby chybi druha pulky ty vety. Neco jako ``In practice, however, ...'' Nemyslis?} 
 Our approach to defining an appropriate symbol cost function is based on statistical learning
@@ -444,8 +445,7 @@ To train a useful symbol cost function $c$,
 we define a precedence cost function $C$ using the symbol cost function $c$
 in a manner than ensures that minimizing $C$ corresponds to sorting the symbols by $c$.
 Finding the precedence that minimizes $C$ can then be done efficiently and precisely.
-We proceed to train $C$ on the proxy task of ranking the precedences.
-
+We proceed to train $C$ on the proxy task of ranking the precedences.\todo{MS: Super!}
 % We have:
 % Data allows us to tell whether pi < rho.
 % We need the symbols sorted by c be a good precedence.
@@ -480,6 +480,9 @@ independent of the signature size $n$:
 
 When $C$ is defined in this way,
 the precedence produced by the recommender (see \cref{sec:sorting}) minimizes $C$.
+\todo{Marting == for the camera ready version ==
+Write here that there could be alternavi formulas to \eqref{eq:cost_model}
+and we pick this one as the arguably simplest, for the lack of a better choice.}
 
 \begin{lemma}
 Precedence cost $C$ is minimized by any precedence that sorts the symbols by their costs in non-increasing order:
@@ -529,14 +532,15 @@ so we want equalities to be generally small.}
 
 Our ultimate goal is to train the precedence cost function $C$ so that it is minimized by the best precedence,
 measuring the quality of a precedence by the number of iterations of the saturation loop taken to solve the problem.
-Approaching this task directly as a regression problem
+
+Approaching this task directly, as a regression problem,
 runs into the difficulty of establishing sensible target cost values for the precedences in the training dataset,
 especially when a wide variety of input problems is covered.
 Approaching the task as binary classification of precedences offers some promising options,
 such as learning to detect the precedences that yield a successful proof search within the allocated time.
 However, we cast the task as an instance of score-based ranking problem \cite{Mohri2018,Burges2005}
 % Mohri2018: p. 239, chapter 10 Ranking
-by training a classifier to decide which of a pair of precedences is better based on their costs.
+by training a classifier to decide which of a \emph{pair} of precedences is better, based on their costs.
 We train the classifier in a way that ensures that better precedences are assigned lower costs.
 The motivation for learning to order pairs of precedences
 is that it allows learning on easy problems,
