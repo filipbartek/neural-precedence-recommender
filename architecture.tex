@@ -309,7 +309,7 @@ The graph representation has the following properties:
 typically\todo{MS: jaka je vyjimka?} represented by a different edge type.
 \todo{MS: tohle jsem nepochopil. Nemuzeme rict, ze (az na nejakou vyjimkou) jsou edges v obou smerech?\\
 FB: Chci vyjasnit, ze inverzni edge ma jiny edge type.}
-\item A singleton node of type \ntype{problem} is connected to all the clauses of the problem.
+%\item A singleton node of type \ntype{problem} is connected to all the clauses of the problem.
 \item The polarity of the literals is expressed by the type of the edge (\epos{} or \eneg{})
 connecting the respective atom to the clause it occurs in.
 \item For every non-equality atom and term, the order of its arguments is captured by a sequence of \ntype{argument} nodes chained by edges \cite{Rawson2020}.
@@ -323,9 +323,9 @@ MS: O to my, neslo. Slo o to, jestli se sdily ground termy mezi klauzulemi, ted 
 Identical atoms and terms share a node representation.
 \todo{FB: Cite some text about sub-expression sharing. Perhaps Rawson2020?}
 \todo{MS: Ale mezitim se to tu zmenilo a ja prestavam chapat, co je ``Redundant''!}
-Note that since each variable is bound by a clause,
-ground terms are shared across clauses,
-but non-ground terms are only shared within the context of a clause.
+%Note that since each variable is bound by a clause,
+%ground terms are shared across clauses,
+%but non-ground terms are only shared within the context of a clause.
 \todo{FB: Remove as of little interest?}
 \end{itemize}
 \todo{FB: Reference appendix if we describe the representation in more detail there.}
