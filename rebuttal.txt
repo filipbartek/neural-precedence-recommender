@@ -1,0 +1,74 @@
+We are grateful for the attention and care the reviewers took when considering our paper.
+
+
+Response to Review 1
+--------------------
+
+- An obvious question is how is this work related to the work and methods used for Enigma?
+
+[FB: I'll try to read the Enigma papers and compare our architecture etc. to theirs.]
+
+- Despite the clear improvement over baseline, the percentage gained does not appear
+to be too big. It is possible, that the potential effect of better orderings is not
+too high, regardless of the optimizations. Can you give some insights for this
+line of thought?
+
+The impact of symbol precedence on the proof search is limited,
+especially in case it is only used as a tie-breaker in the regular KBO.
+[FB: Explain in more detail.]
+
+
+Response to Review 2
+--------------------
+
+- How does your tool behave in the presence of theories (assuming AVATAR is used)?
+
+Both in the training and in the evaluation, AVATAR was disabled.
+To avoid confusion, we intend to extend the final version of the paper with an appendix including a detailed description of the Vampire configuration.
+
+- Now Vampire can also handle higher-order problems. Can your technique also improve Vampire's performance in this context?
+
+[FB: Martin, are the precedences compatible with the HOL reasoning in Vampire?]
+
+- How long did it take to do all the training?
+
+In total, the generation of the training data and the training of the model took approximately 8 days.
+More precisely, it took approximately 2 and 4 days to generate the training data for the predicate and function precedence recommender, respectively,
+and it took approximately 45 and 20 hours to train the predicate and function precedence recommender, respectively.
+
+- What kind of new problems were solved in terms of the rating of the problems?
+
+A total of 234 new problems were solved by the trained recommender when compared to the baseline heuristic.
+Among these 234 problems, the maximum rating is 0.88,
+the mean rating is approximately 0.36 and the median rating is 0.36.
+
+- How independent are the training and test sets, given that the problems in TPTP are grouped by families that may include extremely similar problems?
+
+In this experiment, we have not attempted to control nor analyze the similarity between the problems in the training and test sets.
+Splitting the problem set by the domain or the source of the problems is, however, an interesting idea.
+
+
+Response to Review 3
+--------------------
+
+- Why do you use the number or iterations of the main loop?
+
+The idea behind using the number of iterations of the main loop is that it ensures that the orientation of each pair of precedences is unique –
+once we observe that precedence pi is better than precedence rho, we are certain that we will never observe the opposite orientation.
+While this approach reduces the amount of noise in the training data,
+it is not necessary for the training to succeed.
+The point raised by the reviewer is valid and suggests that using wall clock time as the decisive metric, if implemented well, may increase the performance of the trained system.
+
+- You don't describe how many "incomplete" precedence pairs you
+have, e.g. pair where one precedence leads to a proof, the other
+to a timeout.
+
+[FB: I'll try to extract this from the data. Most likely this information is not available.]
+
+- If I understand you correctly, the graph representation of a problem is fixed. So why don't you filter before generating training examples?
+
+We agree that filtering the problems first by the graph representation size would make the procedure clearer.
+The procedure described in the paper was used mainly because it allowed cheaper tuning of the hyperparameters that control the conversion to graphs --
+in most of the experiments, we only need to convert a small part of the training and test problems,
+and determining whether a graph representation of a problem has at most 100 000 nodes requires performing the conversion to graph.
+Filtering by the graph size before splitting into training and test set, once the hyperparameters are tuned, seems to be a reasonable improvement.
