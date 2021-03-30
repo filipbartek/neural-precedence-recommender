@@ -6,7 +6,16 @@ Response to Review 1
 
 - An obvious question is how is this work related to the work and methods used for Enigma?
 
-[FB: I'll try to read the Enigma papers and compare our architecture etc. to theirs.]
+ENIGMA-NG [9] differs from our neural precedence recommender (NPR) significantly in that it deals with a different task (given clause selection),
+it assumes a common signature across the problems
+and it uses a recursive neural network (a more restrictive NN architecture).
+ENIGMA Anonymous [Jakubuv 2020] uses the graph neural network (GNN) architecture proposed in [25], and the relation of our work to this architecture is outlined in section 6.
+In more detail, NPR deals with the task of proposing good symbol precedences, while ENIGMA solves given clause selection (an instance of clause classification).
+NPR is trained on a proxy task of precedence pair classification,
+while ENIGMA is trained directly on the task of clause classification.
+ENIGMA uses a lossy hypergraph encoding,
+while we use a lossless graph encoding with only binary edges,
+which allows our architecture to match the standard R-GCN as proposed in [31] more closely.
 
 - Despite the clear improvement over baseline, the percentage gained does not appear
 to be too big. It is possible, that the potential effect of better orderings is not
