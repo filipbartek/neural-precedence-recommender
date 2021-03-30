@@ -426,6 +426,27 @@ We verified that the linear predicate precedence heuristic
 trained in \cite{DBLP:conf/cade/Bartek020} outperforms the \texttt{frequency} heuristic.
 Moreover, we confirmed the conjecture that using a \gls{gnn} may perform even better \cite{DBLP:conf/cade/Bartek020}.
 
+% The following figures probably exclude the graphification because it is cached.
+
+% Generating questions for predicate precedence recommender:
+% - Data: sftp://cluster.ciirc.cvut.cz/home/bartefil/git/vampire-ml/logs/train/20210108-161206
+% - Time to generate 1M questions: 1d 18h (1318k attempts)
+
+% Predicate recommender training: VML-540:
+% - Best epoch: 79
+% - Last epoch: 673
+% - Total time: 1d 21h
+% - Time to reach epoch 79: 3h 15m
+
+% Generating questions for function precedence recommender: VML-555:
+% - Time to generate 800k questions: 3d 16h (1 227 553 attempts)
+
+% Training of function precedence recommender: VML-672:
+% - Best epoch: 289
+% - Last epoch: 489
+% - Total time: 19h 32m
+% - Time to reach epoch 289: 11h 37m
+
 \iftoggle{LONG}{
 \todo[inline]{MS: kdyz bude misto, dal bych to driv. Souhlasim, ze kdyz se budu zahazovat, tak spolecne s odstavcem "Metrics" drive.}
 In the process of training,
