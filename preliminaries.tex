@@ -4,6 +4,7 @@
 \label{sec:saturation}
 
 A \emph{\acrfull{fol} problem} consists of a set of axiom formulas and a conjecture formula.
+\todo{FB: Clarify that we use FOL with equality.}
 In a \emph{refutation-based} \emph{\acrfull{atp}},
 proving that the axioms entail the conjecture
 is reduced to proving that the axioms together with the negated conjecture entail a \emph{contradiction}.
@@ -12,6 +13,8 @@ start the proof search by converting the input \gls{fol} formulas to an equisati
 % \emph{quantifier-free first-order 
 \emph{\acrfull{cnf}} \cite{DBLP:books/el/RV01/NonnengartW01,Harrison2009}.
 We denote a problem in \gls{cnf} as $P = (\Sigma, \mathit{Cl})$,
+% Handbook of AR, Chapter 3: signature $\Sigma = (P_\Sigma, F_\Sigma)$
+\todo{FB: What about the variables? Handbook of AR (chapter 3) defines the set Var.}
 where $\Sigma$ is a list of all non-logical (predicate and function)
 \emph{symbols} in the problem called the \emph{signature},
 and $\mathit{Cl}$ is the set of the clauses of the problem (including the negated conjecture).
@@ -124,3 +127,5 @@ The trainable parameters are then updated by taking a small step
 against the gradient---in the direction that is expected to make the loss value smaller.
 An \emph{epoch} is a sequence of iterations that updates the trainable parameters
 using each example in the training set exactly once.
+
+\todo[inline,author=R2]{Why present only the feedforward NN in sect. 2.3 when you are using a GCN? You could at least include a paragraph about the main differences between these two models at the end of 2.3. Then 3.2 could focus on the aspects of GCN that are specific to this particular problem.}

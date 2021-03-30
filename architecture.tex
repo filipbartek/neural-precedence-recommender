@@ -123,6 +123,7 @@ LossFunction -> Loss [style=bold];
 
 \end{figure}
 \todo{FB: Improve the diagram. Consider using tikz. See the disabled tikz figure in the source file.}
+\todo[author=R2]{The small bold arrows are quite difficult to distinguish from the small non-bold arrows.}
 
 \subsection{Graph constructor: From \gls{cnf} to graphs}
 \label{sec:graphifier}
@@ -299,6 +300,7 @@ tb -> fb;
 %fb -> fb [dir=forward];
 }
 \end{figure}
+\todo[author=R2]{There are unneeded differences in the notations used in the two figures; for example, pos/neg vs +/-, equality vs equality atom, the various (and non-specified) types of boxes around the nodes in fig. 3...}
 
 The graph representation has the following properties:
 \begin{itemize}
@@ -342,6 +344,7 @@ for correctly ranking the symbol in the symbol precedences over $P$.
 The symbol embeddings are output by a \gls{rgcn} \cite{Schlichtkrull2017},
 which is a stack of \emph{graph convolutional layers}.
 Each layer consists of a collection of differentiable modules---one module per edge type.
+\todo[author=R1]{Are there just so many nodes in the layer as the types of graph edges in Figure 2, or is each edge in the whole graph (a large set) represented by a collection of modules?}
 The computation of the \gls{gcn} starts with assigning each node an initial embedding
 and then iteratively updates the embeddings by passing them through the convolutional layers.
 
@@ -418,6 +421,9 @@ that is inexpensive to compute,
 such as the number of occurrences in the input problem, or the symbol arity.
 In our precedence recommender,
 we use a \gls{gcn}-based symbol cost model $c$ in place of the simple symbol property,
+\todo[author=R1]{What exactly is the GCN-bases symbol cost? Is it the cost calculated by
+the model for each symbol, or are different copies of symbols in different occurrences given
+different costs?}
 and generate a precedence by sorting the symbols by their predicted costs.
 An advantage of this scheme is that sorting is a fast operation.
 
@@ -477,6 +483,7 @@ independent of the signature size $n$:
 = \frac{2}{n(n+1)} \frac{n(n+1)}{2} \mathbb{E}_i [c(i)]
 = \mathbb{E}_i [c(i)]
 \end{multline*}
+\todo[inline,author=R2]{In the equations showing that the expected value of the precedence cost is independent of the size of the signature, there is a (minor) problem in the second line: the i occurring in $E_i[c(i)]$ is not defined and probably unneeded if, as hinted by the equations, the expected value of each symbol is the same (which should also be stated somewhere).}
 
 When $C$ is defined in this way,
 the precedence produced by the recommender (see \cref{sec:sorting}) minimizes $C$.
@@ -630,5 +637,6 @@ The loss function is clearly differentiable with respect to the symbol costs,
 and the symbol cost function $c$ is differentiable with respect to its trainable parameters.
 This enables the use of gradient descent to find the values of the parameters of $c$
 that minimize the loss value.
+\todo[author=R2]{I expect that you mean "to *locally* minimize the loss value". If you do, the fix is simple (just add "locally"); if not, more explanations are needed.}
 
 \Cref{fig:architecture} shows how the loss function is plugged into the recommender for the training.
