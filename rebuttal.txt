@@ -24,7 +24,10 @@ line of thought?
 
 The impact of symbol precedence on the proof search is limited,
 especially in case it is only used as a tie-breaker in the regular KBO.
-[FB: Explain in more detail.]
+While using the TKBO for literal ordering observably increases the impact of the predicate precedence on the proof search,
+the impact remains indirect and thus it is expected to be relatively limited compared to,
+e.g., given clause selection.
+[FB: Try to estimate how much learning precedences can help by summarizing the results on random precedences.]
 
 
 Response to Review 2
