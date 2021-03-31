@@ -22,25 +22,24 @@ to be too big. It is possible, that the potential effect of better orderings is 
 too high, regardless of the optimizations. Can you give some insights for this
 line of thought?
 
-The impact of symbol precedence on the proof search is limited,
-especially in case it is only used as a tie-breaker in the regular KBO.
-While using the TKBO for literal ordering observably increases the impact of the predicate precedence on the proof search,
-the impact remains indirect and thus it is expected to be relatively limited compared to,
-e.g., given clause selection.
-[FB: Try to estimate how much learning precedences can help by summarizing the results on random precedences.]
-
+It is incredibly difficult to estimate in absolute terms, how large an improvement
+one could in our setting on TPTP achieve using some form of "perfect orderings".
+However, experiments with random precedences [7] showed that the prover perceptibly responds 
+to changes of this parameter and that work on a recommender is worthwhile.
 
 Response to Review 2
 --------------------
 
 - How does your tool behave in the presence of theories (assuming AVATAR is used)?
 
-Both in the training and in the evaluation, AVATAR was disabled.
-To avoid confusion, we intend to extend the final version of the paper with an appendix including a detailed description of the Vampire configuration.
+Both in the training and in the evaluation, AVATAR was disabled and we didn't consider problems with theories.
+Although, in principle, theory symbols could be subject to our recommender, Vampire treats them differently than the rest  
+when constructing a precedence and we did not want to be sidetracked by these specificities. 
 
 - Now Vampire can also handle higher-order problems. Can your technique also improve Vampire's performance in this context?
 
-[FB: Martin, are the precedences compatible with the HOL reasoning in Vampire?]
+Again, this seems in principle possible, as long as the ordering used by the HO vampire still relies on a precedence,
+but we did not investigate the details yet.
 
 - How long did it take to do all the training?
 
@@ -65,17 +64,12 @@ Response to Review 3
 
 - Why do you use the number or iterations of the main loop?
 
-The idea behind using the number of iterations of the main loop is that it ensures that the orientation of each pair of precedences is unique –
-once we observe that precedence pi is better than precedence rho, we are certain that we will never observe the opposite orientation.
-While this approach reduces the amount of noise in the training data,
-it is not necessary for the training to succeed.
-The point raised by the reviewer is valid and suggests that using wall clock time as the decisive metric, if implemented well, may increase the performance of the trained system.
-
-- You don't describe how many "incomplete" precedence pairs you
-have, e.g. pair where one precedence leads to a proof, the other
-to a timeout.
-
-[FB: I'll try to extract this from the data. Most likely this information is not available.]
+We mainly selected this metric because it is deterministic
+and can be measured while other processes are making the computer busy.
+Wall-clock time is more sensitive to the compute environment 
+and more care needs to be taken to obtain meaningful commeasureable across multiple runs.
+However, the point raised by the reviewer is valid and suggests that using wall clock time as the decisive metric,
+if implemented well, may increase the performance of the trained system.
 
 - If I understand you correctly, the graph representation of a problem is fixed. So why don't you filter before generating training examples?
 

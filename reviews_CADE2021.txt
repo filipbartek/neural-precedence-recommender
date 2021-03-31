@@ -36,7 +36,9 @@ Although a paper does a good job of presenting a lot of complex details
 in a limited-size paper, a few sections would benefit from further clarification,
 for example:
 
-"Each layer consists of a collection of differentiable modules--one module per edge type." Are there just so many nodes in the layer as the types of graph edges in Figure 2, or is each edge in the whole graph (a large set) represented by a collection of modules?
+"Each layer consists of a collection of differentiable modules--one module per edge type." 
+Are there just so many nodes in the layer as the types of graph edges in Figure 2, 
+or is each edge in the whole graph (a large set) represented by a collection of modules?
 
 "In our precedence recommender, we use a GCN-based symbol cost model c in place of the simple
 symbol property, ..." What exactly is the GCN-bases symbol cost? Is it the cost calculated by
@@ -50,11 +52,23 @@ TITLE: Neural Precedence Recommender
 AUTHORS: Filip Bártek and Martin Suda
 
 ----------- Overall evaluation -----------
-This paper introduces a tool to automatically suggest a precedence of symbols for the Vampire theorem prover using the Knuth-Bendix Order. This tool is build using a graph convolutional neural network (GCN), that accept graphs representing a CNF formula as inputs. This GCN outputs a weight for each symbol occurring in the input formula, and sorting the symbols in a non-increasing order on these weights produces a recommended precedence. The learning of a precedence of predicates and function symbols is done independently.
+This paper introduces a tool to automatically suggest a precedence of symbols for the Vampire theorem prover 
+using the Knuth-Bendix Order. This tool is build using a graph convolutional neural network (GCN), 
+that accept graphs representing a CNF formula as inputs. This GCN outputs a weight for each symbol occurring
+in the input formula, and sorting the symbols in a non-increasing order on these weights produces a recommended precedence.
+The learning of a precedence of predicates and function symbols is done independently.
 
-  The method used to train the GCN is explained and the performances of the recommender are evaluated on TPTP FOF problems. The best results were obtained by combining both the predicate and function symbols GCN recommenders, in which case a substantial of improvement in terms of the number of problems solved (around 180 more problems solved) is observed.
-
-  This paper does a good job at presenting both superposition theorem proving and GCN learning at an abstract enough level that researchers in both domains can get an idea of what is going on in the other domain. The process of training the GCN is also clearly described. Moreover, the gain in performance is substantial which, to my knowledge, is a first as far as ML-based techniques for theorem proving are concerned. For all these reasons, I believe this paper should be accepted at CADE 2021, although the analysis of the key patterns used by the trained recommender (only hinted at as a future work in the conclusion) would have been much more interesting in my opinion.
+  The method used to train the GCN is explained and the performances of the recommender are evaluated on TPTP FOF problems.
+  The best results were obtained by combining both the predicate and function symbols GCN recommenders,
+  in which case a substantial of improvement in terms of the number of problems solved (around 180 more problems solved) is observed.
+  
+  This paper does a good job at presenting both superposition theorem proving and GCN learning at an abstract enough
+  level that researchers in both domains can get an idea of what is going on in the other domain. 
+  The process of training the GCN is also clearly described. Moreover, the gain in performance is substantial which,
+  to my knowledge, is a first as far as ML-based techniques for theorem proving are concerned. 
+  For all these reasons, I believe this paper should be accepted at CADE 2021, 
+  although the analysis of the key patterns used by the trained recommender (only hinted at as a future work in the conclusion)
+  would have been much more interesting in my opinion.
 
   Detailed comments
   -----------------
@@ -87,13 +101,14 @@ This paper introduces a tool to automatically suggest a precedence of symbols fo
  - p14: I assume the converse from the sentence "Since the predicate precedence recommender ... irrespective of the function precedence heuristic it is combined with." holds, in which case, you could add "and conversely" afterwards.
  - p16-17: The titles of some articles (mostly the arXiv ones, book titles are a different matter) are capitalized, while the others are not. This could be made uniform.
  - p17: There appears to be a latex bug in the url in reference 22.
+
 ----------- Specific questions for rebuttal -----------
-- How does your tool behave in the presence of theories (assuming AVATAR is used)?
+
+ - How does your tool behave in the presence of theories (assuming AVATAR is used)?
  - Now Vampire can also handle higher-order problems. Can your technique also improve Vampire's performance in this context?
  - How long did it take to do all the training?
  - What kind of new problems were solved in terms of the rating of the problems?
  - How independent are the training and test sets, given that the problems in TPTP are grouped by families that may include extremely similar problems?
-
 
 ----------------------- REVIEW 3 ---------------------
 SUBMISSION: 94
