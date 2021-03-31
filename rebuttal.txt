@@ -1,76 +1,105 @@
-We are very grateful for the attention and care the reviewers took when considering our paper.
+We are very grateful for the attention and care the reviewers took when
+considering our paper.
 
 
 ----------- Response to Review 1 -----------
 
-- An obvious question is how is this work related to the work and methods used for Enigma?
+- An obvious question is how is this work related to the work and methods
+used for Enigma?
 
-ENIGMA [9, Jakubův 2020] differs from our neural precedence recommender especially in the task it deals with:
-ENIGMA identifies promising clauses for given clause selection,
-while our recommender proposes a promising symbol precedence for the proof search.
-The most recent version of ENIGMA, named ENIGMA Anonymous [Jakubův 2020],
-uses the graph neural network (GNN) architecture proposed in [25],
-and the relation of our work to this architecture is outlined in section 6 of our paper.
-While both our recommender and ENIGMA use a GNN to process the input problems in a signature-agnostic manner,
-the two GNNs are developed independently and their architectures are different.
+ENIGMA [9, Jakubův 2020] differs from our neural precedence recommender
+especially in the task it deals with: ENIGMA identifies promising clauses
+for given clause selection, while our recommender proposes a promising
+symbol precedence for the proof search.  The most recent version of
+ENIGMA, named ENIGMA Anonymous [Jakubův 2020], uses the graph neural
+network (GNN) architecture proposed in [25], and the relation of our work
+to this architecture is outlined in section 6 of our paper.  While both
+our recommender and ENIGMA use a GNN to process the input problems in
+a signature-agnostic manner, the two GNNs are developed independently
+and their architectures are different.
 
-- Despite the clear improvement over baseline, the percentage gained does not appear
-to be too big. It is possible, that the potential effect of better orderings is not
-too high, regardless of the optimizations. Can you give some insights for this
-line of thought?
+- Despite the clear improvement over baseline, the percentage gained does
+not appear to be too big. It is possible, that the potential effect of
+better orderings is not too high, regardless of the optimizations. Can
+you give some insights for this line of thought?
 
-It is incredibly difficult to estimate, in absolute terms, how large an improvement
-one could in our setting on TPTP achieve using some form of "perfect orderings".
-However, experiments with random precedences [7] showed that the prover perceptibly responds 
-to changes of this parameter and that work on a recommender is worthwhile.
+It is incredibly difficult to estimate, in absolute terms, how large an
+improvement one could in our setting on TPTP achieve using some form of
+"perfect orderings".  However, experiments with random precedences [7]
+showed that the prover perceptibly responds to changes of this parameter
+and that work on a recommender is worthwhile.
 
-[Jakubův 2020]: Jakubův, J., Chvalovský, K., Olšák, M., Piotrowski, B., Suda, M., Urban, J.: ENIGMA Anonymous: Symbol-Independent Inference Guiding Machine (System Description). In: LNCS. vol. 12167 LNAI, pp. 448–463. Springer (2020). https://doi.org/10.1007/978-3-030-51054-1_29
+[Jakubův 2020]: Jakubův, J., Chvalovský, K., Olšák,
+M., Piotrowski, B., Suda, M., Urban, J.: ENIGMA Anonymous:
+Symbol-Independent Inference Guiding Machine (System
+Description). In: LNCS. vol. 12167 LNAI, pp. 448–463. Springer
+(2020). https://doi.org/10.1007/978-3-030-51054-1_29
 
 
 ----------- Response to Review 2 -----------
 
-- How does your tool behave in the presence of theories (assuming AVATAR is used)?
+- How does your tool behave in the presence of theories (assuming AVATAR
+is used)?
 
-Both in the training and in the evaluation, AVATAR was disabled and we did not consider problems with theories.
-Although, in principle, theory symbols could be subject to our recommender, Vampire treats them differently than the rest  
-when constructing a precedence and we did not want to be sidetracked by these specificities. 
+Both in the training and in the evaluation, AVATAR was disabled and
+we did not consider problems with theories.  Although, in principle,
+theory symbols could be subject to our recommender, Vampire treats them
+differently than the rest when constructing a precedence and we did not
+want to be sidetracked by these specificities.
 
-- Now Vampire can also handle higher-order problems. Can your technique also improve Vampire's performance in this context?
+- Now Vampire can also handle higher-order problems. Can your technique
+also improve Vampire's performance in this context?
 
-Again, this seems in principle possible, as long as the ordering used by the HO vampire still relies on a precedence,
-but we did not investigate the details yet.
+Again, this seems in principle possible, as long as the ordering used by
+the HO vampire still relies on a precedence, but we did not investigate
+the details yet.
 
 - How long did it take to do all the training?
 
-In total, the generation of the training data and the training of the model took approximately 8 days.
-More precisely, it took approximately 2 and 4 days to generate the training data for the predicate and function precedence recommender, respectively,
-and it took approximately 45 and 20 hours to train the predicate and function precedence recommender, respectively.
+In total, the generation of the training data and the training of the
+model took approximately 8 days.  More precisely, it took approximately 2
+and 4 days to generate the training data for the predicate and function
+precedence recommender, respectively, and it took approximately 45 and
+20 hours to train the predicate and function precedence recommender,
+respectively.
 
-- What kind of new problems were solved in terms of the rating of the problems?
+- What kind of new problems were solved in terms of the rating of the
+problems?
 
-A total of 234 new problems were solved by the trained recommender when compared to the baseline heuristic.
-Among these 234 problems, the maximum rating is 0.88,
-the mean rating is approximately 0.36 and the median rating is 0.36.
+A total of 234 new problems were solved by the trained recommender
+when compared to the baseline heuristic.  Among these 234 problems,
+the maximum rating is 0.88, the mean rating is approximately 0.36 and
+the median rating is 0.36.
 
-- How independent are the training and test sets, given that the problems in TPTP are grouped by families that may include extremely similar problems?
+- How independent are the training and test sets, given that the
+problems in TPTP are grouped by families that may include extremely
+similar problems?
 
-In this experiment, we have not attempted to control nor analyze the similarity between the problems in the training and test sets.
-Splitting the problem set by the domain or the source of the problems is, however, an interesting idea.
+In this experiment, we have not attempted to control nor analyze
+the similarity between the problems in the training and test sets.
+Splitting the problem set by the domain or the source of the problems is,
+however, an interesting idea.
 
 
 ----------- Response to Review 3 -----------
 
 - Why do you use the number or iterations of the main loop?
 
-We mainly selected this metric because it is deterministic
-and can be measured while other processes are making the computer busy.
-Wall-clock time is more sensitive to the compute environment 
-and more care needs to be taken to obtain meaningful results commeasureable across multiple runs.
-However, the point raised by the reviewer is valid and suggests that using wall clock time as the decisive metric,
-if implemented well, could increase the performance of the trained system.
+We mainly selected this metric because it is deterministic and can be
+measured while other processes are making the computer busy.  Wall-clock
+time is more sensitive to the compute environment and more care needs to
+be taken to obtain meaningful results commeasureable across multiple runs.
+However, the point raised by the reviewer is valid and suggests that
+using wall clock time as the decisive metric, if implemented well,
+could increase the performance of the trained system.
 
-- If I understand you correctly, the graph representation of a problem is fixed. So why don't you filter before generating training examples? CPU time must be cheap! ;-)
+- If I understand you correctly, the graph representation of a problem is
+fixed. So why don't you filter before generating training examples? CPU
+time must be cheap! ;-)
 
-We chose to generate the training and validation examples (in the form of oriented pairs of precedences) independently from the graph representation of the problems.
-This allowed us to adjust the hyperparameters of the two processes (example generation and graph representation) independently,
-keeping the computation cost of the graph representation hyperparameter tuning relatively low.
+We chose to generate the training and validation examples (in the form of
+oriented pairs of precedences) independently from the graph representation
+of the problems.  This allowed us to adjust the hyperparameters of the two
+processes (example generation and graph representation) independently,
+keeping the computation cost of the graph representation hyperparameter
+tuning relatively low.
