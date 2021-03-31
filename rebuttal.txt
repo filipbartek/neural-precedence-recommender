@@ -29,7 +29,7 @@ to changes of this parameter and that work on a recommender is worthwhile.
 
 - How does your tool behave in the presence of theories (assuming AVATAR is used)?
 
-Both in the training and in the evaluation, AVATAR was disabled and we didn't consider problems with theories.
+Both in the training and in the evaluation, AVATAR was disabled and we did not consider problems with theories.
 Although, in principle, theory symbols could be subject to our recommender, Vampire treats them differently than the rest  
 when constructing a precedence and we did not want to be sidetracked by these specificities. 
 
