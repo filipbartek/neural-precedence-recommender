@@ -87,10 +87,10 @@ however, an interesting idea.
 
 We mainly selected this metric because it is deterministic and can be
 measured while other processes are making the computer busy.  Wall-clock
-time is more sensitive to the compute environment and more care needs to
+time is more sensitive to the computing environment and more care needs to
 be taken to obtain meaningful results commeasureable across multiple runs.
 However, the point raised by the reviewer is valid and suggests that
-using wall clock time as the decisive metric, if implemented well,
+using wall-clock time as the decisive metric, if implemented well,
 could increase the performance of the trained system.
 
 - If I understand you correctly, the graph representation of a problem is
