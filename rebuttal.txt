@@ -7,9 +7,9 @@ We are very grateful for the attention and care the reviewers took when consider
 
 ENIGMA [9, Jakubův 2020] differs from our neural precedence recommender especially in the task it deals with:
 ENIGMA identifies promising clauses for given clause selection,
-while our recommender proposes promising symbol precedences.
+while our recommender proposes promising symbol precedences for the proof search.
 The most recent version of ENIGMA, named ENIGMA Anonymous [Jakubův 2020], uses the graph neural network (GNN) architecture proposed in [25], and the relation of our work to this architecture is outlined in section 6 of our paper.
-While both ours and ENIGMA GNNs process the input problems in a signature-agnostic manner,
+While both our recommender and ENIGMA use a GNN to process the input problems in a signature-agnostic manner,
 the two GNNs are developed independently and have different architectures.
 
 - Despite the clear improvement over baseline, the percentage gained does not appear
