@@ -7,17 +7,19 @@ We are very grateful for the attention and care the reviewers took when consider
 
 ENIGMA [9, Jakubův 2020] differs from our neural precedence recommender especially in the task it deals with:
 ENIGMA identifies promising clauses for given clause selection,
-while our recommender proposes promising symbol precedences for the proof search.
-The most recent version of ENIGMA, named ENIGMA Anonymous [Jakubův 2020], uses the graph neural network (GNN) architecture proposed in [25], and the relation of our work to this architecture is outlined in section 6 of our paper.
+while our recommender proposes a promising symbol precedence for the proof search.
+The most recent version of ENIGMA, named ENIGMA Anonymous [Jakubův 2020],
+uses the graph neural network (GNN) architecture proposed in [25],
+and the relation of our work to this architecture is outlined in section 6 of our paper.
 While both our recommender and ENIGMA use a GNN to process the input problems in a signature-agnostic manner,
-the two GNNs are developed independently and have different architectures.
+the two GNNs are developed independently and their architectures are different.
 
 - Despite the clear improvement over baseline, the percentage gained does not appear
 to be too big. It is possible, that the potential effect of better orderings is not
 too high, regardless of the optimizations. Can you give some insights for this
 line of thought?
 
-It is incredibly difficult to estimate in absolute terms, how large an improvement
+It is incredibly difficult to estimate, in absolute terms, how large an improvement
 one could in our setting on TPTP achieve using some form of "perfect orderings".
 However, experiments with random precedences [7] showed that the prover perceptibly responds 
 to changes of this parameter and that work on a recommender is worthwhile.
@@ -65,7 +67,7 @@ and can be measured while other processes are making the computer busy.
 Wall-clock time is more sensitive to the compute environment 
 and more care needs to be taken to obtain meaningful results commeasureable across multiple runs.
 However, the point raised by the reviewer is valid and suggests that using wall clock time as the decisive metric,
-if implemented well, may increase the performance of the trained system.
+if implemented well, could increase the performance of the trained system.
 
 - If I understand you correctly, the graph representation of a problem is fixed. So why don't you filter before generating training examples? CPU time must be cheap! ;-)
 
