@@ -68,10 +68,8 @@ and more care needs to be taken to obtain meaningful commeasureable across multi
 However, the point raised by the reviewer is valid and suggests that using wall clock time as the decisive metric,
 if implemented well, may increase the performance of the trained system.
 
-- If I understand you correctly, the graph representation of a problem is fixed. So why don't you filter before generating training examples?
+- If I understand you correctly, the graph representation of a problem is fixed. So why don't you filter before generating training examples? CPU time must be cheap! ;-)
 
-We agree that filtering the problems first by the graph representation size would make the procedure clearer.
-The procedure described in the paper was used mainly because it allowed cheaper tuning of the hyperparameters that control the conversion to graphs –
-in most of the experiments, we only need to convert a small part of the training and test problems,
-and determining whether a graph representation of a problem has at most 100 000 nodes requires performing the conversion to graph.
-Filtering by the graph size before splitting into training and test set, once the hyperparameters are tuned, seems to be a reasonable improvement.
+We chose to generate the training and validation examples (in the form of oriented pairs of precedences) independently from the graph representation of the problems.
+This allowed us to adjust the hyperparameters of the two processes (example generation and graph representation) independently,
+keeping the computation cost of the graph representation hyperparameter tuning relatively low.
