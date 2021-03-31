@@ -5,16 +5,12 @@ We are very grateful for the attention and care the reviewers took when consider
 
 - An obvious question is how is this work related to the work and methods used for Enigma?
 
-ENIGMA-NG [9] differs from our neural precedence recommender (NPR) significantly in that it deals with a different task (given clause selection),
-it assumes a common signature across the problems
-and it uses a recursive neural network (a more restrictive NN architecture).
-ENIGMA Anonymous [Jakubuv 2020] uses the graph neural network (GNN) architecture proposed in [25], and the relation of our work to this architecture is outlined in section 6.
-In more detail, NPR deals with the task of proposing good symbol precedences, while ENIGMA solves given clause selection (an instance of clause classification).
-NPR is trained on a proxy task of precedence pair classification,
-while ENIGMA is trained directly on the task of clause classification.
-ENIGMA uses a lossy hypergraph encoding,
-while we use a lossless graph encoding with only binary edges,
-which allows our architecture to match the standard R-GCN as proposed in [31] more closely.
+ENIGMA [9, Jakubův 2020] differs from our neural precedence recommender especially in the task it deals with:
+ENIGMA identifies promising clauses for given clause selection,
+while our recommender proposes promising symbol precedences.
+The most recent version of ENIGMA, named ENIGMA Anonymous [Jakubův 2020], uses the graph neural network (GNN) architecture proposed in [25], and the relation of our work to this architecture is outlined in section 6 of our paper.
+While both ours and ENIGMA GNNs process the input problems in a signature-agnostic manner,
+the two GNNs are developed independently and have different architectures.
 
 - Despite the clear improvement over baseline, the percentage gained does not appear
 to be too big. It is possible, that the potential effect of better orderings is not
@@ -25,6 +21,9 @@ It is incredibly difficult to estimate in absolute terms, how large an improveme
 one could in our setting on TPTP achieve using some form of "perfect orderings".
 However, experiments with random precedences [7] showed that the prover perceptibly responds 
 to changes of this parameter and that work on a recommender is worthwhile.
+
+[Jakubův 2020]: Jakubův, J., Chvalovský, K., Olšák, M., Piotrowski, B., Suda, M., Urban, J.: ENIGMA Anonymous: Symbol-Independent Inference Guiding Machine (System Description). In: LNCS. vol. 12167 LNAI, pp. 448–463. Springer (2020). https://doi.org/10.1007/978-3-030-51054-1_29
+
 
 ----------- Response to Review 2 -----------
 
