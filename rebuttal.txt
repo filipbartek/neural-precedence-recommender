@@ -63,7 +63,7 @@ Splitting the problem set by the domain or the source of the problems is, howeve
 We mainly selected this metric because it is deterministic
 and can be measured while other processes are making the computer busy.
 Wall-clock time is more sensitive to the compute environment 
-and more care needs to be taken to obtain meaningful commeasureable across multiple runs.
+and more care needs to be taken to obtain meaningful results commeasureable across multiple runs.
 However, the point raised by the reviewer is valid and suggests that using wall clock time as the decisive metric,
 if implemented well, may increase the performance of the trained system.
 
