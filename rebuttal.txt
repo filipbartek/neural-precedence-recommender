@@ -1,8 +1,7 @@
 We are very grateful for the attention and care the reviewers took when considering our paper.
 
 
-Response to Review 1
---------------------
+----------- Response to Review 1 -----------
 
 - An obvious question is how is this work related to the work and methods used for Enigma?
 
@@ -27,8 +26,7 @@ one could in our setting on TPTP achieve using some form of "perfect orderings".
 However, experiments with random precedences [7] showed that the prover perceptibly responds 
 to changes of this parameter and that work on a recommender is worthwhile.
 
-Response to Review 2
---------------------
+----------- Response to Review 2 -----------
 
 - How does your tool behave in the presence of theories (assuming AVATAR is used)?
 
@@ -59,8 +57,7 @@ In this experiment, we have not attempted to control nor analyze the similarity 
 Splitting the problem set by the domain or the source of the problems is, however, an interesting idea.
 
 
-Response to Review 3
---------------------
+----------- Response to Review 3 -----------
 
 - Why do you use the number or iterations of the main loop?
 
