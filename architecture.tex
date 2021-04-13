@@ -471,6 +471,7 @@ weighted by their positions in the given precedence $\pi$:
 \begin{equation*} \label{eq:cost_model}
 C(\pi) = Z_n \sum_{i=1}^n i \cdot c(\pi(i))% We call the normalization factor Z_n to follow convention from Foundations of Machine Learning, p. 122.
 \end{equation*}
+
 $Z_n = \frac{2}{n(n+1)}$ is a normalization factor
 that ensures the commensurability of precedence costs across signature sizes.
 More precisely, normalizing by $Z_n$ makes the expected value of the precedence cost on a given problem
