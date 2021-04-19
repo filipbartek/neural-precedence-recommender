@@ -1,13 +1,6 @@
 ----------------------- REVIEW 1 ---------------------
 
 ----------- Overall evaluation -----------
-An obvious question is how is this work related to the work and methods
-used for Enigma?
-
-Although the paper related to the Enigma system by Jakubuv has been
-cited, it appears to not be referred to in the text. It should be referred and
-the reference list should be checked.
-
 Despite the clear improvement over baseline, the percentage gained does not appear
 to be too big. It is possible, that the potential effect of better orderings is not
 too high, regardless of the optimizations. Can you give some insights for this
