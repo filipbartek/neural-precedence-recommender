@@ -96,14 +96,3 @@ or is each edge in the whole graph (a large set) represented by a collection of 
     pages without it).
   - References: Your references 19 and 20 refer to the same paper with
     two slightly different BibItems.
-  - The E 2.4 User Manual is available as an EasyChair Preprint (see
-    below).
-
-
-@Booklet{Schulz:EMANUAL-2019,
-  author =       {Stephan Schulz},
-  title =        {{E 2.4 User Manual}},
-  howpublished = {EasyChair preprint no. 2272},
-  url =          {https://easychair.org/publications/preprint/RjDx},
-  year =         {2019},
-}
