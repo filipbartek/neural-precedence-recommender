@@ -355,7 +355,7 @@ feature vectors are used in nodes that correspond to clauses and symbols.
 Each clause node has a feature vector with a one-hot encoding of the role of the clause,
 which can be either axiom, assumption, or negated conjecture \cite{TptpSyntax,Sutcliffe2017}.
 Each symbol node has a feature vector with two bits of data:
-whether the symbol was introduced into the problem during preprocessing (most notably clausification),
+whether the symbol was introduced into the problem during preprocessing (most notably during clausification),
 and whether the symbol appears in a conjecture clause.
 
 One pass through the convolutional layer
@@ -503,11 +503,14 @@ Write here that there could be alternavi formulas to \eqref{eq:cost_model}
 and we pick this one as the arguably simplest, for the lack of a better choice.}
 
 \begin{lemma}
-Precedence cost $C$ is minimized by any precedence that sorts the symbols by their costs in non-increasing order:
+The precedence cost $C$ is minimized by any precedence that sorts the symbols by their costs in non-increasing order:
 $$
 \argmin_\rho C(\rho) = \argsort^- (c(1), \ldots, c(n))
 $$
-where $\argsort^-(x)$ is the set of all permutations $\pi$
+where
+$\argmin_\rho C(\rho)$ is the set of all precedences that minimize precedence cost $C$ for a given symbol cost $c$, and
+%$\argmin_\rho C(\rho) = \{\rho \in Prec(n) | \forall \pi \in Prec(n) . C(\rho) \leq C(\pi)\}$, and
+$\argsort^-(x)$ is the set of all permutations $\pi$
 that sort vector $x$ in non-increasing order ($x_{\pi(1)} \geq x_{\pi(2)} \geq \ldots \geq x_{\pi(n)}$).
 \end{lemma}
 

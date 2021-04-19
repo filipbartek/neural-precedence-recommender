@@ -58,18 +58,7 @@ different costs?
   Minor comments
   --------------
 
- - p2: "according the obtained costs" -> "according to the obtained costs"
- - p3: "The inferences of superposition calculus" -> "The inferences of the superposition calculus"
- - p7: "most notably clausification" -> "most notably during clausification"
- - p9: (Lemma 1) "Precedence cost C" -> "The precedence cost C"
- - p9: (Lemma 1) define argmin
- - p12: "of Bernoulli multi-armed bandit problem" -> "of the Bernoulli multi-armed bandit problem"
- - p13: "Learning rate started" -> "The learning rate started"
- - p14: "a predicate and a function precedence was" -> "a predicate and a function precedences were"
- - p14: "at most at most"
- - p14: I assume the converse from the sentence "Since the predicate precedence recommender ... irrespective of the function precedence heuristic it is combined with." holds, in which case, you could add "and conversely" afterwards.
  - p16-17: The titles of some articles (mostly the arXiv ones, book titles are a different matter) are capitalized, while the others are not. This could be made uniform.
- - p17: There appears to be a latex bug in the url in reference 22.
 
 ----------- Specific questions for rebuttal -----------
 
