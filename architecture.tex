@@ -342,6 +342,7 @@ The symbol embeddings are output by a \gls{rgcn} \cite{Schlichtkrull2017},
 which is a stack of \emph{graph convolutional layers}.
 Each layer consists of a collection of differentiable modules---one module per edge type.
 \todo[author=R1]{Are there just so many nodes in the layer as the types of graph edges in Figure 2, or is each edge in the whole graph (a large set) represented by a collection of modules?}
+\todo[author=FB]{I propose we ignore this comment because I don't understand its point and I can't think of a straightforward way to improve the clarity of the relevant part of the paper.}
 The computation of the \gls{gcn} starts with assigning each node an initial embedding
 and then iteratively updates the embeddings by passing them through the convolutional layers.
 
