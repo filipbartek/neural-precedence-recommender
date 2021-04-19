@@ -91,9 +91,6 @@ or is each edge in the whole graph (a large set) represented by a collection of 
     understand you correctly, the graph representation of a problem is
     fixed. So why don't you filter before generating training
     examples? CPU time must be cheap! ;-)
-  - p15: "KBO, that we choose in our experiments, is in addition to a
-    symbol precedence also determined by symbol weights." -> The
-    preceding sentence no grammar!
   - p16: The paper is technically over length, but only by the
     acknowledgements section (and would have the same number of total
     pages without it).
