@@ -6,6 +6,7 @@ to be too big. It is possible, that the potential effect of better orderings is 
 too high, regardless of the optimizations. Can you give some insights for this
 line of thought?  We should also hope for further improvements on the basis of
 the impressive work presented.
+FB: Let's ignore this comment.
 
 Although a paper does a good job of presenting a lot of complex details
 in a limited-size paper, a few sections would benefit from further clarification,
@@ -14,6 +15,7 @@ for example:
 "Each layer consists of a collection of differentiable modules--one module per edge type." 
 Are there just so many nodes in the layer as the types of graph edges in Figure 2, 
 or is each edge in the whole graph (a large set) represented by a collection of modules?
+FB: Let's ignore this comment.
 
 
 ----------------------- REVIEW 2 ---------------------
@@ -26,21 +28,30 @@ or is each edge in the whole graph (a large set) represented by a collection of 
   For all these reasons, I believe this paper should be accepted at CADE 2021, 
   although the analysis of the key patterns used by the trained recommender (only hinted at as a future work in the conclusion)
   would have been much more interesting in my opinion.
+FB: Let's ignore this comment.
 
   Detailed comments
   -----------------
 
  - page 4: Why present only the feedforward NN in sect. 2.3 when you are using a GCN? You could at least include a paragraph about the main differences between these two models at the end of 2.3. Then 3.2 could focus on the aspects of GCN that are specific to this particular problem.
+   FB: This would probably take a lot of effort. Let's do this if there's some spare time.
  - p11: the reference for Vampire ([20]) describes version 2.6 of Vampire and you are using version 4.3. If available, something more recent would give a better idea of the current capacities of Vampire.
+   FB: [20] is recommended here: https://vprover.github.io/usage.html
+       Is there a newer summary text?
  - p11: Did you fix the strategy and heuristics used by Vampire throughout the training and experiments or was it run in portfolio mode? What about AVATAR, was it activated?
+   FB: Let's include more detail on the configuration in the paper.
  - p12: To clarify the last paragraph of the page, that introduces concepts with which people outside of ML wouldn't be familiar with, I suggest to use columns to show that some sentences are definitions for the terms introduced in the previous sentences, in particular, "... and 0 otherwise. Adaptive sampling..." -> "... and 0 otherwise: Adaptive sampling..." and "... with a parallelizing relaxation. In each iteration..." -> "with a parallelizing relaxation: In each iteration..."
+   FB: Let's ignore this comment.
  - p13: Same comment as just above: "... Adam optimizer [15]. Learning rate..." -> "... Adam optimizer [15]: Learning rate..."
+   FB: Let's ignore this comment.
  - p14: In your PAAR paper [7], the experimental results show that your linear model is not as good as the baseline but it is no longer the case here. How do you explain this? If it was further improved after PAAR, it should be mentioned.
+   FB: Let's ignore this comment.
 
   Minor comments
   --------------
 
  - p16-17: The titles of some articles (mostly the arXiv ones, book titles are a different matter) are capitalized, while the others are not. This could be made uniform.
+   FB: Let's clean up the bibliography.
 
 ----------- Specific questions for rebuttal -----------
 
@@ -49,6 +60,8 @@ or is each edge in the whole graph (a large set) represented by a collection of 
  - How long did it take to do all the training?
  - What kind of new problems were solved in terms of the rating of the problems?
  - How independent are the training and test sets, given that the problems in TPTP are grouped by families that may include extremely similar problems?
+
+FB: Let's ignore all of these comments, since they require additional research.
 
 
 ----------------------- REVIEW 3 ---------------------
@@ -60,20 +73,24 @@ or is each edge in the whole graph (a large set) represented by a collection of 
     articles. In the case of superposition, it has "native support",
     not "a native support". There are similar problems (too many or
     too few articles) throughout the paper.
+    FB: Let's do this using Grammarly and Writefull.
   - p2: The Tseitin transformation is a propositional procedure that
     introduces a definition for each complex subformula. While that is
     a similar idea as used in clausification of first-order formulas
     with definitions, the term does not extend to cover this.
+    FB: Let's make the text more precise.
   - p3: "As soon as the empty clause, denoted by [], is inferred, the
     prover concludes that the premises entail the conjecture, the
     sequence of inferences taken constituting a proof." Make this into
     two sentences. Also, is the proof the sequence of all inferences,
     or only the inferences contributing to the proof?
+    FB: I have applied the first comment. Let's ignore the second comment.
   - p3: The KBO allows both partial orderings and quasi-orderings for
     the precedence, so describing a precedence as a permutation of the
     symbol sequence is not, in general possible. Some implementations
     only support total orderings, but that is not a theoretical
     requirement, and should be made explicit.
+    FB: Let's improve the text.
   - p4/3 Architecture: Why do you use the number or iterations of the
     main loop? It's quite typical for calculus refinements to make the
     search space narrower, but deeper. In other words, a good
@@ -85,12 +102,15 @@ or is each edge in the whole graph (a large set) represented by a collection of 
     to a timeout. This may be a more significant source of good
     training cases than the number of main loop iterations if both
     terminate within the time limit.
+    FB: Let's ignore this comment.
   - p13: "Next, both training and validation sets were restricted to
     problems whose graph representation consisted of at most 100 000
     nodes to limit the memory requirements of the training." If I
     understand you correctly, the graph representation of a problem is
     fixed. So why don't you filter before generating training
     examples? CPU time must be cheap! ;-)
+    FB: Let's ignore this comment. See the rebuttal.
   - p16: The paper is technically over length, but only by the
     acknowledgements section (and would have the same number of total
     pages without it).
+    FB: Let's shorten the paper so that even the acknowledgements fit within the limit. The email from the organizers says that the limit is strict, and that it excludes references (so I assume it includes everything else).
