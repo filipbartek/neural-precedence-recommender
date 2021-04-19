@@ -52,3 +52,11 @@ linked from [Information for Authors](https://www.springer.com/gp/computer-scien
 
 > LaTeX users should avoid self-defined environments and use the bibliographic style MathPhySci for computer science proceedings.
 > It is not possible to have hyperlinks in references.
+
+> The corresponding author, i.e., the author responsible for checking the final proof
+> and for signing the consent-to-publish form on behalf of all of the authors, should be
+> clearly marked in the header of the paper.
+
+> Figures are to be numbered and to have a caption which should always be positioned
+> under the figures, in contrast to the caption belonging to a table, which should always
+> appear above the table.
