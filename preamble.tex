@@ -14,7 +14,6 @@
 \DeclareMathOperator{\sigmoid}{sigmoid}
 \DeclareMathOperator*{\argmin}{argmin}
 \DeclareMathOperator{\argsort}{argsort}
-\newcommand{\Perm}[1]{\mathrm{Perm}(#1)}
 \newcommand{\inv}[1]{#1^{-1}}
 \newcommand{\card}[1]{\left|#1\right|}
 \newcommand{\SquareBracket}[1]{\left[#1\right]}
@@ -22,7 +21,6 @@
 \newcommand{\DotProd}[2]{\left<#1,#2\right>}
 \newcommand{\Better}[3]{#1 \prec_{#3} #2}
 \newcommand{\Prob}[1]{\mathrm{Prob}(#1)}
-\newcommand{\iverson}[1]{\left \llbracket #1 \right \rrbracket}
 
 \DeclareMathOperator{\symbols}{\Sigma}
 \newcommand{\Problems}[1]{\mathcal{P}_{#1}}
@@ -33,26 +31,12 @@
 \DeclareMathOperator{\ProblemsVal}{\Problems{\mathrm{val}}}
 \DeclareMathOperator{\ProblemsValEx}{\ProblemsVal'}
 \newcommand{\signature}[1]{\Sigma_#1}
-\newcommand{\Precedences}[1]{\Perm{\card{\signature{P}}}}
-\newcommand{\fv}{\mli{fv}}
 
 % Precedences
-\newcommand{\Prec}{\pi}
 \newcommand{\PrecBetter}{\pi}
 \newcommand{\PrecWorse}{\rho}
 
-\DeclareMathOperator{\Cost}{\mli{c}}
-\DeclareMathOperator{\CostSym}{\mli{\Cost_{sym}}}
-\DeclareMathOperator{\CostPrec}{\mli{\Cost_{prec}}}
-\DeclareMathOperator{\CostPrecPair}{\mli{LogOdds_{pair}}}
-
-\newcommand{\definiendum}[1]{#1}
 \newcommand{\Vampire}{\textsc{Vampire}}
-\newcommand{\frequency}{\texttt{frequency}}
-\newcommand{\atping}{automated theorem proving}
-
-\newcommand{\Solver}{S}
-\newcommand{\SolverRun}[2]{\Solver(#1, #2)}
 
 \newcommand{\loss}{\ell}
 % Inspiration: The Elements of Statistical Learning, p. 120
