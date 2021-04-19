@@ -94,5 +94,3 @@ or is each edge in the whole graph (a large set) represented by a collection of 
   - p16: The paper is technically over length, but only by the
     acknowledgements section (and would have the same number of total
     pages without it).
-  - References: Your references 19 and 20 refer to the same paper with
-    two slightly different BibItems.
