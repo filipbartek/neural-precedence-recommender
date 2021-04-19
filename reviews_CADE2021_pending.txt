@@ -15,11 +15,6 @@ for example:
 Are there just so many nodes in the layer as the types of graph edges in Figure 2, 
 or is each edge in the whole graph (a large set) represented by a collection of modules?
 
-"In our precedence recommender, we use a GCN-based symbol cost model c in place of the simple
-symbol property, ..." What exactly is the GCN-bases symbol cost? Is it the cost calculated by
-the model for each symbol, or are different copies of symbols in different occurrences given
-different costs?
-
 
 ----------------------- REVIEW 2 ---------------------
 

@@ -419,11 +419,7 @@ The symbol precedence heuristics commonly used in the \glspl{atp} sort the symbo
 that is inexpensive to compute,
 such as the number of occurrences in the input problem, or the symbol arity.
 In our precedence recommender,
-we use a \gls{gcn}-based symbol cost model $c$ in place of the simple symbol property,
-\todo[author=R1]{What exactly is the GCN-bases symbol cost? Is it the cost calculated by
-the model for each symbol, or are different copies of symbols in different occurrences given
-different costs?}
-and generate a precedence by sorting the symbols by their predicted costs.
+we sort the symbols by their costs $c$ produced by the \acrlong{nn} described in \cref{sec:gcn,sec:output}.
 An advantage of this scheme is that sorting is a fast operation.
 
 Moreover, as we show in \cref{sec:training}, it is possible
