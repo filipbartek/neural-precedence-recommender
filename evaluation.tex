@@ -313,8 +313,9 @@ When run with 2 threads,
 the preprocessing of a single problem
 takes at most \num[round-mode=places,round-precision=2]{1.262744486} seconds
 for \SI{80}{\percent} of the problems
-by extrapolation from a sample of \num{1000} problems.
-\todo[author=R2]{What about the remaining 20\% that do not take at most 1.26 seconds? Do they all timeout?}
+by extrapolation from a sample of \num{1000} problems.\footnote{The remaining \SI{20}{\percent} of the problems either finished preprocessing within 5 seconds, or were omitted from preprocessing due to exceeding the node count limit.}
+% \num[round-mode=places,round-precision=2]{4.745481158}
+\todo[author=FB]{Is the footnote with maximum observed time worth the space?}
 % Analysis: https://docs.google.com/spreadsheets/d/1GujYNEtETpC3jk4iyENLjptv8mDmI5f1ZEhbmwtqnPM/edit?usp=sharing
 % VML-715
 \todo{MS: 1) single-core bych chapal jako default. tj netreba zminovat?

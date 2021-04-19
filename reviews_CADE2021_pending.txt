@@ -35,7 +35,6 @@ or is each edge in the whole graph (a large set) represented by a collection of 
  - p11: Did you fix the strategy and heuristics used by Vampire throughout the training and experiments or was it run in portfolio mode? What about AVATAR, was it activated?
  - p12: To clarify the last paragraph of the page, that introduces concepts with which people outside of ML wouldn't be familiar with, I suggest to use columns to show that some sentences are definitions for the terms introduced in the previous sentences, in particular, "... and 0 otherwise. Adaptive sampling..." -> "... and 0 otherwise: Adaptive sampling..." and "... with a parallelizing relaxation. In each iteration..." -> "with a parallelizing relaxation: In each iteration..."
  - p13: Same comment as just above: "... Adam optimizer [15]. Learning rate..." -> "... Adam optimizer [15]: Learning rate..."
- - p14: What about the remaining 20% that do not take at most 1.26 seconds? Do they all timeout?
  - p14: In your PAAR paper [7], the experimental results show that your linear model is not as good as the baseline but it is no longer the case here. How do you explain this? If it was further improved after PAAR, it should be mentioned.
 
   Minor comments
