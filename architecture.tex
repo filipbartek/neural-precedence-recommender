@@ -162,8 +162,8 @@ problem;
 clause;
 %{ rank = same;
 predicate;
-atom;
-equality;
+atom [label="non-equality atom"];
+equality [label="equality atom"];
 %}
 argument;
 term;
@@ -253,8 +253,8 @@ t0 [label="equality atom|a=b"];
 t1 [label="equality atom|f(a,b)=f(b,b)"];
 }
 
-c0 -> t0 [label=" + "];
-c1 -> t1 [label=" &ndash; "];
+c0 -> t0 [label=" pos "];
+c1 -> t1 [label=" neg "];
 
 { rank = same;
 tfab [label="term|f(a,b)"];
@@ -266,13 +266,13 @@ ta [label="term|a"];
 tb [label="term|b"];
 }
 
-ff [label="function|f", style=bold];
-fa [label="function|a", style=bold];
-fb [label="function|b", style=bold];
-tfab0 [label="argument|1", style=dotted];
-tfab1 [label="argument|2", style=dotted];
-tfbb0 [label="argument|1", style=dotted];
-tfbb1 [label="argument|2", style=dotted];
+ff [label="function|f"];
+fa [label="function|a"];
+fb [label="function|b"];
+tfab0 [label="argument|1"];
+tfab1 [label="argument|2"];
+tfbb0 [label="argument|1"];
+tfbb1 [label="argument|2"];
 t0 -> ta;
 t0 -> tb;
 t1 -> tfab;
@@ -298,7 +298,6 @@ tb -> fb;
 \caption{Graph representation of the \gls{cnf} formula $a=b \wedge f(a,b) \neq f(b,b)$}
 \label{fig:GcnExample}
 \end{figure}
-\todo[author=R2]{There are unneeded differences in the notations used in the two figures; for example, pos/neg vs +/-, equality vs equality atom, the various (and non-specified) types of boxes around the nodes in fig. 3...}
 
 The graph representation has the following properties:
 \begin{itemize}

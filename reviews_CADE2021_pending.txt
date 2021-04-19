@@ -31,7 +31,6 @@ or is each edge in the whole graph (a large set) represented by a collection of 
   -----------------
 
  - page 4: Why present only the feedforward NN in sect. 2.3 when you are using a GCN? You could at least include a paragraph about the main differences between these two models at the end of 2.3. Then 3.2 could focus on the aspects of GCN that are specific to this particular problem.
- - p6-7: (Fig. 2-3) There are unneeded differences in the notations used in the two figures; for example, pos/neg vs +/-, equality vs equality atom, the various (and non-specified) types of boxes around the nodes in fig. 3...
  - p9: In the equations showing that the expected value of the precedence cost is independent of the size of the signature, there is a (minor) problem in the second line: the i occurring in E_i[c(i)] is not defined and probably unneeded if, as hinted by the equations, the expected value of each symbol is the same (which should also be stated somewhere).
  - p10: In "This enables the use of gradient descent to find the values of the parameters of c that minimize the loss value.", I expect that you mean "to *locally* minimize the loss value". If you do, the fix is simple (just add "locally"); if not, more explanations are needed.
  - p11: the reference for Vampire ([20]) describes version 2.6 of Vampire and you are using version 4.3. If available, something more recent would give a better idea of the current capacities of Vampire.
