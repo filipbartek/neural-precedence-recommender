@@ -155,6 +155,7 @@ the generator kept track of the number of times the problem has been tried $n_P$
 and the number of examples generated from that problem $s_P$.
 The ratio $\frac{s_P}{n_P}$ corresponded to the average reward of problem $P$ observed so far.
 The problems were sampled using the allocation strategy \acrshort{ucb1} \cite{Auer2002} with a parallelizing relaxation.
+% FB: The parallelizing relaxation is not described in Auer2002. We have designed it ourselves.
 In each iteration, the generator sampled the problem $P$ that maximized
 $\frac{s_P}{n_P} + \sqrt{\frac{2 \ln n}{n_P}}$,
 \todo[author=R2]{Regarding the sampling of problems, what happens when $n_P = 0$, i.e., a problem has not yet been sampled? Or do you start with trying each problem at least once before implementing UCB1?}
