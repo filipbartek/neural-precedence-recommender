@@ -61,14 +61,14 @@ Loss [label="Loss value"];
 }
 
 Problem -> Graphifier -> g -> GCN;
-GCN -> SymbolEmbedding -> SymbolCostModel -> SymbolCost [style=bold];
+GCN -> SymbolEmbedding -> SymbolCostModel -> SymbolCost [penwidth=3];
 SymbolCost -> Sort;
 Sort -> Precedence;
 
 pi -> LossFunction:nw;
 rho -> LossFunction:ne;
-SymbolCost -> LossFunction [style=bold];
-LossFunction -> Loss [style=bold];
+SymbolCost -> LossFunction [penwidth=3];
+LossFunction -> Loss [penwidth=3];
 }
 
 \iffalse
@@ -123,7 +123,6 @@ The trainable modules and the edges along which the loss gradient is propagated 
 \label{fig:architecture}
 \end{figure}
 \todo{FB: Improve the diagram. Consider using tikz. See the disabled tikz figure in the source file.}
-\todo[author=R2]{The small bold arrows are quite difficult to distinguish from the small non-bold arrows.}
 
 \subsection{Graph constructor: From \gls{cnf} to graphs}
 \label{sec:graphifier}
