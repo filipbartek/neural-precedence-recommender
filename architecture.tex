@@ -380,12 +380,12 @@ yielding the new embedding $h_d^{(l+1)}$.
 The following formula captures the complete update of embedding of node $d$ by layer $l$:
 $$
 h_d^{(l+1)} =
-\sum_{r \in \mathcal{R}} \sigma \Parentheses{\sum_{s \in \mathcal{N}_d^r} \frac{1}{c_{s,d}} (W_r^{(l)} h_s^{(l)} + b_r^{(l)})}
+\sum_{r \in \mathcal{R}} \sigma \Parentheses*{\sum_{s \in \mathcal{N}_d^r} \frac{1}{c_{s,d}} (W_r^{(l)} h_s^{(l)} + b_r^{(l)})}
 $$
 
 %$$
 %h_i^{(l+1)} =
-%\mathrm{LayerNorm} \Parentheses{h_i^{(l)} + \sum_{r \in \mathcal{R}} \sigma \Parentheses{\sum_{j \in %\mathcal{N}_i^r} \frac{1}{c_{ji}} h_j^{(l)} W_r^{(l)}}}
+%\mathrm{LayerNorm} \Parentheses*{h_i^{(l)} + \sum_{r \in \mathcal{R}} \sigma \Parentheses*{\sum_{j \in %\mathcal{N}_i^r} \frac{1}{c_{ji}} h_j^{(l)} W_r^{(l)}}}
 %$$
 % Inspiration: https://ufal.mff.cuni.cz/~straka/courses/npfl114/1920/slides.pdf/npfl114-07.pdf - slide 27 - Transformer
 %\todo{FB: Mention inspiration: Transformer. See Straka's slides.}
@@ -482,9 +482,9 @@ independent of the problem's signature size $n$,
 provided the expected symbol cost $\mathbb{E}_i [c(i)]$ does not depend on $n$:
 \begin{multline*}
 \mathbb{E}_\pi [C(\pi)]
-= \mathbb{E}_\pi \SquareBracket{Z_n \sum_{i=1}^n i \cdot c(\pi(i))}
+= \mathbb{E}_\pi \SquareBracket*{Z_n \sum_{i=1}^n i \cdot c(\pi(i))}
 = Z_n \sum_{i=1}^n i \cdot \mathbb{E}_\pi [c(\pi(i))] \\
-= Z_n \Parentheses{\sum_{i=1}^n i} \mathbb{E}_i [c(i)]
+= Z_n \Parentheses*{\sum_{i=1}^n i} \mathbb{E}_i [c(i)]
 = \frac{2}{n(n+1)} \frac{n(n+1)}{2} \mathbb{E}_i [c(i)]
 = \mathbb{E}_i [c(i)]
 \end{multline*}

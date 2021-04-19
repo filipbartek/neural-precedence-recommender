@@ -1,6 +1,7 @@
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{mathtools}
 \usepackage{stmaryrd}
 %\usepackage[disable]{todonotes}
 \usepackage{todonotes}
@@ -15,9 +16,9 @@
 \DeclareMathOperator*{\argmin}{argmin}
 \DeclareMathOperator{\argsort}{argsort}
 \newcommand{\inv}[1]{#1^{-1}}
-\newcommand{\card}[1]{\left|#1\right|}
-\newcommand{\SquareBracket}[1]{\left[#1\right]}
-\newcommand{\Parentheses}[1]{\left(#1\right)}
+\DeclarePairedDelimiter{\card}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\SquareBracket}{[}{]}
+\DeclarePairedDelimiter{\Parentheses}{(}{)}
 \newcommand{\DotProd}[2]{\left<#1,#2\right>}
 \newcommand{\Better}[3]{#1 \prec_{#3} #2}
 \newcommand{\Prob}[1]{\mathrm{Prob}(#1)}
