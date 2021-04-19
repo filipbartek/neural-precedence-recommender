@@ -148,10 +148,10 @@ Otherwise, for example, if the proof search timed out on both precedences, we wo
 To ensure the efficiency of the sampling, we interpreted the process as an instance of the Bernoulli multi-armed bandit problem \cite{Sutton1998},
 with the reward of a trial being 1 in case an example is produced, and 0 otherwise.
 Adaptive sampling balanced
-exploring problems that have been tried relatively scarcely and
+exploring problems that have been tried relatively scarcely, and
 exploiting problems that have yielded examples relatively often.
 For each problem $P \in \ProblemsTptp$,
-the generator kept track of the number of times the problem has been tried $n_P$
+the generator kept track of the number of times the problem has been tried $n_P$,
 and the number of examples generated from that problem $s_P$.
 The ratio $\frac{s_P}{n_P}$ corresponded to the average reward of problem $P$ observed so far.
 The problems were sampled using the allocation strategy \acrshort{ucb1} \cite{Auer2002} with a parallelizing relaxation.
