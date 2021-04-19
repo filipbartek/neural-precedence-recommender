@@ -14,6 +14,15 @@
 
 ## Style
 
+### Documents
+
+- [Call for papers](https://easychair.org/cfp/CADE-28)
+- [Information for Authors of Springer Computer Science Proceedings](https://www.springer.com/gp/computer-science/lncs/conference-proceedings-guidelines)
+    - [Instructions for Authors of Papers to be Published in Springer Computer Science Proceedings](ftp://ftp.springernature.com/cs-proceeding/svproc/guidelines/Springer_Instructions_for_Authors_of_Proceedings_CS.pdf)
+- [Book Authors' Code of Conduct](https://www.springernature.com/gp/authors/book-authors-code-of-conduct)
+
+### Instructions
+
 [Call for papers](https://easychair.org/cfp/CADE-28):
 
 > Regular papers.
