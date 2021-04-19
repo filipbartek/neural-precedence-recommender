@@ -156,14 +156,13 @@ and the number of examples generated from that problem $s_P$.
 The ratio $\frac{s_P}{n_P}$ corresponded to the average reward of problem $P$ observed so far.
 The problems were sampled using the allocation strategy \acrshort{ucb1} \cite{Auer2002} with a parallelizing relaxation.
 % FB: The parallelizing relaxation is not described in Auer2002. We have designed it ourselves.
-First, each problem was sampled once.
-In each subsequent iteration, the generator sampled the problem $P$ that maximized
-$\frac{s_P}{n_P} + \sqrt{\frac{2 \ln n}{n_P}}$,
-where $n = \sum_{P \in \ProblemsTptp} n_P$ was the total number of tries on all problems.
-The parallelizing relaxation means that the $s_P$ values were only updated once in \num{1000} iterations,
-allowing up to \num{2000} parallel solver executions.
-\todo{Explain in detail?}
-\todo[inline,author=FB]{We bootstrap with a per-problem lower bound on the final number of questions. The lower bound is a solution to the equation for $n_B$:
+First, the values of $n_P$ and $s_P$ for each problem $P$ were bootstrapped by sampling the problem a number of times equal to a lower bound on the final value of $n_P$ (at least 1).\footnote{The number of tries each problem was boostrapped with is
+$n_0 = \ceil{\frac{2 \log{N}}{\Parentheses{1 + \sqrt{\frac{2 \log{N} \card{\ProblemsTptp}}{N}}}^2}}$,
+where $N$ is the final number of examples to be generated.
+For example, if $N=1000000$ and $\card{\ProblemsTptp}=17053$, then $n_0 = 10$.}
+% FB: Note that the original UCB1 initially samples each object exactly once.
+% FB: More precisely, N can be any lower bound on the number of tries to be performed.
+\todo[inline,author=FB,disable]{We bootstrap with a per-problem lower bound on the final number of questions. The lower bound is a solution to the equation for $n_B$:
 
 $$
 \frac{s_B}{n_B} + \sqrt{\frac{h \log n}{2 n_B}} < \frac{s_G}{n_G} + \sqrt{\frac{h \log n}{2 n_G}}
@@ -172,13 +171,30 @@ $$
 By taking $s_B = 0$, $s_G = n_G = \frac{n}{|\ProblemsTptp|}$, we get:
 
 $$
-\sqrt{\frac{h \log n}{2 x}} < 1 + \sqrt{\frac{h \log n}{2 \frac{n}{|\ProblemsTptp|}}}
+\sqrt{\frac{h \log n}{2 n_B}} < 1 + \sqrt{\frac{h \log n}{2 \frac{n}{|\ProblemsTptp|}}}
+$$
+
+This leads to the following number of bootstrap samples:
+$$
+\ceil*{\frac{c}{2 \Parentheses*{1 + \sqrt{\frac{c |\ProblemsTptp|}{2 N}}}^2}}
+$$
+where $c = h \log{N}$, $N$ is the desired final number of samples (acting as a lower bound on the total number of tries), and $h$ is the Hoeffding exponent (UCB1 default: 4).
+
+Nicely written for $h=4$:
+$$
+\ceil*{\frac{2 \log{N}}{\Parentheses*{1 + \sqrt{\frac{4 \log{N} |\ProblemsTptp|}{2 N}}}^2}}
 $$
 
 The standard way is to bootstrap with only one sample per problem.
 By enlarging the bootstrap set, we get better estimates early on.
 The expected outcome is the same but the variance is lower (?).
 }
+In each subsequent iteration, the generator sampled the problem $P$ that maximized
+$\frac{s_P}{n_P} + \sqrt{\frac{2 \ln n}{n_P}}$,
+where $n = \sum_{P \in \ProblemsTptp} n_P$ was the total number of tries on all problems.
+The parallelizing relaxation means that the $s_P$ values were only updated once in \num{1000} iterations,
+allowing up to \num{2000} parallel solver executions.
+\todo{Explain in detail?}
 \todo[inline,author=R2]{To clarify the last paragraph of the page, that introduces concepts with which people outside of ML wouldn't be familiar with, I suggest to use columns to show that some sentences are definitions for the terms introduced in the previous sentences, in particular, "... and 0 otherwise. Adaptive sampling..." -> "... and 0 otherwise: Adaptive sampling..." and "... with a parallelizing relaxation. In each iteration..." -> "with a parallelizing relaxation: In each iteration..."}
 
 The sampling continued until \num{1000000} examples were generated when training a predicate precedence recommender,
