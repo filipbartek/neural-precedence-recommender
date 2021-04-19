@@ -643,7 +643,6 @@ we are pushing $C(\PrecBetter)$ down and $C(\PrecWorse)$ up.
 The loss function is clearly differentiable with respect to the symbol costs,
 and the symbol cost function $c$ is differentiable with respect to its trainable parameters.
 This enables the use of gradient descent to find the values of the parameters of $c$
-that minimize the loss value.
-\todo[author=R2]{I expect that you mean "to *locally* minimize the loss value". If you do, the fix is simple (just add "locally"); if not, more explanations are needed.}
+that locally minimize the loss value.
 
 \Cref{fig:architecture} shows how the loss function is plugged into the recommender for the training.
