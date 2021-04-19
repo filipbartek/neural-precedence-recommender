@@ -156,7 +156,7 @@ and the number of examples generated from that problem $s_P$.
 The ratio $\frac{s_P}{n_P}$ corresponded to the average reward of problem $P$ observed so far.
 The problems were sampled using the allocation strategy \acrshort{ucb1} \cite{Auer2002} with a parallelizing relaxation.
 % FB: The parallelizing relaxation is not described in Auer2002. We have designed it ourselves.
-First, the values of $n_P$ and $s_P$ for each problem $P$ were bootstrapped by sampling the problem a number of times equal to a lower bound on the final value of $n_P$ (at least 1).\footnote{The number of tries each problem was boostrapped with is
+First, the values of $n_P$ and $s_P$ for each problem $P$ were bootstrapped by sampling the problem a number of times equal to a lower bound on the final value of $n_P$ (at least 1).\footnote{The number of tries each problem was bootstrapped with is
 $n_0 = \ceil{\frac{2 \log{N}}{\Parentheses{1 + \sqrt{\frac{2 \log{N} \card{\ProblemsTptp}}{N}}}^2}}$,
 where $N$ is the final number of examples to be generated.
 For example, if $N=1000000$ and $\card{\ProblemsTptp}=17053$, then $n_0 = 10$.}
