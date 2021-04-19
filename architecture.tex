@@ -32,12 +32,6 @@ sections (see also \cref{fig:architecture}).
 }
 
 \begin{figure}[h]
-\caption{Recommender architecture overview.
-When recommending a precedence, the input is problem $P$ and the output is precedence $\pi^*$.
-When training, the input is problem $P$ and precedences $\pi$ and $\rho$,
-and the output is the loss value.
-The trainable modules and the edges along which the loss gradient is propagated are emphasized by bold lines.}
-\label{fig:architecture}
 \centering
 \digraph[scale=0.5]{ArchitectureOverview}{
 graph [splines=ortho, ranksep=0.25];
@@ -121,6 +115,12 @@ LossFunction -> Loss [style=bold];
 
 \fi
 
+\caption{Recommender architecture overview.
+When recommending a precedence, the input is problem $P$ and the output is precedence $\pi^*$.
+When training, the input is problem $P$ and precedences $\pi$ and $\rho$,
+and the output is the loss value.
+The trainable modules and the edges along which the loss gradient is propagated are emphasized by bold lines.}
+\label{fig:architecture}
 \end{figure}
 \todo{FB: Improve the diagram. Consider using tikz. See the disabled tikz figure in the source file.}
 \todo[author=R2]{The small bold arrows are quite difficult to distinguish from the small non-bold arrows.}
@@ -153,8 +153,6 @@ $\mathcal{R}$ denotes the set of all relations in the graph.
 \newcommand{\eneg}{\etype{neg}}
 
 \begin{figure}[h]
-\caption{\gls{cnf} graph schema}
-\label{fig:CnfSchema}
 \centering
 \digraph[scale=0.5]{CnfSchema}{
 graph [ranksep=0.3];
@@ -229,12 +227,12 @@ term -> function [label=< term_applies >];
 \end{tikzpicture}
 \fi
 
+\caption{\gls{cnf} graph schema}
+\label{fig:CnfSchema}
 \end{figure}
 \todo{FB: Clean up the diagram.}
 
 \begin{figure}[h]
-\caption{Graph representation of the \gls{cnf} formula $a=b \wedge f(a,b) \neq f(b,b)$.}
-\label{fig:GcnExample}
 \centering
 \digraph[scale=0.5]{GcnExample}{
 graph [ranksep=0.3];
@@ -298,6 +296,8 @@ tb -> fb;
 %fa -> fa [dir=forward];
 %fb -> fb [dir=forward];
 }
+\caption{Graph representation of the \gls{cnf} formula $a=b \wedge f(a,b) \neq f(b,b)$.}
+\label{fig:GcnExample}
 \end{figure}
 \todo[author=R2]{There are unneeded differences in the notations used in the two figures; for example, pos/neg vs +/-, equality vs equality atom, the various (and non-specified) types of boxes around the nodes in fig. 3...}
 
