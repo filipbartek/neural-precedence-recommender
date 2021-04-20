@@ -1,12 +1,6 @@
 ----------------------- REVIEW 1 ---------------------
 
 ----------- Overall evaluation -----------
-Despite the clear improvement over baseline, the percentage gained does not appear
-to be too big. It is possible, that the potential effect of better orderings is not
-too high, regardless of the optimizations. Can you give some insights for this
-line of thought?  We should also hope for further improvements on the basis of
-the impressive work presented.
-FB: Let's ignore this comment.
 
 Although a paper does a good job of presenting a lot of complex details
 in a limited-size paper, a few sections would benefit from further clarification,
@@ -17,41 +11,60 @@ Are there just so many nodes in the layer as the types of graph edges in Figure 
 or is each edge in the whole graph (a large set) represented by a collection of modules?
 FB: Let's ignore this comment.
 
+MS: Myslim, ze tohle dost dobre vysvetluje Fig 2 vs Fig 3. Co se ale stane, az Fig. 3 pujde pryc?
 
 ----------------------- REVIEW 2 ---------------------
-
------------ Overall evaluation -----------
-  This paper does a good job at presenting both superposition theorem proving and GCN learning at an abstract enough
-  level that researchers in both domains can get an idea of what is going on in the other domain. 
-  The process of training the GCN is also clearly described. Moreover, the gain in performance is substantial which,
-  to my knowledge, is a first as far as ML-based techniques for theorem proving are concerned. 
-  For all these reasons, I believe this paper should be accepted at CADE 2021, 
-  although the analysis of the key patterns used by the trained recommender (only hinted at as a future work in the conclusion)
-  would have been much more interesting in my opinion.
-FB: Let's ignore this comment.
 
   Detailed comments
   -----------------
 
- - page 4: Why present only the feedforward NN in sect. 2.3 when you are using a GCN? You could at least include a paragraph about the main differences between these two models at the end of 2.3. Then 3.2 could focus on the aspects of GCN that are specific to this particular problem.
+ - page 4: Why present only the feedforward NN in sect. 2.3 when you are using a GCN?
+   You could at least include a paragraph about the main differences between these two models at the end of 2.3.
+   Then 3.2 could focus on the aspects of GCN that are specific to this particular problem.
    FB: This would probably take a lot of effort. Let's do this if there's some spare time.
- - p11: the reference for Vampire ([20]) describes version 2.6 of Vampire and you are using version 4.3. If available, something more recent would give a better idea of the current capacities of Vampire.
+
+   MS: Jeden odstavec za 10 dni snad jeste zvladnem ;)
+   Review ma pravdu, ze 2.3 popisuje "feedforward artificial neural network" a 3.2 pouziva GCN bez jakehokoliv propojeni.
+   Co to spravit jen treba jednou vetou (bud na konci 2.3 nebo na zacatku 3.2), ktere rekne, jak spolu feedforward NN a GCN souvisi?
+
+ - p11: the reference for Vampire ([20]) describes version 2.6 of Vampire and you are using version 4.3.
+   If available, something more recent would give a better idea of the current capacities of Vampire.
    FB: [20] is recommended here: https://vprover.github.io/usage.html
        Is there a newer summary text?
- - p11: Did you fix the strategy and heuristics used by Vampire throughout the training and experiments or was it run in portfolio mode? What about AVATAR, was it activated?
+
+   MS: Neni, co ja vim. Nechal bych to.
+   BTW: Meli jsme v clanku duplicitu [19] vs [20]. Ted tam mame warning a na jednom miste [?]
+
+ - p11: Did you fix the strategy and heuristics used by Vampire throughout the training and experiments or was it run in portfolio mode?
+        What about AVATAR, was it activated?
    FB: Let's include more detail on the configuration in the paper.
- - p12: To clarify the last paragraph of the page, that introduces concepts with which people outside of ML wouldn't be familiar with, I suggest to use columns to show that some sentences are definitions for the terms introduced in the previous sentences, in particular, "... and 0 otherwise. Adaptive sampling..." -> "... and 0 otherwise: Adaptive sampling..." and "... with a parallelizing relaxation. In each iteration..." -> "with a parallelizing relaxation: In each iteration..."
+
+ - p12: To clarify the last paragraph of the page, that introduces concepts with which people outside of ML wouldn't be familiar with,
+   I suggest to use columns to show that some sentences are definitions for the terms introduced in the previous sentences,
+   in particular, "... and 0 otherwise. Adaptive sampling..." -> "... and 0 otherwise: Adaptive sampling..." and
+   "... with a parallelizing relaxation. In each iteration..." -> "with a parallelizing relaxation: In each iteration..."
    FB: Let's ignore this comment.
+
+   MS: pise sice "columns", ale mysli "colons" / "dvojtecky". Vubec by mi nevadilo je tam dat, jak pise. Tobe ano?
+
  - p13: Same comment as just above: "... Adam optimizer [15]. Learning rate..." -> "... Adam optimizer [15]: Learning rate..."
    FB: Let's ignore this comment.
- - p14: In your PAAR paper [7], the experimental results show that your linear model is not as good as the baseline but it is no longer the case here. How do you explain this? If it was further improved after PAAR, it should be mentioned.
+
+   MS: Chapu to jako pokus o strukturovani textu. Nebo myslis, ze je to typograficky nespravne?
+
+ - p14: In your PAAR paper [7], the experimental results show that your linear model is not as good as the baseline but it is no longer the case here.
+   How do you explain this? If it was further improved after PAAR, it should be mentioned.
    FB: Let's ignore this comment.
+
+   MS: Ma pravdu? How do we explain this? :)
 
   Minor comments
   --------------
 
  - p16-17: The titles of some articles (mostly the arXiv ones, book titles are a different matter) are capitalized, while the others are not. This could be made uniform.
    FB: Let's clean up the bibliography.
+
+   MS: Tohle cele jeste jednou prekope Springer, takze bych tim neztracel moc casu... (Staci, ze pomocnicci v Indii poznaji, ktery clanek jsme meli na mysli.)
 
 ----------- Specific questions for rebuttal -----------
 
@@ -62,6 +75,8 @@ FB: Let's ignore this comment.
  - How independent are the training and test sets, given that the problems in TPTP are grouped by families that may include extremely similar problems?
 
 FB: Let's ignore all of these comments, since they require additional research.
+
+MS: O tom, jak dlouho jsme trenovali si zminujeme, ne?
 
 
 ----------------------- REVIEW 3 ---------------------
@@ -74,14 +89,11 @@ FB: Let's ignore all of these comments, since they require additional research.
     not "a native support". There are similar problems (too many or
     too few articles) throughout the paper.
     FB: Let's do this using Grammarly and Writefull.
-  - p13: "Next, both training and validation sets were restricted to
-    problems whose graph representation consisted of at most 100 000
-    nodes to limit the memory requirements of the training." If I
-    understand you correctly, the graph representation of a problem is
-    fixed. So why don't you filter before generating training
-    examples? CPU time must be cheap! ;-)
-    FB: Let's ignore this comment. See the rebuttal.
   - p16: The paper is technically over length, but only by the
     acknowledgements section (and would have the same number of total
     pages without it).
-    FB: Let's shorten the paper so that even the acknowledgements fit within the limit. The email from the organizers says that the limit is strict, and that it excludes references (so I assume it includes everything else).
+    FB: Let's shorten the paper so that even the acknowledgements fit within the limit.
+    The email from the organizers says that the limit is strict,
+    and that it excludes references (so I assume it includes everything else).
+
+    MS: In my other paper, I will risk Acknowledgements on the 16th page. Let's see if they will notice :)
