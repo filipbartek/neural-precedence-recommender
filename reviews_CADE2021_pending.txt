@@ -74,12 +74,6 @@ FB: Let's ignore all of these comments, since they require additional research.
     not "a native support". There are similar problems (too many or
     too few articles) throughout the paper.
     FB: Let's do this using Grammarly and Writefull.
-  - p3: "As soon as the empty clause, denoted by [], is inferred, the
-    prover concludes that the premises entail the conjecture, the
-    sequence of inferences taken constituting a proof." Make this into
-    two sentences. Also, is the proof the sequence of all inferences,
-    or only the inferences contributing to the proof?
-    FB: I have applied the first comment. Let's ignore the second comment.
   - p3: The KBO allows both partial orderings and quasi-orderings for
     the precedence, so describing a precedence as a permutation of the
     symbol sequence is not, in general possible. Some implementations
