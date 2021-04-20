@@ -74,11 +74,6 @@ FB: Let's ignore all of these comments, since they require additional research.
     not "a native support". There are similar problems (too many or
     too few articles) throughout the paper.
     FB: Let's do this using Grammarly and Writefull.
-  - p2: The Tseitin transformation is a propositional procedure that
-    introduces a definition for each complex subformula. While that is
-    a similar idea as used in clausification of first-order formulas
-    with definitions, the term does not extend to cover this.
-    FB: Let's make the text more precise.
   - p3: "As soon as the empty clause, denoted by [], is inferred, the
     prover concludes that the premises entail the conjecture, the
     sequence of inferences taken constituting a proof." Make this into
