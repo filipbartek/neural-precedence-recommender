@@ -1,3 +1,5 @@
+% !TEX root = main.tex
+
 We have described a system that extracts useful symbol precedences from the graph representations of \gls{cnf} problems.
 Comparison against a conventional symbol precedence heuristic shows that using a \gls{gcn}
 to consider the whole structure of the input problem is beneficial.
@@ -9,7 +11,7 @@ which could in turn help designing new efficient precedence generating schemes.
 Indeed, a trained cost model summarizes the observed behaviours of the ATP on the random precedences
 and is able to discover patterns in them (as we know implicitly from its accuracy) 
 despite their seemingly chaotic behaviour as perceived by a human observer.
-The challenge is to extract these pattern to a human-understandable form.
+The challenge is to extract these patterns to a human-understandable form.
 \todo[inline,author=R2]{[...] the analysis of the key patterns used by the trained recommender (only hinted at as a future work in the conclusion) would have been much more interesting in my opinion.}
 
 In addition to the symbol precedence,
@@ -24,7 +26,7 @@ The joint learning, although more complex to design, could
 additionally discover interdependencies
 between the effects of the function precedence and predicate precedence on the proof search,
 while the current setup implicitly assumes that the effects are independent.
-Finally, higher training data efficiency could be achieved by considering all pairs of measured executions on a problem
+Finally, a higher training data efficiency could be achieved by considering all pairs of measured executions on a problem
 in one training batch.
 
 \todo{MS: ja bych asi delsi zaver nepsal, ani kdyz bude misto...}
