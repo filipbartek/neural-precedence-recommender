@@ -88,7 +88,11 @@ in effect, the length of the proof search.
 
 The \emph{\acrfull{kbo}} \cite{Knuth1983}, a commonly used simplification ordering scheme,
 is parameterized by symbol weights and a \emph{symbol precedence},
-a permutation of the non-logical symbols of the input problem.
+a permutation\footnote{
+The definition of KBO does not require the precedence to be total. 
+However, for the use in ATPs, the more symbols and thus also terms 
+we can compare, the better. % That is why we define a precedence as a permutation.
+} of the non-logical symbols of the input problem.
 In this work we focus on the task of finding a symbol precedence which
 leads to a good performance of an ATP
 when plugged into the \gls{kbo},

@@ -74,12 +74,6 @@ FB: Let's ignore all of these comments, since they require additional research.
     not "a native support". There are similar problems (too many or
     too few articles) throughout the paper.
     FB: Let's do this using Grammarly and Writefull.
-  - p3: The KBO allows both partial orderings and quasi-orderings for
-    the precedence, so describing a precedence as a permutation of the
-    symbol sequence is not, in general possible. Some implementations
-    only support total orderings, but that is not a theoretical
-    requirement, and should be made explicit.
-    FB: Let's improve the text.
   - p4/3 Architecture: Why do you use the number or iterations of the
     main loop? It's quite typical for calculus refinements to make the
     search space narrower, but deeper. In other words, a good
