@@ -3,8 +3,10 @@
 The precedence recommender is a system that takes
 a \gls{cnf} problem $P = (\Sigma, \mathit{Cl})$ as the input,
 and produces a precedence $\pi^*$ over the symbols $\Sigma$ as the output.
-For the recommender to be useful, it needs to produce a precedence
-that is likely to yield a proof in as few iterations of the saturation loop as possible.
+For the recommender to be useful, it should produce a precedence
+that likely leads to a quick search for a proof. In this work,
+we use the number of iterations of the saturation loop as a % (reproducible)
+metric describing the effort required to find a proof.
 
 The recommender described in this section
 first uses a neural network to compute a cost value for each symbol of the input problem,

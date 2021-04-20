@@ -74,18 +74,6 @@ FB: Let's ignore all of these comments, since they require additional research.
     not "a native support". There are similar problems (too many or
     too few articles) throughout the paper.
     FB: Let's do this using Grammarly and Writefull.
-  - p4/3 Architecture: Why do you use the number or iterations of the
-    main loop? It's quite typical for calculus refinements to make the
-    search space narrower, but deeper. In other words, a good
-    precedence my well requite more iterations of the main loop and
-    still find a proof much faster, because each iteration comprises
-    much less work.
-    You don't describe how many "incomplete" precedence pairs you
-    have, e.g. pair where one precedence leads to a proof, the other
-    to a timeout. This may be a more significant source of good
-    training cases than the number of main loop iterations if both
-    terminate within the time limit.
-    FB: Let's ignore this comment.
   - p13: "Next, both training and validation sets were restricted to
     problems whose graph representation consisted of at most 100 000
     nodes to limit the memory requirements of the training." If I
