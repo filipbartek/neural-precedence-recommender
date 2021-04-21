@@ -18,15 +18,6 @@ MS: Myslim, ze tohle dost dobre vysvetluje Fig 2 vs Fig 3. Co se ale stane, az F
   Detailed comments
   -----------------
 
- - page 4: Why present only the feedforward NN in sect. 2.3 when you are using a GCN?
-   You could at least include a paragraph about the main differences between these two models at the end of 2.3.
-   Then 3.2 could focus on the aspects of GCN that are specific to this particular problem.
-   FB: This would probably take a lot of effort. Let's do this if there's some spare time.
-
-   MS: Jeden odstavec za 10 dni snad jeste zvladnem ;)
-   Review ma pravdu, ze 2.3 popisuje "feedforward artificial neural network" a 3.2 pouziva GCN bez jakehokoliv propojeni.
-   Co to spravit jen treba jednou vetou (bud na konci 2.3 nebo na zacatku 3.2), ktere rekne, jak spolu feedforward NN a GCN souvisi?
-
  - p11: Did you fix the strategy and heuristics used by Vampire throughout the training and experiments or was it run in portfolio mode?
         What about AVATAR, was it activated?
    FB: Let's include more detail on the configuration in the paper.

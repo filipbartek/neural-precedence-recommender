@@ -132,4 +132,6 @@ against the gradient---in the direction that is expected to make the loss value 
 An \emph{epoch} is a sequence of iterations that updates the trainable parameters
 using each example in the training set exactly once.
 
-\todo[inline,author=R2]{Why present only the feedforward NN in sect. 2.3 when you are using a GCN? You could at least include a paragraph about the main differences between these two models at the end of 2.3. Then 3.2 could focus on the aspects of GCN that are specific to this particular problem.}
+A \emph{\gls{gcn}} is a special case of feedforward \acrlong{nn}.
+The modules of a \gls{gcn} transform messages that are passed along the edges of a graph encoded in the input example.
+A particular architecture of a \gls{gcn} used prominently in this work is discussed in detail in \cref{sec:gcn}.
