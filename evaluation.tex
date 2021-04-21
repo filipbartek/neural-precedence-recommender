@@ -52,15 +52,19 @@ The modified version of \Vampire{} is available online.\footnote{\url{https://gi
 \todo{MS: nebo jeste lip. Slo by udelat repo,
 ve kterym bude textak, co vsechno vysvetli, vcetne linku na ty dve repa co zminujes tady a vyse.}
 
-We run \Vampire{} with a time limit of 10 seconds.
+We run \Vampire{} with a fixed strategy\footnote{
+Saturation algorithm: discount,
+age-weight ratio: 1:10,
+AVATAR \cite{Voronkov2014}: disabled,
+literal comparison mode: predicate
+}
+and a time limit of 10 seconds.
 To increase the potential impact of predicate precedences,
 we used a simple \gls{tkbo} \cite{Ludwig2007,Kovacs2011}
 that compares atoms according to the predicate precedence first,
 using the regular \gls{kbo} to break ties between atoms
 and to compare terms (using the \Vampire{} option \texttt{-{}-literal\_comparison\_mode predicate}).\todo{MS: ted s vysvetlenim neni naskodu zminit i option name 
 ``Vampire'' se tim chlubi, ze to ma naimplementovane a my tim rikame, ze jsme si to neprogramovali sami.}
-\todo[inline,author=FB]{Describe the detailed configuration in an appendix and reference the appendix here.}
-\todo[inline,author=R2]{Did you fix the strategy and heuristics used by Vampire throughout the training and experiments or was it run in portfolio mode? What about AVATAR, was it activated?}
 
 % All explicit options:
 % vampire --encode on --statistics full --time_statistics on --proof off --avatar off --saturation_algorithm discount --age_weight_ratio 10 --literal_comparison_mode predicate --symbol_precedence frequency --time_limit 10

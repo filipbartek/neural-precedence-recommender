@@ -18,10 +18,6 @@ MS: Myslim, ze tohle dost dobre vysvetluje Fig 2 vs Fig 3. Co se ale stane, az F
   Detailed comments
   -----------------
 
- - p11: Did you fix the strategy and heuristics used by Vampire throughout the training and experiments or was it run in portfolio mode?
-        What about AVATAR, was it activated?
-   FB: Let's include more detail on the configuration in the paper.
-
  - p12: To clarify the last paragraph of the page, that introduces concepts with which people outside of ML wouldn't be familiar with,
    I suggest to use columns to show that some sentences are definitions for the terms introduced in the previous sentences,
    in particular, "... and 0 otherwise. Adaptive sampling..." -> "... and 0 otherwise: Adaptive sampling..." and
