@@ -20,7 +20,7 @@ as discussed in \cref{sec:training}.
 %it is parameterized by weight tensors
 %whose values can be trained by gradient descent.
 
-The recommender consists of modules that perform specific subtasks,
+The recommender consists of modules that perform specific sub-tasks,
 each of which is described in detail in one of the following\iftoggle{LONG}{
 sections (see also \cref{fig:architecture}):
 \begin{itemize}
@@ -139,7 +139,7 @@ Each of the nodes of the graph is labeled with a node type,
 and each edge is labeled with an edge type,
 defining the heterogeneous nature of the graph.
 Each node corresponds to one of the elements that constitute the \gls{cnf} formula,
-such as a clause, an atom or a predicate symbol.
+such as a clause, an atom, or a predicate symbol.
 Each such category of elements corresponds to one node type.
 The edges represent the (oriented) relations between the elements,
 for example the incidence relation between a clause and one of its (literals') atoms,
@@ -301,7 +301,7 @@ tb -> fb;
 \label{fig:GcnExample}
 \end{figure}
 
-The graph representation exhibits namely the following properties:
+The graph representation exhibits, namely, the following properties:
 \begin{itemize}
 \item Lossless: The original problem can be faithfully reconstructed from the corresponding graph representation
 (up to logical equivalence).
@@ -344,7 +344,7 @@ The symbol embeddings are output by a \emph{\gls{rgcn}} \cite{Schlichtkrull2017}
 which is a stack of \emph{graph convolutional layers}.
 Each layer consists of a collection of differentiable modules---one module per edge type.
 \todo[author=R1]{Are there just so many nodes in the layer as the types of graph edges in Figure 2, or is each edge in the whole graph (a large set) represented by a collection of modules?}
-\todo[author=FB]{I propose we ignore this comment because I don't understand its point and I can't think of a straightforward way to improve the clarity of the relevant part of the paper.}
+\todo[author=FB]{I propose we ignore this comment because I do not understand its point and I cannot think of a straightforward way to improve the clarity of the relevant part of the paper.}
 The computation of the \gls{gcn} starts with assigning each node an initial embedding
 and then iteratively updates the embeddings by passing them through the convolutional layers.
 
@@ -372,14 +372,14 @@ $c_{s,d} = \sqrt{\card{\mathcal{N}_s^r}} \sqrt{\card{\mathcal{N}_d^r}}$ \cite{ki
 where $\mathcal{N}_a^r$ is the set of neighbors of node $a$ under the relation $r$.
 \todo{FB: Mention that we mean both in- and out-neighbors?}
 
-Once all the messages are computed,
-they are aggregated at the destination nodes to form the new node embeddings.
+Once all messages are computed,
+they are aggregated at the destination nodes to form new node embeddings.
 Each node $d$ aggregates all the incoming messages of a given edge type $r$ by summation,
 then passes the sum through an activation function $\sigma$ such as the \gls{relu},
 and finally aggregates the messages across the edge types by summation,
 yielding the new embedding $h_d^{(l+1)}$.
 
-The following formula captures the complete update of embedding of node $d$ by layer $l$:
+The following formula captures the complete update of the embedding of node $d$ by layer $l$:
 $$
 h_d^{(l+1)} =
 \sum_{r \in \mathcal{R}} \sigma \Parentheses*{\sum_{s \in \mathcal{N}_d^r} \frac{1}{c_{s,d}} (W_r^{(l)} h_s^{(l)} + b_r^{(l)})}
@@ -406,7 +406,7 @@ e.g., a feedforward network with one or more hidden layers.
 Our experiments showed no significant improvement when a hidden layer was added,
 likely because the underlying \gls{gcn} learns a sufficiently complex transformation.
 
-Let $\theta$ denote the vector of all the parameters of the whole \acrlong{nn} consisting of the \gls{gcn} and the output unit.
+Let $\theta$ denote the vector of all parameters of the whole \acrlong{nn} consisting of the \gls{gcn} and the output unit.
 Given an input problem $P$ with signature $\Sigma = (s_1, \ldots, s_n)$,
 we denote the cost of symbol $s_i$ predicted by the \acrlong{nn} as $c(i, P; \theta)$.
 In the rest of this text,
@@ -490,7 +490,7 @@ provided the expected symbol cost $\mathbb{E}_i [c(i)]$ does not depend on $n$:
 = \frac{2}{n(n+1)} \frac{n(n+1)}{2} \mathbb{E}_i [c(i)]
 = \mathbb{E}_i [c(i)]
 \end{multline*}
-\todo[author=FB]{Discuss variance of the precedence cost in addition to the expected value.}
+\todo[author=FB]{Discuss the variance of the precedence cost in addition to the expected value.}
 
 When $C$ is defined in this way,
 the precedence produced by the recommender (see \cref{sec:sorting}) minimizes $C$.
@@ -530,7 +530,7 @@ Clearly, $Z_n > 0$ for any $n \geq 0$.
 \todo{FB: Isn't the inclusion of $Z_n$ too confusing?}
 Thus, $C(\bar{\pi}) < C(\pi)$, which is contradicts the assumption that $\pi$ minimizes $C$.
 
-It is easy to see that all the precedences that sort the symbol costs in a non-increasing order
+It is easy to see that all precedences that sort the symbol costs in a non-increasing order
 have the same precedence cost.
 Since $\emptyset \neq \argmin_\rho C(\rho) \subseteq \argsort^- (c(1), \ldots, c(n))$,
 each of the precedences in $\argsort^- (c(1), \ldots, c(n))$ has the cost $\min_\rho C(\rho)$.
@@ -553,7 +553,7 @@ measuring the quality of a precedence by the number of iterations of the saturat
 Approaching this task directly, as a regression problem,
 runs into the difficulty of establishing sensible target cost values for the precedences in the training dataset,
 especially when a wide variety of input problems is covered.
-Approaching the task as binary classification of precedences
+Approaching the task as a binary classification of precedences
 seems possible, but it is not clear which precedences should be a priori
 labeled as positive and which as negative, to give a guarantee
 that a precedence minimizing the precedence cost (i.e. the one obtained by sorting)
@@ -563,7 +563,7 @@ would be among the best in any good sense.
 
 We cast the task as an instance of score-based ranking problem \cite{Mohri2018,Burges2005}
 % Mohri2018: p. 239, chapter 10 Ranking
-by training a classifier to decide which of a \emph{pair} of precedences is better, based on their costs.
+by training a classifier to decide which of a \emph{pair} of precedences is better based on their costs.
 We train the classifier in a way that ensures that better precedences are assigned lower costs.
 The motivation for learning to order pairs of precedences
 is that it allows learning on easy problems,
@@ -648,4 +648,4 @@ and the symbol cost function $c$ is differentiable with respect to its trainable
 This enables the use of gradient descent to find the values of the parameters of $c$
 that locally minimize the loss value.
 
-\Cref{fig:architecture} shows how the loss function is plugged into the recommender for the training.
+\Cref{fig:architecture} shows how the loss function is plugged into the recommender for training.

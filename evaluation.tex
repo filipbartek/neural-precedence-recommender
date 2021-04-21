@@ -18,12 +18,12 @@ are available online.\footnote{\url{https://github.com/filipbartek/vampire-ml/tr
 
 \subsubsection{System}
 
-All the experiments were run on a computer with
+All experiments were run on a computer with
 the CPU Intel Xeon Gold 6140 (72 cores @ \SI{2.30}{GHz}) and
 \SI{383}{GiB} RAM.
 %the OS Ubuntu 20.04 and
 %the Linux kernel 5.4.0-40-generic.
-\todo{FB: Add version of Python and notable packages, namely DGL and TensorFlow. 
+\todo{FB: Add the version of Python and notable packages, namely, DGL and TensorFlow.
 MS: Z tohohle bych vetsinu nebo vsechno prenesl do README na adrese vyse.
 Stejne ten paper neobsahuje dost informaci na to, aby si to mohl po nas nekdo naprogramovat a spustit.
 Tak uz muze byt uplne jedno, jakou mame verzi Linuxu...}
@@ -104,7 +104,7 @@ of the \acrshort{tptp} language \cite{Sutcliffe2017}.
 
 We used the problem library \acrshort{tptp}~v7.4.0 \cite{Sutcliffe2017}
 as the source of problems for training and evaluation of the recommender.
-We denote the set of all the problems available for training and evaluation as $\ProblemsTptp$ ($\card{\ProblemsTptp} = 17053$).
+We denote the set of all problems available for training and evaluation as $\ProblemsTptp$ ($\card{\ProblemsTptp} = 17053$).
 
 \subsubsection{Node feature extraction}
 
@@ -132,14 +132,14 @@ In each iteration, a problem $P \in \ProblemsTptp$ was chosen and \Vampire{} was
 with two (uniformly) random predicate precedences and a common random function precedence.
 The ``background'' random function precedence served as additional noise (in addition to the variability 
 contained in \acrshort{tptp}) and made sure that the predicate precedence recommender
-would not be able to rely on any specificities that would come from fixing function precedences in the training data.
+would not be able to rely on any specificity that would come from fixing function precedences in the training data.
 
 The two executions were compared in terms of performance:
 the predicate precedence $\PrecBetter$ was recognized as better than the predicate precedence $\PrecWorse$,
 denoted as $\Better{\PrecBetter}{\PrecWorse}{P}$,
 if the proof search finished successfully with $\PrecBetter$
 and if the number of iterations of the saturation loop with $\PrecBetter$ was smaller than with $\PrecWorse$.
-\todo{FB: Use notation for saturation loop iterations if the notation was established earlier. 
+\todo{FB: Use the notation for saturation loop iterations if the notation was established earlier. 
 If failure is denoted by $\infty$, we can simply use $<$.}
 If one of the two precedences was recognized as better,
 the example $(P, \PrecBetter, \PrecWorse)$ would be produced,
@@ -201,7 +201,7 @@ allowing up to \num{2000} parallel solver executions.
 \todo[inline,author=R2]{To clarify the last paragraph of the page, that introduces concepts with which people outside of ML wouldn't be familiar with, I suggest to use columns to show that some sentences are definitions for the terms introduced in the previous sentences, in particular, "... and 0 otherwise. Adaptive sampling..." -> "... and 0 otherwise: Adaptive sampling..." and "... with a parallelizing relaxation. In each iteration..." -> "with a parallelizing relaxation: In each iteration..."}
 
 The sampling continued until \num{1000000} examples were generated when training a predicate precedence recommender,
-or \num{800000} examples in case of a function precedence recommender.
+or \num{800000} examples in the case of a function precedence recommender.
 % sftp://cluster.ciirc.cvut.cz/home/bartefil/git/vampire-ml/out/20210108-generate-predicate/questions_generated
 For example, while generating \num{1000000} examples for the predicate precedence dataset,
 \num{5349} out of the \num{17053} problems yielded at least one example,
@@ -241,8 +241,8 @@ We tuned the hyperparameters by a small manual exploration.
 A symbol cost model was trained by gradient descent
 on the precedence ranking task (see \cref{sec:ranking})
 using the examples generated from $\ProblemsTrain$.
-To avoid redundant computations, all examples generated from a problem were processed in the same training batch.
-Thus, each training batch contained up to \num{128} problems and all the examples generated from these problems.
+To avoid redundant computations, all examples generated from any given problem were processed in the same training batch.
+Thus, each training batch contained up to \num{128} problems and all examples generated from these problems.
 The symbol cost model was trained using the Adam optimizer \cite{Kingma2014}.
 The learning rate started at \num{1.28e-3}
 and was halved each time the loss on $\ProblemsTrain$ stagnated for 10 consecutive epochs.
@@ -253,7 +253,7 @@ and was halved each time the loss on $\ProblemsTrain$ stagnated for 10 consecuti
 The examples were weighted.
 Each of the examples of problem $P$ contributed to the training with the weight $\frac{1}{s_P}$,
 where $s_P$ was the number of examples of problem $P$ in the training set.
-This ensured that each problem contributed to the training to the same degree irrespective of the relative numbers of examples.
+This ensured that each problem contributed to the training to the same degree irrespective of the relative number of examples.
 
 %\iftoggle{LONG}{
 %%\subsubsection{Metrics}
@@ -433,8 +433,8 @@ FB: I think this is because here we evaluate on a different distribution of prob
 
 The results show that the \gls{gcn}-based model outperformed the \texttt{frequency} heuristic by a significant margin.
 \todo{FB: Add links to Neptune runs?}
-Since the predicate precedence recommender was trained against randomly distributed function precedences,
-it is expected to perform well irrespective of the function precedence heuristic it is combined with, and conversely.
+Since the predicate precedence recommender was trained with randomly distributed function precedences,
+it was expected to perform well irrespective of the function precedence heuristic it is combined with, and conversely.
 Combining the trained recommenders for predicate and function precedences manifested better performance
 than any of the two in combination with the standard \texttt{frequency} heuristic,
 outperforming the \texttt{frequency} heuristic by approximately \SI{4.8}{\percent}.

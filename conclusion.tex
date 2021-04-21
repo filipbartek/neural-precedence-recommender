@@ -1,30 +1,30 @@
 % !TEX root = main.tex
 
 We have described a system that extracts useful symbol precedences from the graph representations of \gls{cnf} problems.
-Comparison against a conventional symbol precedence heuristic shows that using a \gls{gcn}
+Comparison with a conventional symbol precedence heuristic shows that using a \gls{gcn}
 to consider the whole structure of the input problem is beneficial.
 \todo{FB: Should we boast that the reduction of ranking to training 
 of differentiable element scores is innovative? MS: Yes! Ideally (also) earlier.}
 
 A manual analysis of the trained recommender could produce new insights into how the choice of the symbol precedence influences the proof search,
-which could in turn help designing new efficient precedence generating schemes.
-Indeed, a trained cost model summarizes the observed behaviours of the ATP on the random precedences
+which could in turn help design new efficient precedence generating schemes.
+Indeed, a trained cost model summarizes the observed behaviours of an ATP with random precedences
 and is able to discover patterns in them (as we know implicitly from its accuracy) 
 despite their seemingly chaotic behaviour as perceived by a human observer.
-The challenge is to extract these patterns to a human-understandable form.
+The challenge is to extract these patterns in a human-understandable form.
 \todo[inline,author=R2]{[...] the analysis of the key patterns used by the trained recommender (only hinted at as a future work in the conclusion) would have been much more interesting in my opinion.}
 
 In addition to the symbol precedence,
 \gls{kbo} is determined by symbol \emph{weights}.
-In this work, we kept the symbol weights fixed to the value 1.
+In this work, we keep the symbol weights fixed to the value 1.
 Learning to recommend symbol weights in addition to the precedences
 represents an interesting avenue for future research.
 
 The same applies to the idea of learning to recommend 
-both the predicate and the function precedences using a single \gls{gcn}.
+both the predicate and function precedences using a single \gls{gcn}.
 The joint learning, although more complex to design, could 
 additionally discover interdependencies
-between the effects of the function precedence and predicate precedence on the proof search,
+between the effects of function precedence and predicate precedence on the proof search,
 while the current setup implicitly assumes that the effects are independent.
 Finally, a higher training data efficiency could be achieved by considering all pairs of measured executions on a problem
 in one training batch.
