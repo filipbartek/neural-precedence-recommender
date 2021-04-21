@@ -124,11 +124,10 @@ In a typical use case, the \acrlong{nn} is trained by \emph{gradient descent} on
 In such setting, the network outputs a single numeric value called \emph{loss} when evaluated on a \emph{batch} of examples.
 The loss of a batch is typically computed as a weighted sum of the losses of the individual examples.
 Since each of the modules is differentiable with respect to its inputs and trainable parameters,
-the gradient of the loss in the trainable parameters
-\todo{FB: Is this terminology correct?}
+the gradient of the loss with respect to all the trainable parameters of the neural network
 can be computed using the \emph{back-propagation} algorithm \cite{DBLP:books/daglib/0040158}.
 The trainable parameters are then updated by taking a small step
-against the gradient---in the direction that is expected to make the loss value smaller.
+against the gradient---in the direction that is expected to reduce the loss.
 An \emph{epoch} is a sequence of iterations that updates the trainable parameters
 using each example in the training set exactly once.
 

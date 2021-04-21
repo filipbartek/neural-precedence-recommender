@@ -1,6 +1,6 @@
 % !TEX root = main.tex
 
-The precedence recommender is a system that takes
+A \emph{symbol precedence recommender} is a system that takes
 a \gls{cnf} problem $P = (\Sigma, \mathit{Cl})$ as the input,
 and produces a precedence $\pi^*$ over the symbols $\Sigma$ as the output.
 For the recommender to be useful, it should produce a precedence
@@ -301,7 +301,7 @@ tb -> fb;
 \label{fig:GcnExample}
 \end{figure}
 
-The graph representation has the following properties:
+The graph representation exhibits namely the following properties:
 \begin{itemize}
 \item Lossless: The original problem can be faithfully reconstructed from the corresponding graph representation
 (up to logical equivalence).
@@ -340,7 +340,7 @@ we seek to find a vector representation, i.e., an \emph{embedding},
 that captures the symbol's properties that are relevant
 for correctly ranking the symbol in the symbol precedences over $P$.
 
-The symbol embeddings are output by a \gls{rgcn} \cite{Schlichtkrull2017},
+The symbol embeddings are output by a \emph{\gls{rgcn}} \cite{Schlichtkrull2017},
 which is a stack of \emph{graph convolutional layers}.
 Each layer consists of a collection of differentiable modules---one module per edge type.
 \todo[author=R1]{Are there just so many nodes in the layer as the types of graph edges in Figure 2, or is each edge in the whole graph (a large set) represented by a collection of modules?}
