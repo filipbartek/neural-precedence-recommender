@@ -27,14 +27,6 @@ MS: Myslim, ze tohle dost dobre vysvetluje Fig 2 vs Fig 3. Co se ale stane, az F
    Review ma pravdu, ze 2.3 popisuje "feedforward artificial neural network" a 3.2 pouziva GCN bez jakehokoliv propojeni.
    Co to spravit jen treba jednou vetou (bud na konci 2.3 nebo na zacatku 3.2), ktere rekne, jak spolu feedforward NN a GCN souvisi?
 
- - p11: the reference for Vampire ([20]) describes version 2.6 of Vampire and you are using version 4.3.
-   If available, something more recent would give a better idea of the current capacities of Vampire.
-   FB: [20] is recommended here: https://vprover.github.io/usage.html
-       Is there a newer summary text?
-
-   MS: Neni, co ja vim. Nechal bych to.
-   BTW: Meli jsme v clanku duplicitu [19] vs [20]. Ted tam mame warning a na jednom miste [?]
-
  - p11: Did you fix the strategy and heuristics used by Vampire throughout the training and experiments or was it run in portfolio mode?
         What about AVATAR, was it activated?
    FB: Let's include more detail on the configuration in the paper.
