@@ -12,12 +12,12 @@ The most popular \gls{fol} \glspl{atp}, such as \Vampire{} \cite{DBLP:conf/cav/K
 start the proof search by converting the input \gls{fol} formulas to an equisatisfiable representation in 
 % \emph{quantifier-free first-order 
 \emph{\acrfull{cnf}} \cite{DBLP:books/el/RV01/NonnengartW01,Harrison2009}.
-We denote a problem in \gls{cnf} as $P = (\Sigma, \mathit{Cl})$,
+We denote the problem in \gls{cnf} as $P = (\Sigma, \mathit{Cl})$,
 % Handbook of AR, Chapter 3: signature $\Sigma = (P_\Sigma, F_\Sigma)$
 \todo{FB: What about the variables? Handbook of AR (chapter 3) defines the set Var.}
 where $\Sigma$ is a list of all non-logical (predicate and function)
 \emph{symbols} in the problem called the \emph{signature},
-and $\mathit{Cl}$ is the set of the clauses of the problem (including the negated conjecture).
+and $\mathit{Cl}$ is the set of clauses of the problem (including the negated conjecture).
 
 Given a problem $P$ in \gls{cnf},
 a \emph{saturation-based} \gls{atp} searches for a refutational proof
@@ -28,13 +28,13 @@ the prover concludes that the premises entail the conjecture.
 The sequence of those inferences leading up from the input clauses $\mathit{Cl}$ to the discovered $\square$ constitutes a proof.
 In case the premises do not entail the conjecture,
 the proof search continues until
-the set of the inferred clauses is saturated with respect to the inference rules.
+the set of inferred clauses is saturated with respect to the inference rules.
 In the common setting of time-restricted proof search, a time limit may end the process prematurely.
 
-Since the space of the derivable clauses is typically very large,
+Since the space of derivable clauses is typically very large,
 the efficacy of the prover depends on the order in which the inferences are applied.
 The common saturation-based \glspl{atp} order the inferences
-by maintaining two classes of the inferred clauses: processed and unprocessed \cite{Schulz2019}.
+by maintaining two classes of inferred clauses: processed and unprocessed \cite{Schulz2019}.
 In each \emph{iteration of the saturation loop}, one clause (so-called \emph{given clause})
 is selected from the unprocessed set
 and all the inferences between the given clause and the processed clauses are performed.
@@ -68,7 +68,7 @@ aby bylo jasne, od koho terminy prejimame.
 (Weidenbachova kapitola v Handbooku taku (Combining superposition, sorts and splitting)
 taky tusim definuje presne vlastnosti toho usporadani a dava jim jmeno.}
 In each clause,
-either a negative literal or all the maximal literals are selected.
+either a negative literal or all maximal literals are selected.
 The maximality is evaluated
 according to the simplification ordering.
 % Note: The selection function Total does not use the simplification ordering.
@@ -90,10 +90,10 @@ The \emph{\acrfull{kbo}} \cite{Knuth1983}, a commonly used simplification orderi
 is parameterized by symbol weights and a \emph{symbol precedence},
 a permutation\footnote{
 The definition of KBO does not require the precedence to be total. 
-However, for the use in ATPs, the more symbols and thus also terms 
+However, for use in ATPs, the more symbols and thus also terms 
 we can compare, the better. % That is why we define a precedence as a permutation.
 } of the non-logical symbols of the input problem.
-In this work we focus on the task of finding a symbol precedence which
+In this work, we focus on the task of finding a symbol precedence which
 leads to a good performance of an ATP
 when plugged into the \gls{kbo},
 leaving all the symbol weights at the default 
@@ -119,12 +119,12 @@ is parameterized by the weight matrix $W$ and the bias vector $b$.
 If the output of a module is differentiable with respect to a parameter,
 that parameter is considered \emph{trainable}.
 
-In a typical use case, the \acrlong{nn} is trained by \emph{gradient descent} on a \emph{training set} of \emph{examples}.
+In a typical scenario, the \acrlong{nn} is trained by \emph{gradient descent} on a \emph{training set} of \emph{examples}.
 % Note: In case of GCN, the example is actually a set of edge matrices.
 In such setting, the network outputs a single numeric value called \emph{loss} when evaluated on a \emph{batch} of examples.
 The loss of a batch is typically computed as a weighted sum of the losses of the individual examples.
-Since each of the modules is differentiable with respect to its inputs and trainable parameters,
-the gradient of the loss with respect to all the trainable parameters of the neural network
+Since each of the modules is differentiable with respect to its input and trainable parameters,
+the gradient of the loss with respect to all trainable parameters of the neural network
 can be computed using the \emph{back-propagation} algorithm \cite{DBLP:books/daglib/0040158}.
 The trainable parameters are then updated by taking a small step
 against the gradient---in the direction that is expected to reduce the loss.

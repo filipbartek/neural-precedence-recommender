@@ -24,12 +24,12 @@
 Modern saturation-based Automatic Theorem Provers (ATPs) such as E \cite{Schulz2019}, SPASS \cite{DBLP:conf/cade/WeidenbachDFKSW09},
 or \Vampire{} \cite{DBLP:conf/cav/KovacsV13}
 employ the superposition calculus \cite{DBLP:journals/logcom/BachmairG94,DBLP:books/el/RV01/NieuwenhuisR01} as their underlying inference system.
-Integrating flavors of resolution \cite{DBLP:books/el/RV01/BachmairG01}, paramodulation \cite{Robinson1983}, and 
+Integrating the flavors of resolution \cite{DBLP:books/el/RV01/BachmairG01}, paramodulation \cite{Robinson1983}, and 
 the unfailing completion \cite{Bachmair89completionwithout}, superposition is a powerful calculus with 
 native support for equational reasoning. The calculus is parameterized by a simplification ordering on terms % and literals,
 and uses it to constrain the applicability of inferences, with a significant impact on performance.
 
-Both of the two main classes of simplification orderings used in practice,
+Both main classes of simplification orderings used in practice,
 the \acrlong*{kbo} \cite{Knuth1983}
 and the \acrlong*{lpo} \cite{Kamin1980},
 are specified with the help of a 
@@ -42,9 +42,9 @@ the choice of the precedence has a significant impact on how long it takes to so
 It is well known that giving the highest precedence to the predicate symbols introduced as sub-formula names 
 during clausification \cite{DBLP:books/el/RV01/NonnengartW01}
 % during the Tseitin transformation % of the input formula \cite{Tseitin1983} 
-can immediately make saturation produce the exponential 
+can immediately make the saturation produce the exponential 
 set of clauses that the transformation is designed to avoid \cite{Reger2016}.
-Also, certain orderings help to make superposition a decision procedure on certain fragments of first-order logic 
+Also, certain orderings help to make the superposition a decision procedure on certain fragments of first-order logic 
 (see, e.g., \cite{DBLP:conf/lics/GanzingerN99,DBLP:conf/cade/HustadtKS05}).
 However, the precise way by which the choice of a precedence 
 influences the follow-up proof search on a general problem is extremely hard to predict. % indirect
@@ -129,7 +129,7 @@ on the results of running the \gls{atp} \Vampire{} \cite{10.1007/978-3-642-39799
 
 \todo[author=Filip,inline]{Consider an alternative approach: Start with an example problem, rewrite in two ways, describe how do state-of-the-art provers differentiate between these two ways (by symbol precedence), ...}
 
-\todo[inline,author=FB]{Try to use the first page for something more flashy than exposure of saturation-based automated proving. Ideas: catchy puzzle-like example, abstract description of the crucial challenge etc.}
+\todo[inline,author=FB]{Try to use the first page for something more flashy than exposure of saturation-based automated proving. Ideas: catchy puzzle-like example, abstract description of the crucial challenge, etc.}
 
 Modern \gls{fol} \glspl{atp}, such as \Vampire{}, E or SPASS,
 solve \gls{fol} problems by iteratively applying the inference rules of superposition calculus.
