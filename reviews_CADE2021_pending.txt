@@ -12,6 +12,7 @@ or is each edge in the whole graph (a large set) represented by a collection of 
 FB: Let's ignore this comment.
 
 MS: Myslim, ze tohle dost dobre vysvetluje Fig 2 vs Fig 3. Co se ale stane, az Fig. 3 pujde pryc?
+FB: Fig. 3 bych nechal, pokud se vlezeme do 15 stran.
 
 ----------------------- REVIEW 2 ---------------------
 
@@ -25,17 +26,20 @@ MS: Myslim, ze tohle dost dobre vysvetluje Fig 2 vs Fig 3. Co se ale stane, az F
    FB: Let's ignore this comment.
 
    MS: pise sice "columns", ale mysli "colons" / "dvojtecky". Vubec by mi nevadilo je tam dat, jak pise. Tobe ano?
+   FB: Mne trochu ano, protoze se mi to pripada spise matouci nez vysvetlujici. Ale nejsem zasadne proti.
 
  - p13: Same comment as just above: "... Adam optimizer [15]. Learning rate..." -> "... Adam optimizer [15]: Learning rate..."
    FB: Let's ignore this comment.
 
    MS: Chapu to jako pokus o strukturovani textu. Nebo myslis, ze je to typograficky nespravne?
+   FB: Nemyslim, ze je to typograficky nespravne. Pripada mi to stejne, jako predchozi navrh pridani dvojtecek.
 
  - p14: In your PAAR paper [7], the experimental results show that your linear model is not as good as the baseline but it is no longer the case here.
    How do you explain this? If it was further improved after PAAR, it should be mentioned.
    FB: Let's ignore this comment.
 
    MS: Ma pravdu? How do we explain this? :)
+   FB: I think this is because here we evaluate on a different distribution of problems, one that is possibly more similar to the training set. In the PAAR paper, the test problems were sampled from problems with at most 1024 predicates in TPTP v7.2.0 (15751/16748 = 94.05 %). Here, the test problems are sampled from problems with at most 100k nodes (7658/8526 = 89.82 %) in TPTP v7.4.0. Should I discuss this in this paper? It seems of relatively little interest.
 
   Minor comments
   --------------
@@ -44,6 +48,7 @@ MS: Myslim, ze tohle dost dobre vysvetluje Fig 2 vs Fig 3. Co se ale stane, az F
    FB: Let's clean up the bibliography.
 
    MS: Tohle cele jeste jednou prekope Springer, takze bych tim neztracel moc casu... (Staci, ze pomocnicci v Indii poznaji, ktery clanek jsme meli na mysli.)
+   FB: Ok, bibliografii nebudu skoro vubec uklizet, jenom prekontroluju, ze se daji ty zdroje jasne identifikovat.
 
 ----------- Specific questions for rebuttal -----------
 
@@ -56,6 +61,7 @@ MS: Myslim, ze tohle dost dobre vysvetluje Fig 2 vs Fig 3. Co se ale stane, az F
 FB: Let's ignore all of these comments, since they require additional research.
 
 MS: O tom, jak dlouho jsme trenovali si zminujeme, ne?
+FB: Jak dlouho trvalo uceni jsem zminil v rebuttalu, ale ne v clanku.
 
 
 ----------------------- REVIEW 3 ---------------------
