@@ -1,14 +1,5 @@
 ----------------------- REVIEW 2 ---------------------
 
-  Detailed comments
-  -----------------
-
- - p13: Same comment as just above: "... Adam optimizer [15]. Learning rate..." -> "... Adam optimizer [15]: Learning rate..."
-   FB: Let's ignore this comment.
-
-   MS: Chapu to jako pokus o strukturovani textu. Nebo myslis, ze je to typograficky nespravne?
-   FB: Nemyslim, ze je to typograficky nespravne. Pripada mi to stejne, jako predchozi navrh pridani dvojtecek.
-
   Minor comments
   --------------
 
