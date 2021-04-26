@@ -3,15 +3,6 @@
   Detailed comments
   -----------------
 
- - p12: To clarify the last paragraph of the page, that introduces concepts with which people outside of ML wouldn't be familiar with,
-   I suggest to use columns to show that some sentences are definitions for the terms introduced in the previous sentences,
-   in particular, "... and 0 otherwise. Adaptive sampling..." -> "... and 0 otherwise: Adaptive sampling..." and
-   "... with a parallelizing relaxation. In each iteration..." -> "with a parallelizing relaxation: In each iteration..."
-   FB: Let's ignore this comment.
-
-   MS: pise sice "columns", ale mysli "colons" / "dvojtecky". Vubec by mi nevadilo je tam dat, jak pise. Tobe ano?
-   FB: Mne trochu ano, protoze se mi to pripada spise matouci nez vysvetlujici. Ale nejsem zasadne proti.
-
  - p13: Same comment as just above: "... Adam optimizer [15]. Learning rate..." -> "... Adam optimizer [15]: Learning rate..."
    FB: Let's ignore this comment.
 
