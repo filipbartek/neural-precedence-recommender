@@ -18,13 +18,6 @@
    MS: Chapu to jako pokus o strukturovani textu. Nebo myslis, ze je to typograficky nespravne?
    FB: Nemyslim, ze je to typograficky nespravne. Pripada mi to stejne, jako predchozi navrh pridani dvojtecek.
 
- - p14: In your PAAR paper [7], the experimental results show that your linear model is not as good as the baseline but it is no longer the case here.
-   How do you explain this? If it was further improved after PAAR, it should be mentioned.
-   FB: Let's ignore this comment.
-
-   MS: Ma pravdu? How do we explain this? :)
-   FB: I think this is because here we evaluate on a different distribution of problems, one that is possibly more similar to the training set. In the PAAR paper, the test problems were sampled from problems with at most 1024 predicates in TPTP v7.2.0 (15751/16748 = 94.05 %). Here, the test problems are sampled from problems with at most 100k nodes (7658/8526 = 89.82 %) in TPTP v7.4.0. Should I discuss this in this paper? It seems of relatively little interest.
-
   Minor comments
   --------------
 
