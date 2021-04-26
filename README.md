@@ -60,3 +60,7 @@ linked from [Information for Authors](https://www.springer.com/gp/computer-scien
 > Figures are to be numbered and to have a caption which should always be positioned
 > under the figures, in contrast to the caption belonging to a table, which should always
 > appear above the table.
+
+Section 3.3:
+
+> We ask you to use the font according to the template used for your papers. Papers using other fonts will be converted by our typesetters.
