@@ -408,7 +408,7 @@ likely because the underlying \gls{gcn} learns a sufficiently complex transforma
 
 Let $\theta$ denote the vector of all parameters of the whole \acrlong{nn} consisting of the \gls{gcn} and the output unit.
 Given an input problem $P$ with signature $\Sigma = (s_1, \ldots, s_n)$,
-we denote the cost of symbol $s_i$ predicted by the \acrlong{nn} as $c(i, P; \theta)$.
+we denote the cost of symbol $s_i$ predicted by the network as $c(i, P; \theta)$.
 In the rest of this text,
 we refer to the predicted cost of $s_i$ simply as $c(i)$
 because the problem $P$ and the parameters $\theta$ are fixed in each respective context.
@@ -525,14 +525,14 @@ Then we obtain
 &= (k-l) (c(\pi(l)) - c(\pi(k))) \\
 &< 0
 \end{align*}
-The final inequality is because $k-l < 0$ and $c(\pi(l)) - c(\pi(k)) > 0$.
+The final inequality is due to $k-l < 0$ and $c(\pi(l)) - c(\pi(k)) > 0$.
 Clearly, $Z_n > 0$ for any $n \geq 0$.
 \todo{FB: Isn't the inclusion of $Z_n$ too confusing?}
 Thus, $C(\bar{\pi}) < C(\pi)$, which contradicts the assumption that $\pi$ minimizes $C$.
 
 It is easy to see that all precedences that sort the symbol costs in a non-increasing order
 have the same precedence cost.
-Since $\emptyset \neq \argmin_\rho C(\rho) \subseteq \argsort^- (c(1), \ldots, c(n))$,
+Since $\argmin_\rho C(\rho) \subseteq \argsort^- (c(1), \ldots, c(n))$,
 each of the precedences in $\argsort^- (c(1), \ldots, c(n))$ has the cost $\min_\rho C(\rho)$.
 It follows that $\argsort^- (c(1), \ldots, c(n)) \subseteq \argmin_\rho C(\rho)$.
 \qed
