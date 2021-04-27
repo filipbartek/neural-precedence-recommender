@@ -156,12 +156,16 @@
   timestamp = {2019-12-03},
 }
 
-@article{Bachmair89completionwithout,
-    author = {Leo Bachmair and Nachum Dershowitz and David A. Plaisted},
-    title = {Completion Without Failure},
-    journal = {Coll. on the Resolution of Equations in Algebraic Structures, Austin, 1987},
-    publisher={Academic Press},
-    year = {1989}
+@incollection{Bachmair89completionwithout,
+title = {Completion Without Failure},
+editor = {Hassan Aït-Kaci and Maurice Nivat},
+booktitle = {Rewriting Techniques},
+publisher = {Academic Press},
+pages = {1-30},
+year = {1989},
+isbn = {978-0-12-046371-8},
+doi = {10.1016/B978-0-12-046371-8.50007-9},
+author = {Leo Bachmair and Nachum Derschowitz and David A. Plaisted}
 }
 
 @incollection{DBLP:books/el/RV01/BachmairG01,
@@ -346,25 +350,47 @@ year = {2014}
 }
 
 % GCN
-@misc{kipf2017semisupervised,
-      title={Semi-Supervised Classification with Graph Convolutional Networks}, 
-      author={Thomas N. Kipf and Max Welling},
-      year={2017},
-      eprint={1609.02907},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
+@inproceedings{kipf2017semisupervised,
+abstract = {We present a scalable approach for semi-supervised learning on graph-structured data that is based on an efficient variant of convolutional neural networks which operate directly on graphs. We motivate the choice of our convolutional architecture via a localized first-order approximation of spectral graph convolutions. Our model scales linearly in the number of graph edges and learns hidden layer representations that encode both local graph structure and features of nodes. In a number of experiments on citation networks and on a knowledge graph dataset we demonstrate that our approach outperforms related methods by a significant margin.},
+archivePrefix = {arXiv},
+arxivId = {1609.02907},
+author = {Kipf, Thomas N. and Welling, Max},
+booktitle = {5th International Conference on Learning Representations, ICLR 2017 - Conference Track Proceedings},
+eprint = {1609.02907},
+month = {sep},
+title = {{Semi-Supervised Classification with Graph Convolutional Networks}},
+url = {https://openreview.net/forum?id=SJU4ayYgl},
+year = {2017}
 }
 
 % R-GCN
-@article{Schlichtkrull2017,
-archivePrefix = {arXiv},
-arxivId = {1703.06103},
-author = {Schlichtkrull, Michael and Kipf, Thomas N. and Bloem, Peter and van den Berg, Rianne and Titov, Ivan and Welling, Max},
-eprint = {1703.06103},
-month = {mar},
-title = {{Modeling Relational Data with Graph Convolutional Networks}},
-url = {https://arxiv.org/abs/1703.06103},
-year = {2017}
+@inproceedings{Schlichtkrull2017,
+  author    = {Michael Sejr Schlichtkrull and
+               Thomas N. Kipf and
+               Peter Bloem and
+               Rianne van den Berg and
+               Ivan Titov and
+               Max Welling},
+  editor    = {Aldo Gangemi and
+               Roberto Navigli and
+               Maria{-}Esther Vidal and
+               Pascal Hitzler and
+               Rapha{\"{e}}l Troncy and
+               Laura Hollink and
+               Anna Tordai and
+               Mehwish Alam},
+  title     = {Modeling Relational Data with Graph Convolutional Networks},
+  booktitle = {The Semantic Web - 15th International Conference, {ESWC} 2018, Heraklion,
+               Crete, Greece, June 3-7, 2018, Proceedings},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {10843},
+  pages     = {593--607},
+  publisher = {Springer},
+  year      = {2018},
+  doi       = {10.1007/978-3-319-93417-4\_38},
+  timestamp = {Tue, 14 May 2019 10:00:44 +0200},
+  biburl    = {https://dblp.org/rec/conf/esws/SchlichtkrullKB18.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
 % ENIGMA-NG
@@ -621,16 +647,31 @@ url = {http://ceur-ws.org/Vol-2752/paper8.pdf},
 year = {2020}
 }
 
-@article{Olsak2019,
-abstract = {Automated reasoning and theorem proving have recently become major challenges for machine learning. In other domains, representations that are able to abstract over unimportant transformations, such as abstraction over translations and rotations in vision, are becoming more common. Standard methods of embedding mathematical formulas for learning theorem proving are however yet unable to handle many important transformations. In particular, embedding previously unseen labels, that often arise in definitional encodings and in Skolemization, has been very weak so far. Similar problems appear when transferring knowledge between known symbols. We propose a novel encoding of formulas that extends existing graph neural network models. This encoding represents symbols only by nodes in the graph, without giving the network any knowledge of the original labels. We provide additional links between such nodes that allow the network to recover the meaning and therefore correctly embed such nodes irrespective of the given labels. We test the proposed encoding in an automated theorem prover based on the tableaux connection calculus, and show that it improves on the best characterizations used so far. The encoding is further evaluated on the premise selection task and a newly introduced symbol guessing task, and shown to correctly predict 65% of the symbol names.},
-archivePrefix = {arXiv},
-arxivId = {1911.12073},
-author = {Ol{\v{s}}{\'{a}}k, Miroslav and Kaliszyk, Cezary and Urban, Josef},
-eprint = {1911.12073},
-month = {nov},
-title = {{Property Invariant Embedding for Automated Reasoning}},
-url = {http://arxiv.org/abs/1911.12073},
-year = {2019}
+@inproceedings{Olsak2019,
+  author    = {Miroslav Ol{\v{s}}{\'{a}}k and
+               Cezary Kaliszyk and
+               Josef Urban},
+  editor    = {Giuseppe De Giacomo and
+               Alejandro Catal{\'{a}} and
+               Bistra Dilkina and
+               Michela Milano and
+               Sen{\'{e}}n Barro and
+               Alberto Bugar{\'{\i}}n and
+               J{\'{e}}r{\^{o}}me Lang},
+  title     = {Property Invariant Embedding for Automated Reasoning},
+  booktitle = {{ECAI} 2020 - 24th European Conference on Artificial Intelligence,
+               29 August-8 September 2020, Santiago de Compostela, Spain, August
+               29 - September 8, 2020 - Including 10th Conference on Prestigious
+               Applications of Artificial Intelligence {(PAIS} 2020)},
+  series    = {Frontiers in Artificial Intelligence and Applications},
+  volume    = {325},
+  pages     = {1395--1402},
+  publisher = {{IOS} Press},
+  year      = {2020},
+  doi       = {10.3233/FAIA200244},
+  timestamp = {Fri, 09 Apr 2021 18:50:06 +0200},
+  biburl    = {https://dblp.org/rec/conf/ecai/OlsakKU20.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
 % Graph neural networks (GNNs)
