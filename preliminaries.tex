@@ -36,9 +36,8 @@ the efficacy of the prover depends on the order in which the inferences are appl
 The standard saturation-based \glspl{atp} order the inferences
 by maintaining two classes of inferred clauses: processed and unprocessed \cite{Schulz2019}.
 In each \emph{iteration of the saturation loop}, one clause (so-called \emph{given clause})
-is selected from the unprocessed set
-and all the inferences between the given clause and the processed clauses are performed.
-The resulting new clauses are added to the unprocessed set.
+is combined with all the processed clauses for inferences.
+The resulting new clauses and the given clause are added to the unprocessed set and the processed set, respectively.
 Finishing the proof in few iterations of the saturation loop is important
 because the number of inferred clauses typically grows exponentially during the proof search.
 
@@ -54,7 +53,7 @@ FB: Doplnil jsem motivaci do prvni vety odstavce.}
 
 The \emph{superposition calculus} is of particular interest
 because it is used in the most successful contemporary \gls{fol} \glspl{atp}.
-The inferences of the superposition calculus are constrained by a \emph{\gls{sot}} \cite{DBLP:journals/logcom/BachmairG94}.
+A \emph{\gls{sot}} \cite{DBLP:journals/logcom/BachmairG94} constrains the inferences of the superposition calculus.
 
 The \gls{sot} influences the superposition calculus in two ways.
 First, the inferences on each clause are limited
