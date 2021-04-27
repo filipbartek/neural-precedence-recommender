@@ -14,11 +14,6 @@
 ----------- Overall evaluation -----------
   Detailed comments:
 
-  - p1 (and elsewhere): Please check the paper for proper use of
-    articles. In the case of superposition, it has "native support",
-    not "a native support". There are similar problems (too many or
-    too few articles) throughout the paper.
-    FB: Let's do this using Grammarly and Writefull.
   - p16: The paper is technically over length, but only by the
     acknowledgements section (and would have the same number of total
     pages without it).
