@@ -144,7 +144,7 @@ Each node corresponds to one of the elements that constitute the \gls{cnf} formu
 such as a clause, an atom, or a predicate symbol.
 Each such category of elements corresponds to one node type.
 The edges represent the (oriented) relations between the elements,
-for example the incidence relation between a clause and one of its (literals') atoms,
+for example, the incidence relation between a clause and one of its (literals') atoms,
 or the relation between an atom and its predicate symbol.
 $\mathcal{R}$ denotes the set of all relations in the graph.
 \Cref{fig:CnfSchema} shows the types of nodes and edges used in our graph representation.
@@ -445,7 +445,7 @@ from executions of an \gls{atp} on a set of problems with random precedences.
 
 To train a useful symbol cost function $c$,
 we define a precedence cost function $C$ using the symbol cost function $c$
-in a manner than ensures that minimizing $C$ corresponds to sorting the symbols by $c$.
+in a manner that ensures that minimizing $C$ corresponds to sorting the symbols by $c$.
 Finding a precedence that minimizes $C$ can then be done efficiently and precisely.
 We proceed to train $C$ on the proxy task of ranking the precedences.
 % We have:
@@ -528,7 +528,7 @@ Then we obtain
 The final inequality is because $k-l < 0$ and $c(\pi(l)) - c(\pi(k)) > 0$.
 Clearly, $Z_n > 0$ for any $n \geq 0$.
 \todo{FB: Isn't the inclusion of $Z_n$ too confusing?}
-Thus, $C(\bar{\pi}) < C(\pi)$, which is contradicts the assumption that $\pi$ minimizes $C$.
+Thus, $C(\bar{\pi}) < C(\pi)$, which contradicts the assumption that $\pi$ minimizes $C$.
 
 It is easy to see that all precedences that sort the symbol costs in a non-increasing order
 have the same precedence cost.

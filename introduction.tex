@@ -44,7 +44,7 @@ during clausification \cite{DBLP:books/el/RV01/NonnengartW01}
 % during the Tseitin transformation % of the input formula \cite{Tseitin1983} 
 can immediately make the saturation produce the exponential 
 set of clauses that the transformation is designed to avoid \cite{Reger2016}.
-Also, certain orderings help to make the superposition a decision procedure on certain fragments of first-order logic 
+Also, certain orderings help to make the superposition a decision procedure on specific fragments of first-order logic 
 (see, e.g., \cite{DBLP:conf/lics/GanzingerN99,DBLP:conf/cade/HustadtKS05}).
 However, the precise way by which the choice of a precedence 
 influences the follow-up proof search on a general problem is extremely hard to predict. % indirect
@@ -58,7 +58,7 @@ indicate that the existing schemes often fail to come close to the optimum prece
 suggesting room for further improvements.
 
 In this work, we propose a \acrlong{ml} system that learns to predict for an ATP
-whether one precedence is going to lead to a faster proof search on a given problem than another.
+whether one precedence will lead to a faster proof search on a given problem than another.
 Given a previously unseen problem, it can then be asked to recommend the best possible precedence for an ATP to run with.
 Relying only on the logical structure of the problems, % for the learning, 
 the system generalizes the knowledge about favorable precedences across problems with different signatures.

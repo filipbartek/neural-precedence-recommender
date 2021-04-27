@@ -26,14 +26,14 @@ to infer new clauses entailed by $\mathit{Cl}$.
 As soon as the empty clause, denoted by $\square$, is inferred,
 the prover concludes that the premises entail the conjecture.
 The sequence of those inferences leading up from the input clauses $\mathit{Cl}$ to the discovered $\square$ constitutes a proof.
-In case the premises do not entail the conjecture,
+If the premises do not entail the conjecture,
 the proof search continues until
 the set of inferred clauses is saturated with respect to the inference rules.
-In the common setting of time-restricted proof search, a time limit may end the process prematurely.
+In the standard setting of time-restricted proof search, a time limit may end the process prematurely.
 
 Since the space of derivable clauses is typically very large,
 the efficacy of the prover depends on the order in which the inferences are applied.
-The common saturation-based \glspl{atp} order the inferences
+The standard saturation-based \glspl{atp} order the inferences
 by maintaining two classes of inferred clauses: processed and unprocessed \cite{Schulz2019}.
 In each \emph{iteration of the saturation loop}, one clause (so-called \emph{given clause})
 is selected from the unprocessed set
@@ -52,7 +52,7 @@ FB: Doplnil jsem motivaci do prvni vety odstavce.}
 
 \subsection{Superposition calculus}
 
-The \emph{superposition calculus} is of special interest
+The \emph{superposition calculus} is of particular interest
 because it is used in the most successful contemporary \gls{fol} \glspl{atp}.
 The inferences of the superposition calculus are constrained by a \emph{\gls{sot}} \cite{DBLP:journals/logcom/BachmairG94}.
 
@@ -107,7 +107,7 @@ Each of the components of the output vector is called a \emph{unit} of the modul
 The output of each module is differentiable with respect to the input almost everywhere.
 \todo{FB: Should we explain why "almost everywhere" suffices?}
 
-The common modules include
+The standard modules include
 the \emph{fully connected layer}, which performs an affine transformation,
 and non-linear \emph{activation functions} such as the \emph{\gls{relu}} or \emph{sigmoid}.\footnote{
 These are, respectively, $f(x) = \max\{0,x\}$ and $g(x) = \frac{1}{1+e^{-x}}$.}
@@ -121,7 +121,7 @@ that parameter is considered \emph{trainable}.
 
 In a typical scenario, the \acrlong{nn} is trained by \emph{gradient descent} on a \emph{training set} of \emph{examples}.
 % Note: In case of GCN, the example is actually a set of edge matrices.
-In such setting, the network outputs a single numeric value called \emph{loss} when evaluated on a \emph{batch} of examples.
+In such a setting, the network outputs a single numeric value called \emph{loss} when evaluated on a \emph{batch} of examples.
 The loss of a batch is typically computed as a weighted sum of the losses of the individual examples.
 Since each of the modules is differentiable with respect to its input and trainable parameters,
 the gradient of the loss with respect to all trainable parameters of the neural network
@@ -133,4 +133,4 @@ using each example in the training set exactly once.
 
 A \emph{\gls{gcn}} is a special case of feedforward \acrlong{nn}.
 The modules of a \gls{gcn} transform messages that are passed along the edges of a graph encoded in the input example.
-A particular architecture of a \gls{gcn} used prominently in this work is discussed in detail in \cref{sec:gcn}.
+A particular architecture of a \gls{gcn} used prominently in this work is discussed in \cref{sec:gcn}.
