@@ -24,10 +24,10 @@ The recommender consists of modules that perform specific sub-tasks,
 each of which is described in detail in one of the following\iftoggle{LONG}{
 sections (see also \cref{fig:architecture}):
 \begin{itemize}
-\item \Cref{sec:graphifier}: The graph constructor transforms the input \gls{cnf} problem into a problem graph.
-\item \Cref{sec:gcn}: The \gls{gcn} computes symbol embeddings from the problem graph.
-\item \Cref{sec:output}: The output layer extracts symbol costs from the symbol embeddings.
-\item \Cref{sec:sorting}: The final symbol precedence is obtained by sorting the symbols by their costs.
+\item \cref{sec:graphifier}: The graph constructor transforms the input \gls{cnf} problem into a problem graph.
+\item \cref{sec:gcn}: The \gls{gcn} computes symbol embeddings from the problem graph.
+\item \cref{sec:output}: The output layer extracts symbol costs from the symbol embeddings.
+\item \cref{sec:sorting}: The final symbol precedence is obtained by sorting the symbols by their costs.
 \end{itemize}
 }{
 sections (see also \cref{fig:architecture}).
@@ -147,8 +147,8 @@ The edges represent the (oriented) relations between the elements,
 for example, the incidence relation between a clause and one of its (literals') atoms,
 or the relation between an atom and its predicate symbol.
 $\mathcal{R}$ denotes the set of all relations in the graph.
-\Cref{fig:CnfSchema} shows the types of nodes and edges used in our graph representation.
-\Cref{fig:GcnExample} shows an example of a graph representation of a simple problem.
+\cref{fig:CnfSchema} shows the types of nodes and edges used in our graph representation.
+\cref{fig:GcnExample} shows an example of a graph representation of a simple problem.
 
 \newcommand{\ntype}[1]{\texttt{#1}}
 \newcommand{\etype}[1]{\texttt{#1}}
@@ -648,4 +648,4 @@ and the symbol cost function $c$ is differentiable with respect to its trainable
 This enables the use of gradient descent to find the values of the parameters of $c$
 that locally minimize the loss value.
 
-\Cref{fig:architecture} shows how the loss function is plugged into the recommender for training.
+\cref{fig:architecture} shows how the loss function is plugged into the recommender for training.
