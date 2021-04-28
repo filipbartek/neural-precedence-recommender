@@ -530,10 +530,11 @@ Clearly, $Z_n > 0$ for any $n \geq 0$.
 \todo{FB: Isn't the inclusion of $Z_n$ too confusing?}
 Thus, $C(\bar{\pi}) < C(\pi)$, which contradicts the assumption that $\pi$ minimizes $C$.
 
-It is easy to see that all precedences that sort the symbol costs in a non-increasing order
-have the same precedence cost.
+To prove the other direction of the equality,
+first observe that all precedences $\pi$ that sort the symbol costs in a non-increasing order
+necessarily have the same precedence cost $C(\pi)$.
 Since
-\iftoggle{COMPRESS}{$\argmin_\rho C(\rho) \subseteq \argsort^- (c(1), \ldots, c(n))$}{$\emptyset \neq \argmin_\rho C(\rho) \subseteq \argsort^- (c(1), \ldots, c(n))$},
+$\emptyset \neq \argmin_\rho C(\rho) \subseteq \argsort^- (c(1), \ldots, c(n))$,
 each of the precedences in $\argsort^- (c(1), \ldots, c(n))$ has the cost $\min_\rho C(\rho)$.
 It follows that $\argsort^- (c(1), \ldots, c(n)) \subseteq \argmin_\rho C(\rho)$.
 \qed
