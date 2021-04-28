@@ -13,6 +13,10 @@
 %\toggletrue{SHRINK}
 \togglefalse{SHRINK}
 
+\newtoggle{COMPRESS}
+\toggletrue{COMPRESS}
+%\togglefalse{COMPRESS}
+
 \usepackage[binary-units=true,detect-weight=true]{siunitx}
 
 % How to write a paper:
@@ -58,6 +62,7 @@ pdfkeywords={saturation-based theorem proving, simplification ordering, symbol p
   {0pt}{0.9\baselineskip}{0.8\baselineskip}
 }
 
+\iftoggle{COMPRESS}{
 % For figures
 % https://tex.stackexchange.com/questions/60477/remove-space-after-figure-and-before-text
 \setlength{\textfloatsep}{0.7\baselineskip plus 0.2\baselineskip minus 0.2\baselineskip} % between a float at the top and text
@@ -65,6 +70,7 @@ pdfkeywords={saturation-based theorem proving, simplification ordering, symbol p
 \setlength{\intextsep}{0.7\baselineskip plus 0.2\baselineskip minus 0.2\baselineskip} % between a float in text and text
 
 \usepackage{times}
+}
 
 \begin{document}
 
