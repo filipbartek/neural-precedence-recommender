@@ -64,9 +64,8 @@
 \usepackage{titlecaps}
 \Addlcwords{to and}
 
-% https://tex.stackexchange.com/a/129682/202639
-\usepackage{sectsty}
-\allsectionsfont{\titlecap}
+% We cannot use pacakge sectsty or titlesec to bulk-format all section titles
+% because the style llncs re-defines \subsubsection to typeset as \paragraph.
 
 % hyperref should be loaded as late as possible.
 \usepackage{hyperref}
@@ -94,7 +93,6 @@ pdfkeywords={saturation-based theorem proving, simplification ordering, symbol p
 \end{abstract}
 
 \section{Introduction}
-
 \input{introduction}
 
 \section{Preliminaries}
@@ -105,15 +103,15 @@ pdfkeywords={saturation-based theorem proving, simplification ordering, symbol p
 \label{sec:architecture}
 \input{architecture}
 
-\section{Experimental evaluation}
+\section{\titlecap{Experimental evaluation}}
 \label{sec:evaluation}
 \input{evaluation}
 
-\section{Related work}
+\section{\titlecap{Related work}}
 \label{sec:related}
 \input{related}
 
-\section{Conclusion and future work}
+\section{\titlecap{Conclusion and future work}}
 \label{sec:conclusion}
 \input{conclusion}
 

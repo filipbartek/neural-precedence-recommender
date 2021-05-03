@@ -128,7 +128,7 @@ The trainable modules and the edges along which the loss gradient is propagated 
 \end{figure}
 \todo{FB: Improve the diagram. Consider using tikz. See the disabled tikz figure in the source file.}
 
-\subsection{Graph constructor: From \glsentryshort{cnf} to graphs}
+\subsection{\titlecap{Graph constructor: From \glsentryshort{cnf} to graphs}}
 \label{sec:graphifier}
 
 As the first step of the recommender processing pipeline,
@@ -334,7 +334,7 @@ Identical atoms and terms share a node representation.
 \todo{FB: Reference appendix if we describe the representation in more detail there.}
 \todo{FB: Mention other encodings that have been proposed by Mirek and Michael and compare ours to theirs.}
 
-\subsection{\glsentryshort{gcn}: From graphs to symbol embeddings}
+\subsection{\titlecap{\glsentryshort{gcn}: From graphs to symbol embeddings}}
 \label{sec:gcn}
 
 For each symbol in the input problem $P$,
@@ -394,7 +394,7 @@ $$
 
 \todo{Compare our GCN to Michael, Mirek etc.}
 
-\subsection{Output layer: From symbol embeddings to symbol costs}
+\subsection{\titlecap{Output layer: From symbol embeddings to symbol costs}}
 \label{sec:output}
 % Terminology: Deep Learning Book
 
@@ -413,7 +413,7 @@ In the rest of this text,
 we refer to the predicted cost of $s_i$ simply as $c(i)$
 because the problem $P$ and the parameters $\theta$ are fixed in each respective context.
 
-\subsection{Sort: From symbol costs to precedence}
+\subsection{\titlecap{Sort: From symbol costs to precedence}}
 \label{sec:sorting}
 
 The symbol precedence heuristics commonly used in the \glspl{atp} sort the symbols by some numeric syntactic property
@@ -429,7 +429,7 @@ to train the underlying symbol costs by gradient descent.
 %Note that a precedence that minimizes $C$
 %orders the symbols with the lowest cost as the last, prioritizing them for early inferences.
 
-\section{Training procedure}
+\section{\titlecap{Training procedure}}
 \label{sec:training}
 
 In \cref{sec:architecture} we described the structure of a recommender system that generates a symbol precedence for an arbitrary input problem.
@@ -452,7 +452,7 @@ We proceed to train $C$ on the proxy task of ranking the precedences.
 % Data allows us to tell whether pi < rho.
 % We need the symbols sorted by c be a good precedence.
 
-\subsection{Precedence cost}
+\subsection{\titlecap{Precedence cost}}
 
 %Sorting a vector $x$ of length $n$ in a non-increasing order corresponds to finding a permutation $\pi$ that minimizes
 %the sum of the components of $x$ weighted by their positions in $\pi$.
@@ -546,7 +546,7 @@ It follows that $\argsort^- (c(1), \ldots, c(n)) \subseteq \argmin_\rho C(\rho)$
 MS: Andrei Voronokov reasons. It's typically better in practice to postpone equational reasoning,
 so we want equalities to be generally small.}
 
-\subsection{Learning to rank precedences}
+\subsection{\titlecap{Learning to rank precedences}}
 \label{sec:ranking}
 
 Our ultimate goal is to train the precedence cost function $C$ so that it is minimized by the best precedence,
@@ -609,7 +609,7 @@ jina striktne monotonni funkce na pronasobeni nez to $i$ tam,
 ale berem proste tenhle, protoze neni jasne, proc by jiny mel byt lespi,
 a tenhle je nejjednodussi.)}
 
-\subsubsection{Training data}
+\subsubsection{\titlecap{Training data}.}
 
 Each training example has the form $(P, \PrecBetter, \PrecWorse)$,
 where $P = (\Sigma, \mathit{Cl})$ is a problem
@@ -619,7 +619,7 @@ denoted as $\Better{\PrecBetter}{\PrecWorse}{P}$.
 \todo{FB: Is this sufficient?}
 \todo{FB: Describe the distribution of problems and precedences.}
 
-\subsubsection{Loss function}
+\subsubsection{\titlecap{Loss function}.}
 
 Let $(P, \PrecBetter, \PrecWorse)$ be a training example ($\Better{\PrecBetter}{\PrecWorse}{P}$).
 The precedence cost classifies this example correctly if $C(\PrecBetter) < C(\PrecWorse)$,
