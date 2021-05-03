@@ -104,7 +104,7 @@ of the \acrshort{tptp} language \cite{Sutcliffe2017}.
 
 We used the problem library \acrshort{tptp}~v7.4.0 \cite{Sutcliffe2017}
 as the source of problems for training and evaluation of the recommender.
-We denote the set of all problems available for training and evaluation as $\ProblemsTptp$ ($\card{\ProblemsTptp} = 17053$).
+We denote the set of all problems available for training and evaluation as $\ProblemsTptp$ ($\card{\ProblemsTptp} = \num{17053}$).
 
 \subsubsection{Node feature extraction}
 
@@ -165,7 +165,7 @@ The problems were sampled using the allocation strategy \acrshort{ucb1} \cite{Au
 First, the values of $n_P$ and $s_P$ for each problem $P$ were bootstrapped by sampling the problem a number of times equal to a lower bound on the final value of $n_P$ (at least 1).\footnote{The number of tries each problem was bootstrapped with is
 $n_0 = \ceil{\frac{2 \log{N}}{\Parentheses{1 + \sqrt{\frac{2 \log{N} \card{\ProblemsTptp}}{N}}}^2}}$,
 where $N$ is the final number of examples to be generated.
-For example, if $N=1000000$ and $\card{\ProblemsTptp}=17053$, then $n_0 = 10$.}
+For example, if $N=\num{1000000}$ and $\card{\ProblemsTptp}=\num{17053}$, then $n_0 = 10$.}
 % FB: Note that the original UCB1 initially samples each object exactly once.
 % FB: More precisely, N can be any lower bound on the number of tries to be performed.
 \todo[inline,author=FB,disable]{We bootstrap with a per-problem lower bound on the final number of questions. The lower bound is a solution to the equation for $n_B$:
