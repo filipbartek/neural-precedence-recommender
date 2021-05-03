@@ -27,24 +27,12 @@
 % PAAR paper: https://github.com/filipbartek/learning-precedences-from-elementary-symbol-features/releases/download/paar2020%2Fceur-2/Learning_Precedences_from_Simple_Symbol_Features.pdf
 
 \input{preamble}
-\input{glossary}
 \input{front}
 
 \usepackage{svg}
 
 \usepackage[pdf]{graphviz}
 \usepackage{tikz}
-
-\usepackage{hyperref}
-\hypersetup{
-pdftitle={Neural Precedence Recommender},
-pdfauthor={Filip Bártek, Martin Suda},
-pdfkeywords={saturation-based theorem proving, simplification ordering, symbol precedence, machine learning, graph convolutional network}
-}
-
-\usepackage[capitalise]{cleveref}
-\crefname{section}{Sect.}{Sects.}
-\Crefname{section}{Section}{Sections}
 
 \iftoggle{SHRINK}{
 % Some mild shrinkage:
@@ -71,6 +59,23 @@ pdfkeywords={saturation-based theorem proving, simplification ordering, symbol p
 
 \usepackage{times}
 }
+
+% hyperref should be loaded as late as possible.
+\usepackage{hyperref}
+\hypersetup{
+pdftitle={Neural Precedence Recommender},
+pdfauthor={Filip Bártek, Martin Suda},
+pdfkeywords={saturation-based theorem proving, simplification ordering, symbol precedence, machine learning, graph convolutional network}
+}
+
+% cleveref must be loaded after hyperref
+\usepackage[capitalise]{cleveref}
+\crefname{section}{Sect.}{Sects.}
+\Crefname{section}{Section}{Sections}
+
+% glossaries should be loaded after hyperref.
+\input{glossary}
+\glsdisablehyper
 
 \begin{document}
 
