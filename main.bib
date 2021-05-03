@@ -1,8 +1,10 @@
+@string{lncs = "Lecture Notes in Computer Science"}
+
 @book{Sutton1998,
   added-at = {2019-07-13T10:11:53.000+0200},
   author = {Sutton, Richard S. and Barto, Andrew G.},
   biburl = {https://www.bibsonomy.org/bibtex/2f46601cf8b13d39d1378af0d79438b12/lanteunis},
-  edition = {Second},
+  edition = 2,
   interhash = {ac6b144aaec1819919a2fba9f705c852},
   intrahash = {f46601cf8b13d39d1378af0d79438b12},
   keywords = {},
@@ -10,21 +12,14 @@
   timestamp = {2019-07-13T10:11:53.000+0200},
   title = {Reinforcement Learning: An Introduction},
   url = {http://incompleteideas.net/book/the-book-2nd.html},
-  year = {2018 }
+  year = {2018}
 }
-
 
 @inproceedings{DBLP:conf/cade/Bartek020,
   author    = {Filip B{\'{a}}rtek and
                Martin Suda},
   title     = {Learning Precedences from Simple Symbol Features},
-  booktitle = {Joint Proceedings of the 7th Workshop on Practical Aspects of Automated
-               Reasoning {(PAAR)} and the 5th Satisfiability Checking and Symbolic
-               Computation Workshop (SC-Square) Workshop, 2020 co-located with the
-               10th International Joint Conference on Automated Reasoning {(IJCAR}
-               2020), Paris, France, June-July, 2020 (Virtual)},
   pages     = {21--33},
-  year      = {2020},
   crossref  = {DBLP:conf/cade/2020paar},
   url       = {http://ceur-ws.org/Vol-2752/paper2.pdf},
   timestamp = {Tue, 09 Feb 2021 17:28:14 +0100},
@@ -37,40 +32,55 @@
                Ilias S. Kotsireas and
                Philipp R{\"{u}}mmer and
                Sophie Tourret},
+  booktitle = {Practical Aspects of Automated Reasoning and Satisfiability Checking and Symbolic Computation Workshop},
   title     = {Joint Proceedings of the 7th Workshop on Practical Aspects of Automated
                Reasoning {(PAAR)} and the 5th Satisfiability Checking and Symbolic
                Computation Workshop (SC-Square) Workshop, 2020 co-located with the
                10th International Joint Conference on Automated Reasoning {(IJCAR}
-               2020), Paris, France, June-July, 2020 (Virtual)},
+               2020)},
   series    = {{CEUR} Workshop Proceedings},
-  volume    = {2752},
+  address   = {Aachen},
+  issn      = {1613-0073},
+  number    = 2752,
   publisher = {CEUR-WS.org},
-  year      = {2020},
+  year      = 2020,
   url       = {http://ceur-ws.org/Vol-2752},
+  venue     = {Paris, France},
+  eventdate = {2020-06-29},
   urn       = {urn:nbn:de:0074-2752-0},
   timestamp = {Tue, 23 Feb 2021 01:16:56 +0100},
   biburl    = {https://dblp.org/rec/conf/cade/2020paar.bib},
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
+% http://www.eprover.org/EVENTS/PAAR-2020.html
+% ceur-ws.org/HOWTOSUBMIT.html
+
+% Argument-order-preserving graphification by the use of auxiliary argument nodes
+% Section 5, paragraph Representation
+@inproceedings{Rawson2020,
+author = {Rawson, Michael and Reger, Giles},
+pages = {109--119},
+title = {Directed Graph Networks for Logical Reasoning (Extended Abstract)},
+url = {http://ceur-ws.org/Vol-2752/paper8.pdf},
+crossref = {DBLP:conf/cade/2020paar}
+}
 
 @inproceedings{RegerSuda2017,
   author       = {Giles Reger and Martin Suda},
-  title        = {Measuring progress to predict success: {Can} a good proof strategy be evolved?},
+  title        = {Measuring progress to predict success: Can a good proof strategy be evolved?},
   year         = {2017},
   booktitle    = {AITP 2017},
   pages        = {20--21},
   url          = {http://aitp-conference.org/2017/aitp17-proceedings.pdf},
 }
+% http://aitp-conference.org/2017/
 
 @inproceedings{DBLP:conf/cade/HustadtKS05,
   author    = {Ullrich Hustadt and
                Boris Konev and
                Renate A. Schmidt},
   title     = {Deciding Monodic Fragments by Temporal Resolution},
-  booktitle = {Automated Deduction - CADE-20, 20th International Conference on Automated
-               Deduction, Tallinn, Estonia, July 22-27, 2005, Proceedings},
   pages     = {204--218},
-  year      = {2005},
   crossref  = {DBLP:conf/cade/2005},
   doi       = {10.1007/11532231\_15},
   timestamp = {Tue, 14 May 2019 10:00:39 +0200},
@@ -79,11 +89,13 @@
 }
 @proceedings{DBLP:conf/cade/2005,
   editor    = {Robert Nieuwenhuis},
-  title     = {Automated Deduction - CADE-20, 20th International Conference on Automated
-               Deduction, Tallinn, Estonia, July 22-27, 2005, Proceedings},
-  series    = {Lecture Notes in Computer Science},
+  booktitle = {Automated Deduction -- CADE-20},
+  venue     = {Tallinn, Estonia},
+  eventdate = {July 22-27, 2005},
+  series    = lncs,
   volume    = {3632},
   publisher = {Springer},
+  address   = {Berlin, Heidelberg},
   year      = {2005},
   doi       = {10.1007/11532231},
   isbn      = {3-540-28005-7},
@@ -96,10 +108,7 @@
   author    = {Harald Ganzinger and
                Hans de Nivelle},
   title     = {A Superposition Decision Procedure for the Guarded Fragment with Equality},
-  booktitle = {14th Annual {IEEE} Symposium on Logic in Computer Science, Trento,
-               Italy, July 2-5, 1999},
   pages     = {295--303},
-  year      = {1999},
   crossref  = {DBLP:conf/lics/1999},
   doi       = {10.1109/LICS.1999.782624},
   timestamp = {Wed, 16 Oct 2019 14:14:54 +0200},
@@ -107,37 +116,17 @@
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 @proceedings{DBLP:conf/lics/1999,
-  title     = {14th Annual {IEEE} Symposium on Logic in Computer Science, Trento,
-               Italy, July 2-5, 1999},
+  booktitle     = {14th Annual {IEEE} Symposium on Logic in Computer Science},
+  venue     = {Trento, Italy},
+  eventdate = {July 2-5, 1999},
   publisher = {{IEEE} Computer Society},
   year      = {1999},
-  url       = {https://ieeexplore.ieee.org/xpl/conhome/6352/proceeding},
   isbn      = {0-7695-0158-3},
   timestamp = {Mon, 22 Feb 2021 21:50:27 +0100},
   biburl    = {https://dblp.org/rec/conf/lics/1999.bib},
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
-
-@inproceedings{DBLP:conf/cade/KovacsMV11,
-  author    = {Laura Kov{\'{a}}cs and
-               Georg Moser and
-               Andrei Voronkov},
-  editor    = {Nikolaj Bj{\o}rner and
-               Viorica Sofronie{-}Stokkermans},
-  title     = {On Transfinite {K}nuth-{B}endix Orders},
-  booktitle = {Automated Deduction -- {CADE-23}},
-  series    = {Lecture Notes in Computer Science},
-  number    = {6803},
-  pages     = {384--399},
-  publisher = {Springer Berlin Heidelberg},
-  address   = {Berlin, Heidelberg},
-  year      = {2011},
-  doi       = {10.1007/978-3-642-22438-6\_29},
-  isbn      = {978-3-642-22438-6},
-  timestamp = {Tue, 14 May 2019 10:00:39 +0200},
-  biburl    = {https://dblp.org/rec/bib/conf/cade/KovacsMV11},
-  bibsource = {dblp computer science bibliography, https://dblp.org},
-}
+% https://ieeexplore.ieee.org/xpl/conhome/6352/proceeding
 
 @InProceedings{Reger2016,
   author    = {Giles Reger and Martin Suda and Andrei Voronkov},
@@ -161,7 +150,7 @@ title = {Completion Without Failure},
 editor = {Hassan Aït-Kaci and Maurice Nivat},
 booktitle = {Rewriting Techniques},
 publisher = {Academic Press},
-pages = {1-30},
+pages = {1--30},
 year = {1989},
 isbn = {978-0-12-046371-8},
 doi = {10.1016/B978-0-12-046371-8.50007-9},
@@ -192,7 +181,7 @@ and Wrightson, Graham",
 title="Paramodulation and Theorem-Proving in First-Order Theories with Equality",
 bookTitle="Automation of Reasoning: 2: Classical Papers on Computational Logic 1967--1970",
 year="1983",
-publisher="Springer Berlin Heidelberg",
+publisher="Springer",
 address="Berlin, Heidelberg",
 pages="298--313",
 abstract="A term is an individual constant or variable or an n-adic function letter followed by n terms. An atomic formula is an n-adic predicate letter followed by n terms. A literal is an atomic formula or the negation thereof. A clause is a set of literals and is thought of as representing the universally-quantified disjunction of its members. It will sometimes be notationally convenient1 to distinguish between the empty clause □, viewed as a clause, and `other' empty sets such as the empty set of clauses, even though all these empty sets are the same set-theoretic object {\o}. A ground clause (term, literal) is one with no variables. A clause C' (literal, term) is an instance of another clause C (literal, term) if there is a uniform replacement of the variables in C by terms that transform C into C'.",
@@ -218,11 +207,8 @@ doi="10.1007/978-3-642-81955-1\_19",
 @inproceedings{DBLP:conf/cav/KovacsV13,
   author    = {Laura Kov{\'{a}}cs and
                Andrei Voronkov},
-  title     = {First-Order Theorem Proving and {Vampire}},
-  booktitle = {Computer Aided Verification - 25th International Conference, {CAV}
-               2013, Saint Petersburg, Russia, July 13-19, 2013. Proceedings},
+  title     = {First-Order Theorem Proving and {V}ampire},
   pages     = {1--35},
-  year      = {2013},
   crossref  = {DBLP:conf/cav/2013},
   doi       = {10.1007/978-3-642-39799-8\_1},
   timestamp = {Tue, 14 May 2019 10:00:43 +0200},
@@ -232,11 +218,13 @@ doi="10.1007/978-3-642-81955-1\_19",
 @proceedings{DBLP:conf/cav/2013,
   editor    = {Natasha Sharygina and
                Helmut Veith},
-  title     = {Computer Aided Verification - 25th International Conference, {CAV}
-               2013, Saint Petersburg, Russia, July 13-19, 2013. Proceedings},
-  series    = {Lecture Notes in Computer Science},
+  booktitle = {Computer Aided Verification},
+  venue     = {Saint Petersburg, Russia},
+  eventdate = {July 13-19, 2013},
+  series    = lncs,
   volume    = {8044},
   publisher = {Springer},
+  address   = {Berlin, Heidelberg},
   year      = {2013},
   doi       = {10.1007/978-3-642-39799-8},
   isbn      = {978-3-642-39798-1},
@@ -249,13 +237,17 @@ doi="10.1007/978-3-642-81955-1\_19",
 @inproceedings{Voronkov2014,
 abstract = {This paper describes a new architecture for first-order resolution and superposition theorem provers called AVATAR (Advanced Vampire Architecture for Theories and Resolution). Its original motivation comes from a problem well-studied in the past - dealing with problems having clauses containing propositional variables and other clauses that can be split into components with disjoint sets of variables. Such clauses are common for problems coming from applications, for example in program verification and program analysis, where many ground literals occur in the problems and even more are generated during the proof-search. This problem was previously studied by adding various versions of splitting. The addition of splitting resulted in some improvements in performance of theorem provers. However, even with various versions of splitting, the performance of superposition theorem provers is nowhere near SMT solvers on variable-free problems or SAT solvers on propositional problems. This paper describes a new architecture for superposition theorem provers, where a superposition theorem prover is tightly integrated with a SAT or an SMT solver. Its implementation in our theorem prover Vampire resulted in drastic improvements over all previous implementations of splitting. Over four hundred TPTP problems previously unsolvable by any modern prover, including Vampire itself, have been proved, most of them with short runtimes. Nearly all problems solved with one of 481 variants of splitting previously implemented in Vampire can also be solved with AVATAR. We also believe that AVATAR is an important step towards efficient reasoning with both quantifiers and theories, which is one of the key areas in modern applications of theorem provers in program analysis and verification. {\textcopyright} 2014 Springer International Publishing.},
 author = {Voronkov, Andrei},
-booktitle = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
+booktitle="Computer Aided Verification",
+editor="Biere, Armin
+and Bloem, Roderick",
+series = lncs,
 doi = {10.1007/978-3-319-08867-9\_46},
 isbn = {9783319088662},
 issn = {16113349},
 pages = {696--710},
-publisher = {Springer Verlag},
-title = {{AVATAR: The architecture for first-order theorem provers}},
+publisher = {Springer International Publishing},
+address = {Cham},
+title = {{AVATAR}: The architecture for first-order theorem provers},
 volume = {8559 LNCS},
 year = {2014}
 }
@@ -309,12 +301,13 @@ year = {2014}
   title     = {Handbook of Automated Reasoning (in 2 volumes)},
   publisher = {Elsevier and {MIT} Press},
   year      = {2001},
-  url       = {https://www.sciencedirect.com/book/9780444508133/handbook-of-automated-reasoning},
   isbn      = {0-444-50813-9},
   timestamp = {Thu, 18 Feb 2021 15:31:26 +0100},
   biburl    = {https://dblp.org/rec/books/el/RobinsonV01.bib},
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
+% https://www.sciencedirect.com/book/9780444508133/handbook-of-automated-reasoning
+% https://mitpress.mit.edu/books/handbook-automated-reasoning-volume-1
 
 @inproceedings{DBLP:conf/cade/WeidenbachDFKSW09,
   author    = {Christoph Weidenbach and
@@ -324,10 +317,7 @@ year = {2014}
                Martin Suda and
                Patrick Wischnewski},
   title     = {{SPASS} Version 3.5},
-  booktitle = {Automated Deduction - CADE-22, 22nd International Conference on Automated
-               Deduction, Montreal, Canada, August 2-7, 2009. Proceedings},
   pages     = {140--145},
-  year      = {2009},
   crossref  = {DBLP:conf/cade/2009},
   doi       = {10.1007/978-3-642-02959-2\_10},
   timestamp = {Tue, 14 May 2019 10:00:39 +0200},
@@ -336,11 +326,13 @@ year = {2014}
 }
 @proceedings{DBLP:conf/cade/2009,
   editor    = {Renate A. Schmidt},
-  title     = {Automated Deduction - CADE-22, 22nd International Conference on Automated
-               Deduction, Montreal, Canada, August 2-7, 2009. Proceedings},
-  series    = {Lecture Notes in Computer Science},
+  booktitle = {Automated Deduction - CADE-22},
+  venue     = {Montreal, Canada},
+  eventdate = {August 2-7, 2009},
+  series    = lncs,
   volume    = {5663},
   publisher = {Springer},
+  address   = {Berlin, Heidelberg},
   year      = {2009},
   doi       = {10.1007/978-3-642-02959-2},
   isbn      = {978-3-642-02958-5},
@@ -357,8 +349,8 @@ arxivId = {1609.02907},
 author = {Kipf, Thomas N. and Welling, Max},
 booktitle = {5th International Conference on Learning Representations, ICLR 2017 - Conference Track Proceedings},
 eprint = {1609.02907},
-month = {sep},
-title = {{Semi-Supervised Classification with Graph Convolutional Networks}},
+month = sep,
+title = {Semi-Supervised Classification with Graph Convolutional Networks},
 url = {https://openreview.net/forum?id=SJU4ayYgl},
 year = {2017}
 }
@@ -380,14 +372,17 @@ year = {2017}
                Anna Tordai and
                Mehwish Alam},
   title     = {Modeling Relational Data with Graph Convolutional Networks},
-  booktitle = {The Semantic Web - 15th International Conference, {ESWC} 2018, Heraklion,
-               Crete, Greece, June 3-7, 2018, Proceedings},
-  series    = {Lecture Notes in Computer Science},
+  booktitle = {The Semantic Web},
+  venue     = {Heraklion, Crete, Greece},
+  eventdate = {June 3-7, 2018},
+  series    = lncs,
   volume    = {10843},
   pages     = {593--607},
-  publisher = {Springer},
+  publisher = {Springer International Publishing},
+  address   = {Cham},
   year      = {2018},
   doi       = {10.1007/978-3-319-93417-4\_38},
+  isbn="978-3-319-93417-4",
   timestamp = {Tue, 14 May 2019 10:00:44 +0200},
   biburl    = {https://dblp.org/rec/conf/esws/SchlichtkrullKB18.bib},
   bibsource = {dblp computer science bibliography, https://dblp.org}
@@ -400,8 +395,8 @@ arxivId = {1903.03182},
 author = {Chvalovsk{\'{y}}, Karel and Jakubův, Jan and Suda, Martin and Urban, Josef},
 doi = {10.1007/978-3-030-29436-6\_12},
 eprint = {1903.03182},
-month = {mar},
-title = {{ENIGMA-NG: Efficient Neural and Gradient-Boosted Inference Guidance for E}},
+month = mar,
+title = {{ENIGMA-NG}: Efficient Neural and Gradient-Boosted Inference Guidance for {E}},
 year = {2019}
 }
 
@@ -411,32 +406,38 @@ abstract = {We describe an implementation of gradient boosting and neural guidan
 archivePrefix = {arXiv},
 arxivId = {2002.05406},
 author = {Jakubův, Jan and Chvalovsk{\'{y}}, Karel and Ol{\v{s}}{\'{a}}k, Miroslav and Piotrowski, Bartosz and Suda, Martin and Urban, Josef},
-booktitle = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
+editor="Peltier, Nicolas
+and Sofronie-Stokkermans, Viorica",
+booktitle = {Automated Reasoning},
+series = lncs,
 doi = {10.1007/978-3-030-51054-1\_29},
 eprint = {2002.05406},
 isbn = {9783030510534},
 issn = {16113349},
 keywords = {Automated theorem proving,Decision trees,Machine learning,Neural networks,Saturation-style proving},
-month = {jul},
+month = jul,
 pages = {448--463},
-publisher = {Springer},
-title = {{ENIGMA Anonymous: Symbol-Independent Inference Guiding Machine (System Description)}},
+publisher = {Springer International Publishing},
+address = {Cham},
+title = {{ENIGMA} {A}nonymous: Symbol-Independent Inference Guiding Machine (System Description)},
 volume = {12167 LNAI},
 year = {2020}
 }
 
 % Layer Normalization
-@article{Ba2016,
+@misc{Ba2016,
 abstract = {Training state-of-the-art, deep neural networks is computationally expensive. One way to reduce the training time is to normalize the activities of the neurons. A recently introduced technique called batch normalization uses the distribution of the summed input to a neuron over a mini-batch of training cases to compute a mean and variance which are then used to normalize the summed input to that neuron on each training case. This significantly reduces the training time in feed-forward neural networks. However, the effect of batch normalization is dependent on the mini-batch size and it is not obvious how to apply it to recurrent neural networks. In this paper, we transpose batch normalization into layer normalization by computing the mean and variance used for normalization from all of the summed inputs to the neurons in a layer on a single training case. Like batch normalization, we also give each neuron its own adaptive bias and gain which are applied after the normalization but before the non-linearity. Unlike batch normalization, layer normalization performs exactly the same computation at training and test times. It is also straightforward to apply to recurrent neural networks by computing the normalization statistics separately at each time step. Layer normalization is very effective at stabilizing the hidden state dynamics in recurrent networks. Empirically, we show that layer normalization can substantially reduce the training time compared with previously published techniques.},
 archivePrefix = {arXiv},
 arxivId = {1607.06450},
 author = {Ba, Jimmy Lei and Kiros, Jamie Ryan and Hinton, Geoffrey E.},
 eprint = {1607.06450},
-month = {jul},
-title = {{Layer Normalization}},
+month = jul,
+title = {Layer Normalization},
 url = {http://arxiv.org/abs/1607.06450},
 year = {2016}
 }
+% https://sites.google.com/site/nips2016deeplearnings/accepted-papers
+% https://openreview.net/forum?id=BJLa_ZC9
 
 % E
 @inproceedings{Schulz2019,
@@ -447,12 +448,13 @@ doi = {10.1007/978-3-030-29436-6\_29},
 editor = {Fontaine, Pascal},
 isbn = {978-3-030-29436-6},
 issn = {1611-3349},
-month = {aug},
+month = aug,
 pages = {495--507},
-publisher = {Springer},
+publisher = {Springer International Publishing},
+address = {Cham},
 title = {Faster, Higher, Stronger: {E} 2.3},
 volume = {11716},
-series = {LNAI},
+series = lncs,
 year = {2019}
 }
 
@@ -488,14 +490,18 @@ doi="10.1007/978-3-642-81955-1\_23"
 @inproceedings{Ludwig2007,
 abstract = {The Knuth-Bendix ordering is usually preferred over the lexicographic path ordering in successful implementations of resolution and superposition, but it is incompatible with certain requirements of hierarchic superposition calculi. Moreover, it does not allow non-linear definition equations to be oriented in a natural way. We present an extension of the Knuth-Bendix ordering that makes it possible to overcome these restrictions. {\textcopyright} Springer-Verlag Berlin Heidelberg 2007.},
 author = {Ludwig, Michel and Waldmann, Uwe},
-booktitle = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
+editor="Dershowitz, Nachum
+and Voronkov, Andrei",
+series = lncs,
+booktitle="Logic for Programming, Artificial Intelligence, and Reasoning",
 doi = {10.1007/978-3-540-75560-9\_26},
 isbn = {9783540755586},
 issn = {16113349},
-month = {oct},
+month = oct,
 pages = {348--362},
-publisher = {Springer Verlag},
-title = {{An extension of the Knuth-Bendix ordering with LPO-like properties}},
+publisher = {Springer},
+address = {Berlin, Heidelberg},
+title = {An extension of the {K}nuth-{B}endix ordering with {LPO}-like properties},
 volume = {4790 LNAI},
 year = {2007}
 }
@@ -504,13 +510,17 @@ year = {2007}
 @inproceedings{Kovacs2011,
 abstract = {In this paper we discuss the recently introduced transfinite Knuth-Bendix orders. We prove that any such order with finite subterm coefficients and for a finite signature is equivalent to an order using ordinals below $\omega$$\omega$, that is, finite sequences of natural numbers of a fixed length. We show that this result does not hold when subterm coefficients are infinite. However, we prove that in this general case ordinals below $\omega$$\omega$$\omega$ suffice. We also prove that both upper bounds are tight. We briefly discuss the significance of our results for the implementation of first-order theorem provers and describe relationships between the transfinite Knuth-Bendix orders and existing implementations of extensions of the Knuth-Bendix orders. {\textcopyright} 2011 Springer-Verlag Berlin Heidelberg.},
 author = {Kov{\'{a}}cs, Laura and Moser, Georg and Voronkov, Andrei},
-booktitle = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
+editor="Bj{\o}rner, Nikolaj
+and Sofronie-Stokkermans, Viorica",
+booktitle="Automated Deduction -- CADE-23",
 doi = {10.1007/978-3-642-22438-6\_29},
-isbn = {9783642224379},
+isbn="978-3-642-22438-6",
 issn = {03029743},
+series = lncs,
 pages = {384--399},
-publisher = {Springer, Berlin, Heidelberg},
-title = {{On transfinite Knuth-Bendix orders}},
+publisher = {Springer},
+address = {Berlin, Heidelberg},
+title = {On transfinite {K}nuth-{B}endix orders},
 volume = {6803 LNAI},
 year = {2011}
 }
@@ -522,7 +532,7 @@ author = {Schulz, Stephan},
 issn = {2516-2314},
 publisher = {EasyChair},
 series = {EasyChair preprint},
-title = {{E 2.4 User Manual}},
+title = {{E} 2.4 User Manual},
 url = {https://easychair.org/publications/preprint/8dss},
 year = {2020},
 howpublished = {EasyChair preprint no. 2272},
@@ -537,11 +547,11 @@ doi = {10.1023/A:1013689704352},
 issn = {08856125},
 journal = {Machine Learning},
 keywords = {Adaptive allocation rules,Bandit problems,Finite horizon regret},
-month = {may},
+month = may,
 number = {2-3},
 pages = {235--256},
 publisher = {Springer},
-title = {{Finite-time analysis of the multiarmed bandit problem}},
+title = {Finite-time analysis of the multiarmed bandit problem},
 volume = {47},
 year = {2002}
 }
@@ -550,7 +560,7 @@ year = {2002}
 @article{Kingma2014,
    abstract = {We introduce Adam, an algorithm for first-order gradient-based optimization of stochastic objective functions, based on adaptive estimates of lower-order moments. The method is straightforward to implement, is computationally efficient, has little memory requirements, is invariant to diagonal rescaling of the gradients, and is well suited for problems that are large in terms of data and/or parameters. The method is also appropriate for non-stationary objectives and problems with very noisy and/or sparse gradients. The hyper-parameters have intuitive interpretations and typically require little tuning. Some connections to related algorithms, on which Adam was inspired, are discussed. We also analyze the theoretical convergence properties of the algorithm and provide a regret bound on the convergence rate that is comparable to the best known results under the online convex optimization framework. Empirical results demonstrate that Adam works well in practice and compares favorably to other stochastic optimization methods. Finally, we discuss AdaMax, a variant of Adam based on the infinity norm.},
    author = {Diederik P. Kingma and Jimmy Ba},
-   month = {12},
+   month = dec,
    title = {Adam: A Method for Stochastic Optimization},
    url = {http://arxiv.org/abs/1412.6980},
    year = {2014},
@@ -562,16 +572,16 @@ author = {Harrison, John},
 doi = {10.1017/CBO9780511576430},
 isbn = {9780511576430},
 publisher = {Cambridge University Press},
-title = {{Handbook of Practical Logic and Automated Reasoning}},
+title = {Handbook of Practical Logic and Automated Reasoning},
 year = {2009}
 }
 
 @book{Mohri2018,
 author = {Mohri, Mehryar and Rostamizadeh, Afshin and Talwalkar, Ameet},
-edition = {2},
+edition = 2,
 isbn = {9781787284395},
 publisher = {MIT Press},
-title = {{Foundations of Machine Learning}},
+title = {Foundations of Machine Learning},
 url = {https://cs.nyu.edu/~mohri/mlbook/},
 year = {2018}
 }
@@ -586,7 +596,7 @@ doi = {10.1145/1102351.1102363},
 isbn = {1595931805},
 pages = {89--96},
 publisher = {ACM Press},
-title = {{Learning to Rank using Gradient Descent}},
+title = {Learning to Rank using Gradient Descent},
 year = {2005}
 }
 
@@ -598,7 +608,7 @@ booktitle = {Automation of Reasoning},
 doi = {10.1007/978-3-642-81955-1\_28},
 pages = {466--483},
 publisher = {Springer Berlin Heidelberg},
-title = {{On the Complexity of Derivation in Propositional Calculus}},
+title = {On the Complexity of Derivation in Propositional Calculus},
 year = {1983}
 }
 
@@ -608,16 +618,16 @@ author = {Sutcliffe, Geoff},
 doi = {10.1007/s10817-017-9407-7},
 issn = {0168-7433},
 journal = {Journal of Automated Reasoning},
-month = {dec},
+month = dec,
 number = {4},
-title = {{The TPTP Problem Library and Associated Infrastructure}},
+title = {The {TPTP} Problem Library and Associated Infrastructure},
 volume = {59},
 year = {2017}
 }
 
 % TPTP Syntax
 @misc{TptpSyntax,
-title = {{TPTP Syntax}},
+title = {{TPTP} Syntax},
 key = {TPTP Syntax},
 url = {http://www.tptp.org/TPTP/SyntaxBNF.html},
 urldate = {2021-02-22}
@@ -629,22 +639,10 @@ archivePrefix = {arXiv},
 arxivId = {1511.04854},
 author = {Shi, Chuan and Li, Yitong and Zhang, Jiawei and Sun, Yizhou and Yu, Philip S.},
 eprint = {1511.04854},
-month = {nov},
-title = {{A Survey of Heterogeneous Information Network Analysis}},
+month = nov,
+title = {A Survey of Heterogeneous Information Network Analysis},
 url = {https://arxiv.org/abs/1511.04854},
 year = {2015}
-}
-
-% Argument-order-preserving graphification by the use of auxiliary argument nodes
-% Section 5, paragraph Representation
-@inproceedings{Rawson2020,
-author = {Rawson, Michael and Reger, Giles},
-booktitle = {Joint Proceedings of the 7th Workshop on Practical Aspects of Automated Reasoning (PAAR) and the 5th Satisfiability Checking and Symbolic Computation Workshop (SC-Square) Workshop},
-editor = {Fontaine, Pascal and Korovin, Konstantin and Kotsireas, Ilias S. and R{\"{u}}mmer, Philipp and Tourret, Sophie},
-pages = {109--119},
-title = {{Directed Graph Networks for Logical Reasoning (Extended Abstract)}},
-url = {http://ceur-ws.org/Vol-2752/paper8.pdf},
-year = {2020}
 }
 
 @inproceedings{Olsak2019,
@@ -659,10 +657,9 @@ year = {2020}
                Alberto Bugar{\'{\i}}n and
                J{\'{e}}r{\^{o}}me Lang},
   title     = {Property Invariant Embedding for Automated Reasoning},
-  booktitle = {{ECAI} 2020 - 24th European Conference on Artificial Intelligence,
-               29 August-8 September 2020, Santiago de Compostela, Spain, August
-               29 - September 8, 2020 - Including 10th Conference on Prestigious
-               Applications of Artificial Intelligence {(PAIS} 2020)},
+  booktitle = {{ECAI} 2020 -- 24th European Conference on Artificial Intelligence},
+  venue     = {Santiago de Compostela, Spain},
+  eventdate = {August 29 - September 8, 2020},
   series    = {Frontiers in Artificial Intelligence and Applications},
   volume    = {325},
   pages     = {1395--1402},
@@ -681,8 +678,8 @@ archivePrefix = {arXiv},
 arxivId = {1812.08434},
 author = {Zhou, Jie and Cui, Ganqu and Zhang, Zhengyan and Yang, Cheng and Liu, Zhiyuan and Wang, Lifeng and Li, Changcheng and Sun, Maosong},
 eprint = {1812.08434},
-month = {dec},
-title = {{Graph Neural Networks: A Review of Methods and Applications}},
+month = dec,
+title = {Graph Neural Networks: A Review of Methods and Applications},
 url = {http://arxiv.org/abs/1812.08434},
 year = {2018}
 }
