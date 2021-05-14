@@ -7,6 +7,11 @@
 *.synctex.gz
 *.out
 
+# PdfLaTeX build products of presentation
+*.nav
+*.snm
+*.toc
+
 # graphviz
 *.dot
 
