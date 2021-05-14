@@ -1,0 +1,219 @@
+In \cref{sec:architecture} we described the structure of a recommender system that generates a symbol precedence for an arbitrary input problem.
+The efficacy of the recommender depends on the quality of the underlying symbol cost function $c$.
+In theory, the symbol cost function can assign the costs so that
+sorting the symbols by their costs yields an optimum precedence.
+This is because, at least in principle, all the information necessary 
+to determine the optimum precedence is present in the graph representation of the input problem
+thanks to the lossless property of the graph encoding.
+\todo{MS: Hlavne tady ale jakoby chybi druha pulky ty vety. Neco jako ``In practice, however, ...'' Nemyslis?} 
+Our approach to defining an appropriate symbol cost function is based on statistical learning
+from executions of an \gls{atp} on a set of problems with random precedences.
+
+To train a useful symbol cost function $c$,
+we define a precedence cost function $C$ using the symbol cost function $c$
+in a manner that ensures that minimizing $C$ corresponds to sorting the symbols by $c$.
+Finding a precedence that minimizes $C$ can then be done efficiently and precisely.
+We proceed to train $C$ on the proxy task of ranking the precedences.
+% We have:
+% Data allows us to tell whether pi < rho.
+% We need the symbols sorted by c be a good precedence.
+
+\subsection{\titlecap{Precedence cost}}
+
+%Sorting a vector $x$ of length $n$ in a non-increasing order corresponds to finding a permutation $\pi$ that minimizes
+%the sum of the components of $x$ weighted by their positions in $\pi$.
+%By defining the cost of a precedence as a measure that is minimized by sorting,
+%we obtain a practical notion that can ultimately be trained by gradient descent.
+
+We extend the notion of cost from symbols to precedences
+by taking the sum of the symbol costs
+weighted by their positions in the given precedence $\pi$:
+\todo[inline]{FB: Consider accessing elements $\pi$ as vector elements $\pi_i$ instead of $\pi(i)$. Keep in mind that $\inv{\pi}$ must be updated as well. The motivation for using $\pi(i)$ is that $\inv{\pi}(i)$ looks clearer than $\inv{\pi}_i$. How about using $(\inv{\pi})_i$? We may also omit the inversion completely.}
+\todo{FB: Consider using the terminology of RankNet: $C(\pi) = o_i$, $S(\pi, \rho) = o_{ij}$, $\loss = C_{ij}$}
+\begin{equation*} \label{eq:cost_model}
+C(\pi) = Z_n \sum_{i=1}^n i \cdot c(\pi(i))% We call the normalization factor Z_n to follow convention from Foundations of Machine Learning, p. 122.
+\end{equation*}
+\todo[inline,author=FB]{
+To center the precedence cost at 0:
+
+Indexing from 0:
+$C(\pi) = \frac{1}{n} \sum_{i=0}^{n-1} c(\pi(i)) \cdot (\frac{2i}{n-1} - 1)$
+
+Indexing from 1:
+$C(\pi) = \frac{1}{n} \sum_{i=1}^{n} c(\pi(i)) \cdot (\frac{2(i-1)}{n-1} - 1)$
+}
+
+$Z_n = \frac{2}{n(n+1)}$ is a normalization factor
+that ensures the commensurability of precedence costs across signature sizes.
+More precisely, normalizing by $Z_n$ makes the expected value of the precedence cost on a given problem
+independent of the problem's signature size $n$,
+provided the expected symbol cost $\mathbb{E}_i [c(i)]$ does not depend on $n$:
+\begin{multline*}
+\mathbb{E}_\pi [C(\pi)]
+= \mathbb{E}_\pi \SquareBracket*{Z_n \sum_{i=1}^n i \cdot c(\pi(i))}
+= Z_n \sum_{i=1}^n i \cdot \mathbb{E}_\pi [c(\pi(i))] \\
+= Z_n \Parentheses*{\sum_{i=1}^n i} \mathbb{E}_i [c(i)]
+= \frac{2}{n(n+1)} \frac{n(n+1)}{2} \mathbb{E}_i [c(i)]
+= \mathbb{E}_i [c(i)]
+\end{multline*}
+\todo[author=FB]{Discuss the variance of the precedence cost in addition to the expected value.}
+
+When $C$ is defined in this way,
+the precedence produced by the recommender (see \cref{sec:sorting}) minimizes $C$.
+\todo{Marting == for the camera ready version ==
+Write here that there could be alternavi formulas to \eqref{eq:cost_model}
+and we pick this one as the arguably simplest, for the lack of a better choice.}
+
+\begin{lemma}
+The precedence cost $C$ is minimized by any precedence that sorts the symbols by their costs in non-increasing order:
+$$
+\argmin_\rho C(\rho) = \argsort^- (c(1), \ldots, c(n))
+$$
+where
+$\argmin_\rho C(\rho)$ is the set of all precedences that minimize precedence cost $C$ for a given symbol cost $c$, and
+%$\argmin_\rho C(\rho) = \{\rho \in Prec(n) | \forall \pi \in Prec(n) . C(\rho) \leq C(\pi)\}$, and
+$\argsort^-(x)$ is the set of all permutations $\pi$
+that sort vector $x$ in non-increasing order ($x_{\pi(1)} \geq x_{\pi(2)} \geq \ldots \geq x_{\pi(n)}$).
+\end{lemma}
+
+\begin{proof}
+We prove direction ``$\argmin_\rho C(\rho) \subseteq \argsort^- (c(1), \ldots, c(n))$'' by contradiction.
+Let $\pi$ minimize $C$ and let $\pi$ not sort the costs in non-increasing order.
+Then there exist $k < l$ such that $c(\pi(k)) < c(\pi(l))$.
+Let $\bar{\pi}$ be a precedence obtained from $\pi$ by swapping the elements $k$ and $l$.
+Then we obtain
+%$\bar{\pi} = (\pi(1), \ldots, \pi(k-1), \pi(l), \pi(k+1), \ldots, \pi(l-1), \pi(k), \pi(l+1), \ldots, \pi(n))$.
+\begin{align*}
+\frac{C(\bar{\pi}) - C(\pi)}{Z_n}
+&= kc(\bar{\pi}(k)) + lc(\bar{\pi}(l)) - kc(\pi(k)) - lc(\pi(l)) \\
+&= kc(\pi(l)) + lc(\pi(k)) - kc(\pi(k)) - lc(\pi(l)) \\
+&= k(c(\pi(l)) - c(\pi(k))) - l(c(\pi(l)) - c(\pi(k))) \\
+&= (k-l) (c(\pi(l)) - c(\pi(k))) \\
+&< 0
+\end{align*}
+The final inequality is due to $k-l < 0$ and $c(\pi(l)) - c(\pi(k)) > 0$.
+Clearly, $Z_n > 0$ for any $n \geq 0$.
+\todo{FB: Isn't the inclusion of $Z_n$ too confusing?}
+Thus, $C(\bar{\pi}) < C(\pi)$, which contradicts the assumption that $\pi$ minimizes $C$.
+
+To prove the other direction of the equality,
+first observe that all precedences $\pi$ that sort the symbol costs in a non-increasing order
+necessarily have the same precedence cost $C(\pi)$.
+Since
+$\emptyset \neq \argmin_\rho C(\rho) \subseteq \argsort^- (c(1), \ldots, c(n))$,
+each of the precedences in $\argsort^- (c(1), \ldots, c(n))$ has the cost $\min_\rho C(\rho)$.
+It follows that $\argsort^- (c(1), \ldots, c(n)) \subseteq \argmin_\rho C(\rho)$.
+\qed
+\end{proof}
+
+\todo[inline]{FB: Discuss that sorting would minimize even if we weighted by a strictly monotonous function other than identity.}
+
+\todo[inline]{FB: Why is the equality predicate always the first in the precedence?
+MS: Andrei Voronokov reasons. It's typically better in practice to postpone equational reasoning,
+so we want equalities to be generally small.}
+
+\subsection{\titlecap{Learning to rank precedences}}
+\label{sec:ranking}
+
+Our ultimate goal is to train the precedence cost function $C$ so that it is minimized by the best precedence,
+measuring the quality of a precedence by the number of iterations of the saturation loop taken to solve the problem.
+
+Approaching this task directly, as a regression problem,
+runs into the difficulty of establishing sensible target cost values for the precedences in the training dataset,
+especially when a wide variety of input problems is covered.
+Approaching the task as a binary classification of precedences
+seems possible, but it is not clear which precedences should be a priori
+labeled as positive and which as negative, to give a guarantee
+that a precedence minimizing the precedence cost (i.e. the one obtained by sorting)
+would be among the best in any good sense.
+\todo{FB: I think we could ensure that the precedence that minimizes $C$ is relatively good, for example the best of the observed. I hope that ranking generalizes better to unseen precedences, but I am not sure whether it does and I haven't done an experiment to confirm that.}
+% such as learning to detect the precedences that yield a successful proof search within the allocated time.
+
+We cast the task as an instance of score-based ranking problem \cite{Mohri2018,Burges2005}
+% Mohri2018: p. 239, chapter 10 Ranking
+by training a classifier to decide which of a \emph{pair} of precedences is better based on their costs.
+We train the classifier in a way that ensures that better precedences are assigned lower costs.
+The motivation for learning to order pairs of precedences
+is that it allows learning on easy problems,
+and that it may allow the system to generalize to precedences that are better than any of those seen during training.
+\todo{FB: We should test this hypothesis by training on one problem in isolation.}
+\todo[inline]{MS: ta druha myslenka, o ktere jsem mluvil pred obedem, se deje nekde v tomhle odstavci.
+Jasne je, ze chceme vypichnout uceni ze dvojic precedenci jako jeden z klicovych napadu. Trochu min jasne je, proc by teda dvojice mely byt dobre.
+Ja mel pocit, ze kdyz jsme se vloni snazili na tenhle problem napasovat regresi, 
+pusobilo ``neprirozene'' vnucovat modelu konkretni cisla z vampiru. Jasne, nejak to resila normalizace
+(a muselo se davat pozor aby cisla davala smysl nejen napric problemy (jeden resi vsechno rychle, jiny obcas neresi -- penalizace)
+ale i kvuli ruznym velikostem signatury. Coz teda tady mame porad.) ale porad tam bylo to, ze nejak z vnejsku
+modelu narizujeme, na ktere hodnoty ma cilit.
+My tady ale vime, ze nam na konkretnich hodnotach sybol costu nezalezi, 
+a ze ani nemusi byt rozumne porovnavatelne mezi problemy,
+jediny, co je dulezity, je, aby setridena permutace byla ta (to the best of model's knowledge) nejlepsi.
+Takze ja bych shrnul, ze s dvojicema obchazime nutnost stanovovat konkretni target values pro regresi (``problem volby spolecnych jednotek velicin''?)
+a zaroven rafinovane menime ulohu z regresivni na classifikacni.\\
+FB: Regrese $C$ neni jedina alternativa. Mohli bychom klasifikovat jednotlive precedence (viz text). Mohli bychom relaxovat pozadavek, ze setridena permutace je nejlepsi; stacila by "dost dobra". Zkusil jsem nejak vyargumentovat, proc je klasifikace dvojic lepsi nez klasifikace jednotlivych precedenci.}
+
+\todo{Intuice: snazime se nastavit costy tak, aby co nejvic dvojic dopadlo spravne.}
+\todo{Some pairs of precedences are not informative. We hope that the non-systematic examples will cancel each other out.}
+
+\todo[inline]{MS: Tady je asi hlavni ``dira'' ve vysvetlovani...
+Na to, abys vzal symbol costy a zavolal sort nepotrebujes definovat
+cost precedenci a neco o nem dokazovat.
+
+Nevim, jestli to nechces rict az pozdeji,
+nebot precedence cost opravdu potrebujem az pro uceni!
+
+Teda vlastne by mi nevadilo o tom mluvit zde, (az na to, ze rozcestnik drive rika
+``Sorting converts the symbol costs into a symbol precedence.
+It is only used in generating mode.'')
+
+ale to vyzneni, kde to vypada, ze to delame kvuli tomu sortu, je matouci.
+
+Predstavuju si odstavec, kde rikame, ze precedence cost je dulezity koncept,
+protoze ma jednak tu vlastnost, ze je minimalizovan sortenim
+ale druhak prirazuje cost i nesetridenym permutacim a tak ho muzem pouzit pri uceni.
+(Coz by splnoval i jiny vzorecek nez \eqref{eq:cost_model}), namely
+jina striktne monotonni funkce na pronasobeni nez to $i$ tam,
+ale berem proste tenhle, protoze neni jasne, proc by jiny mel byt lespi,
+a tenhle je nejjednodussi.)}
+
+\subsubsection{\titlecap{Training data}.}
+
+Each training example has the form $(P, \PrecBetter, \PrecWorse)$,
+where $P = (\Sigma, \mathit{Cl})$ is a problem
+and $\PrecBetter, \PrecWorse$ are precedences over $\Sigma$
+such that the prover using $\PrecBetter$ solves $P$ in fewer iterations of the saturation loop than with $\PrecWorse$,
+denoted as $\Better{\PrecBetter}{\PrecWorse}{P}$.
+\todo{FB: Is this sufficient?}
+\todo{FB: Describe the distribution of problems and precedences.}
+
+\subsubsection{\titlecap{Loss function}.}
+
+Let $(P, \PrecBetter, \PrecWorse)$ be a training example ($\Better{\PrecBetter}{\PrecWorse}{P}$).
+The precedence cost classifies this example correctly if $C(\PrecBetter) < C(\PrecWorse)$,
+or alternatively $S(\PrecBetter, \PrecWorse) = C(\PrecWorse) - C(\PrecBetter) > 0$.
+% We have positive S score for correctly predicted examples.
+% The loss function transorms that into a loss value close to 0.
+We approach this problem as an instance of binary classification with the logistic loss \cite{Mohri2018},
+% p. 128
+a loss function routinely used in classification tasks in \acrlong{ml}:
+\todo{FB: Consider exposing the form with inverse precedences to single out the $c$ values and expose the $c$ gradient better.}
+\begin{multline*}
+\loss(P, \PrecBetter, \PrecWorse)
+= - \log \sigmoid S(\PrecBetter, \PrecWorse)
+= - \log \sigmoid (C(\PrecWorse) - C(\PrecBetter)) \\
+= - \log \sigmoid Z_n \sum_{i=1}^n i (c(\PrecWorse(i)) - c(\PrecBetter(i)))
+%= - \log \sigmoid Z_n \sum_{i=1}^n c(i) (\inv{\PrecWorse}(i) - \inv{\PrecBetter}(i))
+\end{multline*}
+% FB: Note: I have included the full expansion to make it visible how the loss depends on $c$.
+% To a skilled NN practitioner, it should now be obvious that the loss is differentiable w.r.t. $c$.
+
+Note that the classifier cannot simply train $S$ to output a positive number on all pairs of precedences
+because $S$ is defined as a difference of two precedence costs.
+Intuitively, by training on the example $(P, \PrecBetter, \PrecWorse)$
+we are pushing $C(\PrecBetter)$ down and $C(\PrecWorse)$ up.
+
+The loss function is clearly differentiable with respect to the symbol costs,
+and the symbol cost function $c$ is differentiable with respect to its trainable parameters.
+This enables the use of gradient descent to find the values of the parameters of $c$
+that locally minimize the loss value.
+
+\Cref{fig:architecture} shows how the loss function is plugged into the recommender for training.
