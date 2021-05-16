@@ -13,7 +13,16 @@
 \usetheme{Frankfurt}
 \useinnertheme{circles}
 \usepackage{subfigure}
-\usepackage[czech,slovak,english]{babel}%\useinnertheme{rounded}
+\usepackage[english]{babel}%\useinnertheme{rounded}
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\input{preamble}
+
+% glossaries should be loaded after hyperref.
+\input{glossary}
+
 %\useinnertheme{rectangles}
 %\useinnertheme{balls}
 \usefonttheme{professionalfonts}
@@ -22,13 +31,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand\Email{filip.bartek@cvut.cz}
 \newcommand\DissertationTitle{Neural Precedence Recommender}
-%\newcommand\Department{Department of Theoretical Computer Science}
-%\newcommand\Department{Department of Digital Design}
-%\newcommand\Department{Department of Software Engineering}
 \newcommand\University{Czech Technical University in Prague}
 \newcommand\FacultyAndUniversityAbbr{CTU}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\subtitle{BBB}
 \author[F. Bártek, M. Suda]{\underline{Filip Bártek} \and Martin Suda}
 \title{\DissertationTitle}
 \titlegraphic{\includegraphics[width=1.5cm]{pic/LogoCVUT.pdf}}
@@ -43,138 +48,283 @@
 \titlepage
 \end{frame}
 
-\section{Outline}
-\subsection*{Outline}
-\begin{frame}[allowframebreaks]
+\section*{Outline}
+\begin{frame}%[allowframebreaks]
 \frametitle{Outline}
 \tableofcontents
 \end{frame}
 
 \section{Introduction}
-\subsection*{Introduction}
+
 \begin{frame}
 \frametitle{Introduction}
-\begin{itemize}
-\item ...
-\item ...
-\item ...
-\item ...
-\end{itemize}
+Symbol precedences...
+
+Frequency heuristic...
+\end{frame}
+
+\section{Architecture}
+
+\begin{frame}
+\frametitle{Architecture}
+\centering
+\digraph[scale=0.5]{ArchitectureOverview}{
+graph [splines=ortho, ranksep=0.25];
+node [shape=box, fontsize=14, width=0, height=0];
+{ rank = same;
+pi [label=<Precedence &pi;>];
+rho [label=<Precedence &rho;>];
+}
+Problem [label="Problem P"];
+Graphifier [style=rounded, label="Graph constructor"];
+g [label="Graph"];
+GCN [style=<rounded,bold>, label="GCN"];
+SymbolEmbedding [label="Symbol embeddings"];
+SymbolCostModel [style=<rounded,bold>, label="Output layer"];
+SymbolCost [label="Symbol costs"];
+Sort [style=rounded, label="Sort"];
+LossFunction [style=rounded, label="Loss function"];
+{ rank = same;
+Precedence [label=<Precedence &pi;*>];
+Loss [label="Loss value"];
+}
+Problem -> Graphifier -> g -> GCN;
+GCN -> SymbolEmbedding -> SymbolCostModel -> SymbolCost [penwidth=3];
+SymbolCost -> Sort;
+Sort -> Precedence;
+pi -> LossFunction:nw;
+rho -> LossFunction:ne;
+SymbolCost -> LossFunction [penwidth=3];
+LossFunction -> Loss [penwidth=3];
+}
 \end{frame}
 
 \begin{frame}
-\frametitle{Contributions of the Thesis}
-\begin{enumerate}
-\item Contribution 1
-\begin{itemize}
-\item ...
-\item ...
-\item ...
-\end{itemize}
-\vspace*{.5cm}
-\item Contribution 2
-\begin{itemize}
-\item ...
-\item ...
-\item ...
-\end{itemize}
-\vspace*{.5cm}
-\item Contribution 3
-\begin{itemize}
-\item ...
-\item ...
-\item ...
-\end{itemize}
-\end{enumerate}
+\frametitle{Graph representation of $a=b \wedge f(a,b) \neq f(b,b)$}
+\digraph[scale=0.5]{GcnExample}{
+graph [ranksep=0.3];
+node [fontsize=14, shape=record, height=0, width=0];
+edge [fontsize=14, dir=both, arrowtail=empty];
+problem [label=<problem|a=b &and; f(a,b)&ne;f(b,b)>];
+{ rank = same;
+c0 [label="clause|a=b"];
+c1 [label=<clause|f(a,b)&ne;f(b,b)>];
+}
+problem -> c0;
+problem -> c1;
+{ rank = same;
+t0 [label="equality atom|a=b"];
+t1 [label="equality atom|f(a,b)=f(b,b)"];
+}
+c0 -> t0 [label=" pos "];
+c1 -> t1 [label=" neg "];
+{ rank = same;
+tfab [label="term|f(a,b)"];
+tfbb [label="term|f(b,b)"];
+}
+{ rank = same;
+ta [label="term|a"];
+tb [label="term|b"];
+}
+ff [label="function|f"];
+fa [label="function|a"];
+fb [label="function|b"];
+tfab0 [label="argument|1"];
+tfab1 [label="argument|2"];
+tfbb0 [label="argument|1"];
+tfbb1 [label="argument|2"];
+t0 -> ta;
+t0 -> tb;
+t1 -> tfab;
+t1 -> tfbb;
+tfab -> ff;
+tfab -> tfab0;
+tfab0 -> tfab1;
+tfab0 -> ta;
+tfab1 -> tb;
+tfbb -> ff;
+tfbb -> tfbb0;
+tfbb0 -> tfbb1;
+tfbb0 -> tb;
+tfbb1 -> tb;
+ta -> fa;
+tb -> fb;
+% Technical details:
+%ff -> ff [dir=forward];
+%fa -> fa [dir=forward];
+%fb -> fb [dir=forward];
+}
 \end{frame}
 
-\section{Main Contents}
-\subsection*{Contribution 1}
+\section{Operation}
+\subsection{Prediction}
+
 \begin{frame}
-\frametitle{Contribution 1}
-\framesubtitle{Colored Block Demonstration}
-Find below a demonstration of {\tt alertblock} environment that makes a red emphasized box. Use {\tt block} environment to get a blue one, or {\tt exampleblock} for a green one.
-\begin{alertblock}{Amdahl's law}
-\begin{equation}
-s=\frac{1}{1-F_E+\displaystyle\frac{F_E}{S_E}}\quad {\rm for}\quad 0\leq F_E\leq 1,\;S_E>0.
-\end{equation}
-\end{alertblock}
+\frametitle{Prediction of symbol precedence $\pi$}
+\begin{algorithmic} % enter the algorithmic environment
+\REQUIRE Problem $P$
+\ENSURE Symbol precedence $\pi$
+\STATE $c \gets \mathrm{\acrshort{gcn}}(P)$
+\COMMENT {Forward pass through the \acrshort{gcn} to obtain vector of symbol costs $c$}
+\STATE $\pi \gets \argsort^- (c_1, \ldots, c_n)$
+\COMMENT {Sort symbols by $c$ in non-increasing order to obtain precedence $\pi$}
+\RETURN $\pi$
+\end{algorithmic}
+\end{frame}
+
+\subsection{Training}
+
+\begin{frame}
+\frametitle{Training: Precedence cost}
+Reminder: $c_i$ is the cost of the $i$-th symbol.
+
+\begin{block}{Cost of symbol precedence $\pi$ over signature of length $n$}
+\begin{equation*}
+C(\pi) = \frac{2}{n(n+1)} \sum_{i=1}^n i \cdot c_{\pi(i)}
+\end{equation*}
+\end{block}
+
+\begin{lemma}
+The precedence cost $C$ is minimized by any precedence that sorts the symbols by their costs in non-increasing order:
+$$
+\argmin_{\rho \in \mathrm{Perm}(n)} C(\rho) = \argsort^- (c_1, \ldots, c_n)
+$$
+\end{lemma}
+
+\todo{Sketch the proof by inserting $C(\pi) < C(\rho)$, where $\pi$ is a diagram of a sorted sequence, and $\rho$ is a diagram of an unsorted sequence.}
+
 \end{frame}
 
 \begin{frame}
-\frametitle{Contribution 2}
-\framesubtitle{Columns Demonstration}
-\begin{columns}
-\begin{column}[t]{4cm}
-\begin{enumerate}
-\item first column content
-\item first column content
-\item first column content
-\item first column content
-\item first column content
-\item first column content
-\end{enumerate}
-\end{column}
-\begin{column}[t]{6cm}
-\begin{figure}[htb]
-\begin{center}
-\includegraphics[width=2cm]{pic/LogoCVUT.pdf}
-\end{center}
-\caption{Logo \v{C}VUT.}
-\end{figure}
-\end{column}
-\end{columns}
+\frametitle{Training: Loss function}
+
+\begin{exampleblock}{Training example $\Better{\PrecBetter}{\PrecWorse}{P}$}
+Precedence $\PrecBetter$ is better than precedence $\PrecWorse$ for problem $P$.
+\end{exampleblock}
+
+Reminder: $C(\pi)$ is the predicted cost of precedence $\pi$.
+
+\begin{block}{Loss on training example $\Better{\PrecBetter}{\PrecWorse}{P}$}
+\begin{equation*}
+\loss(P, \PrecBetter, \PrecWorse) = - \log \sigmoid (C(\PrecWorse) - C(\PrecBetter))
+\end{equation*}
+\end{block}
+
+\todo{Plot the loss. See: https://tex.stackexchange.com/a/105643/202639, pgfplots}
+
 \end{frame}
 
-\begin{frame}[allowframebreaks]
-\frametitle{Contribution 3}
-\framesubtitle{Other Demonstrations}
-\begin{enumerate}
-\item Use {\tt \char92 alert\char123emphasized\char125} to get \alert{emphasized} text.
-\item Use {\tt \char92 begin\char123frame\char125\char91allowframebreaks\char93} to get a slide where {\tt\char92pagebreak} starts a new slide with the same name, such as this one. Note that the enumeration continues on the second page.
-\pagebreak
-\item This item continues from the previous slide.
-\end{enumerate}
+\section{Evaluation}
+
+\begin{frame}
+\frametitle{Evaluation}
+
+\fontsize{10pt}{12}\selectfont
+
+\centering
+\begin{tabular}{l|ll|rl}
+
+Symbol cost model & \multicolumn{2}{l}{Success count\footnote{Total number of validation problems: \num{7648}. Number of repetitions: 5.}} & \multicolumn{2}{l}{Improvement} \\
+& Mean & Std & Absolute & Relative \\
+
+\hline
+
+
+\acrshort{gcn} (pred. and func.) &
+% VML-706
+\num{3951.6} &
+\num[round-mode=places,round-precision=2]{1.624807680927192} &
+%\SI{51.69}{\percent} &
++182.0 &
+\num[round-mode=places,round-precision=3]{1.048280985} \\
+
+
+\acrshort{gcn} (predicate only) &
+% Success rate: mean: 0.513023013, std: 0.000292887
+% Evaluation results: https://ui.neptune.ai/filipbartek/vampire-ml/e/VML-553
+% Total: validation_solver_eval/all/problems/measured&split&category: 7648
+% Difference in success count from baseline: 154 ~ 0.020135983
+% Estimated difference from baseline (estimate on 891 problems): 0.021099888
+% Checkpoint: outputs/2021-02-06/14-55-41/tf_ckpts/epoch/weights.00079-0.61.tf VML-540 0.511785
+\num{3923.6} &
+% Success mean: validation_solver_eval/all/success/count/mean: 3923.6
+\num{2.24} &
+% Success std: validation_solver_eval/all/success/count/std 2.24
+%\SI{51.30}{\percent} &
+% Success rate: 0.513023013
++154.0 &
+\num[round-mode=places,round-precision=3]{1.040853141} \\
+
+
+\acrshort{gcn} (function only) &
+% Final evaluation: VML-677
+% Evaluated checkpoint: outputs/2021-02-16/12-28-14/tf_ckpts/epoch/weights.00289.tf
+% Results file: sftp://cluster.ciirc.cvut.cz/home/bartefil/git/vampire-ml/outputs/2021-02-17/12-01-09/solver_eval/symbol_cost/epoch_-1/logs.yaml
+% Total: val/all/problems/measured&split&category: 7648
+\num{3874.2} &
+% Success mean: val/all/success/count/mean: 3874.2
+\num[round-mode=places,round-precision=2]{1.8330302779823362} &
+% Success std: val/all/success/count/mean: 1.8330302779823362
+%\SI{50.66}{\percent} &
+% Success rate: val/all/success/count/mean: 0.5065638075313807
++104.6 &
+\num[round-mode=places,round-precision=3]{1.027748302} \\
+
+
+%Simple (predicate only) &
+% https://ui.neptune.ai/filipbartek/vampire-ml/e/VML-737
+%\num{3827.2} &
+%\num[round-mode=places,round-precision=2]{1.9390719429665317} &
+%\SI{50.04}{\percent} &
+%+57.6 &
+%\num[round-mode=places,round-precision=3]{1.015280136} \\
+% Final vector from PAAR paper: [0,0.429306921481749,0.57069307851825,0,0,0,0,0,0,0,0,0]
+% Source: https://docs.google.com/spreadsheets/d/1HSsC7piUAtWt6uwA9SYOX5vmiF0Ab3Ae4FPyGsDALIg/edit#gid=99404775
+
+
+%Frequency (regular \acrshort{kbo}) &
+%\texttt{vampire -lcm standard} &
+%\num{3823.0} &
+%\num[round-mode=places,round-precision=2]{3.40587727318528} &
+%\SI[round-mode=places,round-precision=2]{49.9869247}{\percent} &
+%+53.4 &
+%\num[round-mode=places,round-precision=3]{1.014165959} \\
+% VML-741
+
+
+Frequency (baseline) &
+%\texttt{vampire -lcm predicate} &
+% Success rate: mean: 0.492887029, std: 0.000401412
+% https://ui.neptune.ai/filipbartek/vampire-ml/e/VML-490
+% sftp://cluster.ciirc.cvut.cz/home/bartefil/git/vampire-ml/outputs/2021-02-04/17-17-38
+% /home/filip/projects/vampire-ml/vampire-ml/outputs/2021-02-09/12-13-43
+% Row: 'val&graphified&solver_eval'
+% Problems total: 7648
+% Success rate: 0.492887029
+\num{3769.6} &
+\num{3.07} &
+%\SI{49.29}{\percent} &
+0.0 &
+\num[round-mode=places,round-precision=3]{1.0} \\
+
+\end{tabular}
+
 \end{frame}
 
 \section{Summary}
 \subsection*{Summary}
 \begin{frame}
 \frametitle{Summary}
-\begin{enumerate}
-\item Briefly summarize your results here.
-\end{enumerate}
+\begin{itemize}
+\item \Acrshort{gcn} over a graph representation of a \acrshort{fol} problem predicts symbol costs
+\item Sorting symbols by symbol costs yields a precedence
+\item Training is performed on oriented precedence pairs ``$\Better{\PrecBetter}{\PrecWorse}{P}$'' \\
+(``Precedence $\PrecBetter$ is better than precedence $\PrecWorse$ in problem $P$.'')
+\item Combination of two \acrshortpl{gcn} outperforms the ``frequency'' heuristic by \SI{4.8}{\percent}
+\end{itemize}
 \end{frame}
-
-\subsection*{Contributions}
-\begin{frame}
-\frametitle{Contributions of the Thesis}
-Brifly remind your contributions AGAIN!
-\bigskip
-\begin{enumerate}
-\item Contribution 1
-\begin{itemize}
-\item ...
-\item ...
-\end{itemize}
-\vspace*{.5cm}
-\item Contribution 2
-\begin{itemize}
-\item ...
-\item ...
-\end{itemize}
-\vspace*{.5cm}
-\item Contribution 3
-\begin{itemize}
-\item ...
-\item ...
-\end{itemize}
-\end{enumerate}
-\end{frame}
-
 
 \section*{Discussion}
-\subsection*{Discussion}
 \begin{frame}
 \begin{center}
 \vspace*{1cm}
@@ -195,61 +345,41 @@ no.~SGS20/215/OHK3/3T/37.}
 \end{frame}
 %
 \appendix
-\section{Opponent 1}
-\subsection{Remark 1}
+
 \begin{frame}
-\begin{block}{Remark 1}
-\begin{otherlanguage}{slovak}
-Za urèitý nedostatok \uv{rozhµadu} dizertanta pova¾ujem, ¾e ... Èo vie o tejto oblasti dizertant?
-\end{otherlanguage}
-\end{block}
-\begin{exampleblock}{Comment}
-\begin{otherlanguage}{czech}
-V práci není rozebírána ... S panem prof. souhlasím, ¾e oblast ... mù¾e být inspirující pro dal¹í práci a dìkuji za tuto pøipomínku.
-\end{otherlanguage}
-\end{exampleblock}
-\end{frame}
-%%%%%%%%%%%%%%%%%%
-\subsection{Remark 2}
-\begin{frame}
-\begin{block}{Remark 2}
-\begin{otherlanguage}{slovak}
-Predpokladal som, ¾e ..., ich prehµad a posúdenie vhodnos»i chýbalo v práci.
-\end{otherlanguage}
-\end{block}
-\begin{exampleblock}{Comment}
-\begin{otherlanguage}{czech}
-Takový pøehled metod opravdu v práci není... Toto je jedna z vìcí, kterou mám na seznamu vìcí pro dal¹í výzkum.
-\end{otherlanguage}
-\end{exampleblock}
+\frametitle{Notation overview}
+\begin{center}
+\begin{tabular}{ll}
+$\pi(i)$ & index of the $i$-th symbol in precedence $\pi$ \\
+$c$ & vector of symbol costs (output of the \acrshort{gcn}) \\
+$c_i$ & cost of the $i$-th symbol \\
+$C(\pi)$ & cost of symbol precedence $\pi$ \\
+$\loss(P, \PrecBetter, \PrecWorse)$ & loss for training example $\Better{\PrecBetter}{\PrecWorse}{P}$ \\
+\end{tabular}
+\end{center}
 \end{frame}
 
-
-\section{Opponent 2}
-\subsection{Remark 1}
 \begin{frame}
-\begin{block}{Remark 1}
-\begin{otherlanguage}{czech}
-Citovaný standard IEEE 754 z roku 1985 je zastaralý, v roce 2008 byl nahrazen novým, který pou¾ívá mj. i ponìkud jinou terminologii.
-\end{otherlanguage}
+\frametitle{Concise representation of training examples}
+\begin{block}{Cost of symbol precedence $\pi$ over signature of length $n$}
+\begin{equation*}
+C(\pi)
+= \frac{2}{n(n+1)} \sum_{i=1}^n i \cdot c_{\pi(i)}
+= \frac{2}{n(n+1)} \sum_{i=1}^n c_i \cdot \inv{\pi}(i)
+\end{equation*}
 \end{block}
-\begin{exampleblock}{Comment}
-\begin{otherlanguage}{czech}
-Dìkuji mnohokrát za upozornìní. Uniklo mi, ¾e ji¾ vy¹el nový standard IEEE 754-2008.
-\end{otherlanguage}
-\end{exampleblock}
+
+\begin{block}{Loss of training example $\Better{\PrecBetter}{\PrecWorse}{P}$}
+\begin{align*}
+\loss(P, \PrecBetter, \PrecWorse)
+&= - \log \sigmoid (C(\PrecWorse) - C(\PrecBetter)) \\
+&= - \log \sigmoid \frac{2}{n(n+1)} \sum_{i=1}^n i (c_{\PrecWorse(i)} - c_{\PrecBetter(i)}) \\
+&= - \log \sigmoid \frac{2}{n(n+1)} \sum_{i=1}^n c_i (\inv{\PrecWorse}(i) - \inv{\PrecBetter}(i))
+\end{align*}
+\end{block}
+
+Concise representation of $\Better{\PrecBetter}{\PrecWorse}{P}$:
+$\inv{\PrecWorse} - \inv{\PrecBetter}$
 \end{frame}
 
-\section{Opponent 3}
-\subsection{Remark 1}
-\begin{frame}
-\begin{block}{Remark 1}
-...
-\end{block}
-\begin{exampleblock}{Odpovìï}
-\begin{otherlanguage}{czech}
-...
-\end{otherlanguage}
-\end{exampleblock}
-\end{frame}
 \end{document}
