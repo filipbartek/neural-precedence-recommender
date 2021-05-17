@@ -188,14 +188,12 @@ C(\pi) = \frac{2}{n(n+1)} \sum_{i=1}^n i \cdot c_{\pi(i)}
 \end{equation*}
 \end{block}
 
-\begin{lemma}
+\begin{lemma}[Precedence cost minimization]
 The precedence cost $C$ is minimized by any precedence that sorts the symbols by their costs in non-increasing order:
 $$
 \argmin_{\rho \in \mathrm{Perm}(n)} C(\rho) = \argsort^- (c_1, \ldots, c_n)
 $$
 \end{lemma}
-
-\todo{Sketch the proof by inserting $C(\pi) < C(\rho)$, where $\pi$ is a diagram of a sorted sequence, and $\rho$ is a diagram of an unsorted sequence.}
 
 \end{frame}
 
