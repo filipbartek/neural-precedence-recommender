@@ -382,6 +382,48 @@ $\loss(P, \PrecBetter, \PrecWorse)$ & loss for training example $\Better{\PrecBe
 \end{frame}
 
 \begin{frame}
+\frametitle{Proof sketch: Precedence cost minimization lemma}
+
+$C(\pi) = \frac{2}{n(n+1)} \sum_{i=1}^n i \cdot c_{\pi(i)}$
+
+\begin{lemma}[Precedence cost minimization]
+$$
+\argmin_{\rho \in \mathrm{Perm}(n)} C(\rho) = \argsort^- (c_1, \ldots, c_n)
+$$
+\end{lemma}
+
+\newcommand{\StairsSorted}{
+\begin{tikzpicture}[baseline=5pt]
+\begin{axis}[ybar interval=1, axis lines=none, height=60pt, width=60pt]
+\addplot[black] coordinates {(1,5) (2,4) (3,3) (4,2) (5,1) (6,0)};
+\end{axis}
+\end{tikzpicture}
+}
+
+\newcommand{\StairsUnsorted}{
+\begin{tikzpicture}[baseline=5pt]
+\begin{axis}[ybar interval=1, axis lines=none, height=60pt, width=60pt]
+\addplot[black] coordinates {(1,5) (2,3) (3,4) (4,2) (5,1) (6,0)};
+\end{axis}
+\end{tikzpicture}
+}
+
+\begin{example}
+$$
+C\Parentheses*{\StairsSorted} < C\Parentheses*{\StairsUnsorted}
+$$
+
+Proof:
+\begin{align*}
+C\Parentheses*{\StairsUnsorted} - C\Parentheses*{\StairsSorted}
+&\propto ((2 \cdot 3 + 3 \cdot 4) - (2 \cdot 4 + 3 \cdot 3)) \\
+&= 18 - 17 = 1 > 0
+\end{align*}
+\end{example}
+
+\end{frame}
+
+\begin{frame}
 \frametitle{Concise representation of training examples}
 \begin{block}{Cost of symbol precedence $\pi$ over signature of length $n$}
 \begin{equation*}
