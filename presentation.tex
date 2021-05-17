@@ -17,11 +17,15 @@
 
 \usepackage{algorithm}
 \usepackage{algorithmic}
+\usepackage{pgfplots}
 
 \input{preamble}
 
 % glossaries should be loaded after hyperref.
 \input{glossary}
+
+% https://tex.stackexchange.com/a/33612/202639
+\def\FuncSigmoid(#1){1.0/(1.0 + exp(-(#1)))}
 
 %\useinnertheme{rectangles}
 %\useinnertheme{balls}
@@ -208,9 +212,29 @@ Reminder: $C(\pi)$ is the predicted cost of precedence $\pi$.
 \begin{equation*}
 \loss(P, \PrecBetter, \PrecWorse) = - \log \sigmoid (C(\PrecWorse) - C(\PrecBetter))
 \end{equation*}
-\end{block}
 
-\todo{Plot the loss. See: https://tex.stackexchange.com/a/105643/202639, pgfplots}
+\centering
+% https://pgf-tikz.github.io/pgf/pgfmanual.pdf : 94. Mathematical Expressions
+\begin{tikzpicture}
+\begin{axis}[
+    domain=-12:12,
+    xmin=-12,
+    xmax=12,
+    ymin=-1,
+    ymax=11,
+    samples=100,
+    xlabel={$C(\PrecWorse) - C(\PrecBetter)$},
+    ylabel={$\loss(P, \PrecBetter, \PrecWorse)$},
+    scale only axis,
+    width=0.5\textwidth,
+    height=0.25\textwidth
+]
+%\addplot[gray] {0};
+%\addplot[gray] {-x};
+\addplot[] {-ln(\FuncSigmoid(x))};
+\end{axis}
+\end{tikzpicture}
+\end{block}
 
 \end{frame}
 
