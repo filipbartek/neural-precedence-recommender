@@ -91,31 +91,37 @@ precedence -> gcn;
 \digraph[scale=0.5]{ArchitectureOverview}{
 graph [splines=ortho, ranksep=0.25];
 node [shape=box, fontsize=14, width=0, height=0];
-{ rank = same;
-pi [label=<Precedence &pi;>];
-rho [label=<Precedence &rho;>];
-}
-Problem [label="Problem P"];
+Problem [label="First-order logic problem"];
 Graphifier [style=rounded, label="Graph constructor"];
 g [label="Graph"];
-GCN [style=<rounded,bold>, label="GCN"];
+GCN [style=<rounded,bold>, label="Graph convolutional network"];
 SymbolEmbedding [label="Symbol embeddings"];
 SymbolCostModel [style=<rounded,bold>, label="Output layer"];
 SymbolCost [label="Symbol costs"];
-Sort [style=rounded, label="Sort"];
-LossFunction [style=rounded, label="Loss function"];
-{ rank = same;
-Precedence [label=<Precedence &pi;*>];
-Loss [label="Loss value"];
-}
 Problem -> Graphifier -> g -> GCN;
 GCN -> SymbolEmbedding -> SymbolCostModel -> SymbolCost [penwidth=3];
+subgraph cluster_prediction {
+	label="Recommending";
+	style=dashed;
+	Sort [style=rounded, label="Sort"];
+	Precedence [label=<Recommended precedence>];
+	Sort -> Precedence;
+}
 SymbolCost -> Sort;
-Sort -> Precedence;
-pi -> LossFunction:nw;
-rho -> LossFunction:ne;
+subgraph cluster_training {
+	label="Training";
+	style=dashed;
+	{ rank = same;
+	pi [label=<Precedence &pi;>];
+	rho [label=<Precedence &rho;>];
+	}
+	LossFunction [style=rounded, label="Loss function"];
+	Loss [label="Loss value"];
+	pi -> LossFunction:nw;
+	rho -> LossFunction:ne;
+	LossFunction -> Loss [penwidth=3];
+}
 SymbolCost -> LossFunction [penwidth=3];
-LossFunction -> Loss [penwidth=3];
 }
 \end{frame}
 
