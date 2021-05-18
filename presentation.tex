@@ -186,23 +186,7 @@ tb -> fb;
 }
 \end{frame}
 
-\section{Operation}
-\subsection{Prediction}
-
-\begin{frame}
-\frametitle{Prediction of symbol precedence $\pi$}
-\begin{algorithmic} % enter the algorithmic environment
-\REQUIRE Problem $P$
-\ENSURE Symbol precedence $\pi$
-\STATE $c \gets \mathrm{\acrshort{gcn}}(P)$
-\COMMENT {Forward pass through the \acrshort{gcn} to obtain vector of symbol costs $c$}
-\STATE $\pi \gets \argsort^- (c_1, \ldots, c_n)$
-\COMMENT {Sort symbols by $c$ in non-increasing order to obtain precedence $\pi$}
-\RETURN $\pi$
-\end{algorithmic}
-\end{frame}
-
-\subsection{Training}
+\section{Training}
 
 \begin{frame}
 \frametitle{Training: Precedence cost}
@@ -410,7 +394,20 @@ $\loss(P, \PrecBetter, \PrecWorse)$ & loss for training example $\Better{\PrecBe
 \end{frame}
 
 \begin{frame}
-\frametitle{Proof sketch: Precedence cost minimization lemma}
+\frametitle{Prediction of symbol precedence $\pi$}
+\begin{algorithmic} % enter the algorithmic environment
+\REQUIRE Problem $P$
+\ENSURE Symbol precedence $\pi$
+\STATE $c \gets \mathrm{\acrshort{gcn}}(P)$
+\COMMENT {Forward pass through the \acrshort{gcn} to obtain vector of symbol costs $c$}
+\STATE $\pi \gets \argsort^- (c_1, \ldots, c_n)$
+\COMMENT {Sort symbols by $c$ in non-increasing order to obtain precedence $\pi$}
+\RETURN $\pi$
+\end{algorithmic}
+\end{frame}
+
+\begin{frame}
+\frametitle{Proof sketch: Precedence cost minimization}
 
 $C(\pi) = \frac{2}{n(n+1)} \sum_{i=1}^n i \cdot c_{\pi(i)}$
 
