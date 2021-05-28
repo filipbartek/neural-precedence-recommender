@@ -66,19 +66,19 @@
 graph [splines=ortho, ranksep=0.25];
 node [shape=box, fontsize=14, width=0, height=0];
 atp [label="Automated theorem proving for first-order logic"];
-cnf [label="Conjunctive normal form (CNF)", color=darkgray, fontcolor=darkgray];
+%cnf [label="Conjunctive normal form (CNF)", color=darkgray, fontcolor=darkgray];
 superposition [label="Superposition calculus"];
 sot [label="Simplification ordering on terms"];
 kbo [label="Knuth-Bendix ordering"];
-selection [label="Literal selection", color=darkgray, fontcolor=darkgray];
-rewriting [label="Equality orientation", color=darkgray, fontcolor=darkgray];
+%selection [label="Literal selection", color=darkgray, fontcolor=darkgray];
+%rewriting [label="Equality orientation", color=darkgray, fontcolor=darkgray];
 precedence [label="Symbol precedence", style=bold];
 frequency [label="Frequency heuristic"];
 gcn [label="Graph convolutional network (GCN)", style=bold];
 atp -> superposition -> sot -> kbo -> precedence -> frequency;
-atp -> cnf [color=darkgray];
-sot -> selection [color=darkgray];
-sot -> rewriting [color=darkgray];
+%atp -> cnf [color=darkgray];
+%sot -> selection [color=darkgray];
+%sot -> rewriting [color=darkgray];
 precedence -> gcn;
 }
 \end{frame}
